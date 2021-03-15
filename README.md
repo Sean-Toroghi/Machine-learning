@@ -17,6 +17,8 @@ Table of contetents
     4. Polynomial
     5. SVM
     6. K-NN
+
+
   3. Classification
     1. K-NN
     2. Logistic regression
@@ -28,10 +30,16 @@ Table of contetents
     8. Gradient boosted decision trees
     9. Neural Network
     10. Deep learning
+
+
 3. Un-supervised learning
+
+
   1. Transformation
     1. Dimensionality Reduction: PCA
     2. Manifold learning: MDS and t-NSE
+
+
   3. Clustering
     1. K-means clustering
     2. Aglommerative clustering 

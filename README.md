@@ -14,13 +14,13 @@ Libraries:
 Table of contents:
 1. Dataset and pre-processing
 2. Supervised learning (regression - classification)
-  1. Regression 
-    1. Linear
-    2. Ridge
-    3. LASSO
-    4. Polynomial
-    5. SVM
-    6. K-NN
+    1. Regression 
+      1. Linear
+      2. Ridge
+      3. LASSO
+      4. Polynomial
+      5. SVM
+      6. K-NN
 
   2. Classification
     1. K-NN

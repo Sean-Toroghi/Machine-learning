@@ -1,4 +1,8 @@
-# Machine learning
+<h1>Machine Learning</h1>
+
+<a id='up'></a>
+
+<h4> Table of contents </h4>
 
 Libraries:
 - Numpy
@@ -7,9 +11,9 @@ Libraries:
 - Scipy
 - Keras
 
-Table of contetents
-1. Dataset and pre_processing
-2. Supervised learning (regression - classficiation)
+Table of contents:
+1. Dataset and pre-processing
+2. Supervised learning (regression - classification)
   1. Regression 
     1. Linear
     2. Ridge
@@ -18,8 +22,7 @@ Table of contetents
     5. SVM
     6. K-NN
 
-
-  3. Classification
+  2. Classification
     1. K-NN
     2. Logistic regression
     3. SVM
@@ -34,13 +37,11 @@ Table of contetents
 
 3. Un-supervised learning
 
-
   1. Transformation
     1. Dimensionality Reduction: PCA
     2. Manifold learning: MDS and t-NSE
 
-
-  3. Clustering
+  2. Clustering
     1. K-means clustering
     2. Aglommerative clustering 
     3. DBSCAN

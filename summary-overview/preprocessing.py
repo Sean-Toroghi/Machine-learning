@@ -18,3 +18,8 @@ def split_seq(seq,n_steps):
       y.append(seq_y)
   return array(X), array(y)
 
+
+def simple_to_3d(X, time_step):
+  '''Given a 2D X (samples, features) return 3D X (time_step, samples, features)
+  '''
+  return X.reshape(time_step, -1)

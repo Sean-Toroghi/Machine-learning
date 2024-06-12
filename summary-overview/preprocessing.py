@@ -20,6 +20,7 @@ def split_seq(seq,n_steps):
 
 
 def simple_to_3d(X, time_step):
-  '''Given a 2D X (samples, features) return 3D X (time_step, samples, features)
+  '''Given a 2D X (samples, features) return 3D X (samples, timesteps, features)
   '''
-  return X.reshape(time_step, -1)
+  return X.reshape((X.shape[0], X.shape[1], 1))
+

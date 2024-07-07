@@ -23,7 +23,16 @@ __Avoid overfitting__: the following actions (single or combination) are used to
 - Adding regularization: Smaller parameter values typically lead to better generalization, depending on the model (a neural network is an example of such a model). Regularization adds a penalty term to the objective function to discourage large parameter values. By driving the parameters to smaller (or zero) values, they contribute less to the prediction, effectively simplifying the model.
 - Ensemble methods: Combining the prediction from multiple, weaker models can lead to better generalization while also improving performance.
 
+---
 
+__Model performance metrics__ [Reference](https://scikit-learn.org/stable/modules/model_evaluation.html)
+Model performance refers to the ability of a machine learning model to make accurate predictions or generate meaningful outputs based on the given inputs. It basically shows how good a model learned the underlying pattern of existing data, and generalizes to new data.
+
+__1- cleasification__
+- four indicators (TP,TN, FP, FN)
+- accuracy: number of correct predictions divided by the total number of predictions.
+- precision = $\frac{TP}{\text{all positive predictions}}$ indicates how precise the model is in predicting positives
+The 
 ---
 ## LightGBM
 

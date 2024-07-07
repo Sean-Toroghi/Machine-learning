@@ -40,6 +40,8 @@ __2- regression metrics__
 - mean square error: average of the squared differences between predicted and actual values. While it is differenciable (can be used in gradient based learning), it penalizes large errors more heavilty that small errors (due to the squaring the difference).
 - mean absolute error 
 - average of the absolute differences between predicted and actual values. It is more robust against the size of errors and less sensitive to outliers. Unforetunately it is not differentiable!
+
+  
 ---
 ## Tree-based models
 
@@ -74,6 +76,8 @@ __Mitigate overfitting issue__: there are several strategies implmentedin tree-b
 - control max number of leaf nodes: helps to avoid creation of over-specific branches, leading to less complex model.
 - control min number of samples per leaf: stops splitting, if the number of samples reaches a limit, avoids overly specific leaf nodes, and leads to less complex model
 - enemble
+
+  
 
 --- 
 
@@ -194,16 +198,49 @@ __Learning control parameters__:
 
 ---
 
-### Limitation of LightGBM__
+### Limitation of LightGBM
 - sensitive to overfitting
 - important role of fine-tuning
 - requires feature engineering
 - cannot directly use sequential data. Requires feature engineering (create lagged features) prior to training
 - may not able to find complex feature interaction and non-linearity
 
+---
+
+### LightGBM components
 
 
 
+---
+__LightGBM API__
+
+LightGBM has Python API as well as sklearn implementation. 
+
+__Python API__
+- __Dataset__ wrapper class: supports numpy array and pandas dataframe, in addition to a Path to common dataset format such as CSV, TSV, LIBSVM text file, or LightGBM Dataset binary file.
+- __LightGBM supports callbacks__. A callback is a hook into the training process that is executed each boosting iteration.
+- __Prediction__: The LightGBM predict function (for classification task) outputs an array of activations, one for each class.
+
+
+__Sklearn API__: 
+
+sklearn implementation does not require `Dataset` wrapper. The sklearn contains four models: 
+- LGBMModel,
+- LGBMClassifier,
+- LGBMRegressor, and
+- LGBMRanker
+
+
+---
+
+### Implementation
+
+__Validate model performance__
+
+- __Cross validation__: an alternative to split data into train/val/test set, is cross-validation, in which the dataset splitting multiple times and train the model multiple times, once for each split.
+- __Stratified k-fold validation__: preservs the percentage of samples for each class when creating folds. This way, all folds will have the same ditribution of classes as the original dataset.
+
+__Parameter optimization__
 
 
 

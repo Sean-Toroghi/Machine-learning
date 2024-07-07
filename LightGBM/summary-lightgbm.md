@@ -128,7 +128,77 @@ __DART__
 DART is an extension of GBDT, which employs dropouts to avoid overfitting. First, the next decision tree is built from a random subset of the previous tree, with probability $p$ that indicates probability of previous tree being included. DART is implemented as a part of LightGBM.
 
 ---
+---
 
-## LightGBM
+# LightGBM
 
 ---
+
+## Overview
+
+LightGBM is a gradient-boosting framework for tree-based ensemble method, with focus on efficiency (swpace and time), while improving accuracy. Applications with high-dim and large data size is where LightGBM shines. It supports both regression and classification (binary or multiclass) tasks, and ranking via LambdaRank. LightGBM employs several techniques and provides customization through hyper-parameter tuning, including DART, bagging, continous training, early stopping, and several other options.
+
+__Optimization__
+
+To improve model efficiency, Lightbgm benefits from __histogram sorting__ method:
+- Reduce computation complexity via _histogram sorting_: the most computational intense task of a GBDT is training the regression tree for each iteration, where finding the optimal split is very expensive. Algorithm requires to sort the samples (either at prior to spliting, or at the time of spliting). By creating feature histograms, the time-complexity for building a decision node reduce from $O(n)$ (pre-sorting approach) to $O(b)$, where $b$ is number of bins.
+- Employ _histogram subtraction_ for building the historams for the leaves. This approach subtracts the leaf’s neighbor’s histogram from the parent’s histogramn, instead of calculating the histogram for each leaf.
+- Employ histogram to reduce space complexity (memory cost). Any sorting method requires memory allocation, while histogram sorting does mot. Also, a more efficient data type is required to store bins (number of bins is much smaller than the size of dataset).
+
+LightGBM employs __exlusive feature bundling (EFB)__ to optimize working with sparse data.
+
+LightGBM employs __gradient-based one-side sampling (GOOS)__, which discard samples that do not contribute significantly to the training process, leading to reduse size of the training data.
+
+__Tree growth__
+
+LightGBM employs leaf-wise approach to grow the tree, which selects an existing leaf with the most significant change in the loss of the tree and builds the tree from there.
+
+__L1 and L2 regularization__
+
+LightGBM supports both L1 and L2 regularization:
+- L1 regularization has the effect of driving leaf scores to zero by penalizing leaves with large absolute outputs.
+- L2 regularization has an outsized effect on outliers’ leaves due to taking the square of the output.
+- Both regularization also prevents the tree to get too large.
+
+---
+### LightGBM hyper-parameters
+
+While LightGBM has many hyper-parameters, they can be divided into core framework, accuracy related, and learning constrol (avoid overfitting) parameters:
+
+__Core framework parameters__:
+
+- objective: LightGBM supports the following optimization objectives, among others—regression (including regression applications with other loss functions such as Huber and Fair), binary (classification), multiclass (classification), cross-entropy, and lambdarank for ranking problems.
+- boosting: The boosting parameter controls the boosting type. By default, this is set to gbdt, the standard GBDT algorithm. The other options are dart and rf for random forests. The random forest
+- mode does not perform boosting but instead builds a random forest.
+- num_iterations (or n_estimators): Controls the number of boosting iterations and, therefore, the number of trees built.
+- num_leaves: Controls the maximum number of leaves in a single tree.
+- learning_rate: Controls the learning, or shrinkage rate, which is the contribution of each tree to the overall prediction.
+
+__Accuracy parameters__:
+
+- boosting: Use dart, which has been shown to outperform standard GBDTs.
+- learning_rate: The learning rate must be tuned alongside num_iterations for better accuracy. A small learning rate with a large value for num_iterations leads to better accuracy at the expense of optimization speed.
+- num_leaves: A larger number of leaves improves accuracy but may lead to overfitting.
+- max_bin: The maximum number of bins in which features are bucketed when constructing histograms. A larger max_bin size slows the training and uses more memory but may improve accuracy.
+
+__Learning control parameters__:
+- bagging_fraction and bagging_freq: Setting both parameters enables feature bagging. Bagging may be used in addition to boosting and doesn’t force the use of a random forest. Enabling bagging reduces overfitting.
+- early_stopping_round: Enables early stopping and controls the number of iterations used to determine whether training should be stopped. Training is stopped if no improvement is made to any metric in the iterations set by early_stopping_round.
+- min_data_in_leaf: The minimum samples allowed in a leaf. Larger values reduce overfitting.
+- min_gain_to_split: The minimum amount of information gain required to perform a split. Higher values reduce overfitting.
+- reg_alpha: Controls L1 regularization. Higher values reduce overfitting.
+- reg_lambda: Controls L2 regularization. Higher values reduce overfitting.
+- max_depth: Controls the maximum depth of individual trees. Shallower trees reduce overfitting.
+- max_drop: Controls the maximum number of dropped trees when using the DART algorithm (is only used when boosting is set to dart). A larger value reduces overfitting.
+- extra_trees: Enables the Extremely Randomized Trees (ExtraTrees) algorithm. LightGBM then chooses a split threshold at random for each feature. Enabling Extra-Trees can reduce overfitting. The parameter can be used in conjunction with any boosting mode.
+
+
+
+
+
+
+
+
+
+
+

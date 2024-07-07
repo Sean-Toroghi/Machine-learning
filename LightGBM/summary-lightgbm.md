@@ -26,13 +26,55 @@ __Avoid overfitting__: the following actions (single or combination) are used to
 ---
 
 __Model performance metrics__ [Reference](https://scikit-learn.org/stable/modules/model_evaluation.html)
+
 Model performance refers to the ability of a machine learning model to make accurate predictions or generate meaningful outputs based on the given inputs. It basically shows how good a model learned the underlying pattern of existing data, and generalizes to new data.
 
 __1- cleasification__
 - four indicators (TP,TN, FP, FN)
 - accuracy: number of correct predictions divided by the total number of predictions.
-- precision = $\frac{TP}{\text{all positive predictions}}$ indicates how precise the model is in predicting positives
-The 
+- precision = $\frac{TP}{\text{all positive predictions}}$ indicates how precise the model is in predicting positives.
+- recall  = $\frac{TP}{\text{all positive instances}} measures how effectively the model finds (or recalls) all true positive cases.
+- F1-score is the harmonic mean between precision and recal.
+
+__2- regression metrics__
+- mean square error: average of the squared differences between predicted and actual values. While it is differenciable (can be used in gradient based learning), it penalizes large errors more heavilty that small errors (due to the squaring the difference).
+- mean absolute error 
+- average of the absolute differences between predicted and actual values. It is more robust against the size of errors and less sensitive to outliers. Unforetunately it is not differentiable!
+---
+## Tree-based models
+
+__Entropy and information gain__
+
+Entropy is a way to measure the disorder or randomness of a system, and measures how surprising the result of a specific input or event might be.  
+
+Information gain is the amount of information gained when modifying or observing the underlying data, and involves reducing entropy from before the observation.
+
+Tree-based models employ different approach to measure information gain or entropy, among which are
+- gini index
+- log-loss or entropy
+
+The regression task requires additional metric to determine splits at each node, among which are ([ref.](https://scikit-learn.org/stable/modules/tree.html#regression-criteria)):
+- MSE or MAE
+- half Poisson deciance
+
+
+__Advantages of tree-based models__
+- they could use both numerical and categorical features
+- less sensitive to data range and size, leads to reducing data preparation effort
+- the result is interpretable
+
+__Disadvantages of tree-based models__
+- prone to overfitting
+- perform poor at extrapolation tasks
+- perform poor when trained on unbalanced data. The high-frequency classes will dominate the prediciton.
+
+__Mitigate overfitting issue__: there are several strategies implmentedin tree-based models to overcome overfitting issue, among which are:
+- pruning: removing vranches that do not contribute much information gain, leading to reduce model complexity.
+- control max depth: limit the depth of a tree helps to reduce model complexity.
+- control max number of leaf nodes: helps to avoid creation of over-specific branches, leading to less complex model.
+- control min number of samples per leaf: 
+
+ 
 ---
 ## LightGBM
 

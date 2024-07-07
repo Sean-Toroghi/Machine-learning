@@ -240,10 +240,14 @@ __Validate model performance__
 - __Cross validation__: an alternative to split data into train/val/test set, is cross-validation, in which the dataset splitting multiple times and train the model multiple times, once for each split.
 - __Stratified k-fold validation__: preservs the percentage of samples for each class when creating folds. This way, all folds will have the same ditribution of classes as the original dataset.
 
-__Parameter optimization__
+__Parameter optimization (parameter tuning)__
 
+- Naïve strategy: try an extensive range of values for a parameter, find the best value, and then repeat the process for the following parameter. However, because several hyper-parameters are co-dependent, any change to a h.p. could change the optimal value for other parameters.
+- __Grid search__ `GridSearchCV`: An exhaustive search over all parameter, training and validating the model on each possible combination of parameters.
 
+---
 
+### LightGBM vs XGBoost vs Deep Learning
 
 
 

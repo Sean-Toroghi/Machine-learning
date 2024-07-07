@@ -272,6 +272,11 @@ Differences:
 - Handling categorical features: LightGBM has built-in support for categorical features, meaning it can handle them directly without needing one-hot encoding or other preprocessing techniques. XGBoost, on the other hand, requires preprocessing for categorical features before feeding them into the model.
 - Early stopping: XGBoost provides an option to halt the training process if there is no significant improvement in the model’s performance. LightGBM does not have this feature built in, although it can be implemented manually using callbacks.
 
+---
+
+#### Deep learning - TabTransformer
+
+Although there are several deep learning architecture, here I provide one of the more rescent architecture for illustration: TabTransformer. This method is designed to handle tabular dataset, with mix feature type: numerical and categorical. Before feeding it to the model, it normalizes the numerical features, and employ embedding/ transfomer based model for categorical features. Then it concatenates the two, and feed them into a MLP model
 
 
 

@@ -192,6 +192,26 @@ __Learning control parameters__:
 - max_drop: Controls the maximum number of dropped trees when using the DART algorithm (is only used when boosting is set to dart). A larger value reduces overfitting.
 - extra_trees: Enables the Extremely Randomized Trees (ExtraTrees) algorithm. LightGBM then chooses a split threshold at random for each feature. Enabling Extra-Trees can reduce overfitting. The parameter can be used in conjunction with any boosting mode.
 
+---
+
+### Limitation of LightGBM__
+- sensitive to overfitting
+- important role of fine-tuning
+- requires feature engineering
+- cannot directly use sequential data. Requires feature engineering (create lagged features) prior to training
+- may not able to find complex feature interaction and non-linearity
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

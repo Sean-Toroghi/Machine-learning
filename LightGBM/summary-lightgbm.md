@@ -232,19 +232,6 @@ sklearn implementation does not require `Dataset` wrapper. The sklearn contains 
 
 
 ---
-
-### Implementation
-
-__Validate model performance__
-
-- __Cross validation__: an alternative to split data into train/val/test set, is cross-validation, in which the dataset splitting multiple times and train the model multiple times, once for each split.
-- __Stratified k-fold validation__: preservs the percentage of samples for each class when creating folds. This way, all folds will have the same ditribution of classes as the original dataset.
-
-__Parameter optimization (parameter tuning)__
-
-- Naïve strategy: try an extensive range of values for a parameter, find the best value, and then repeat the process for the following parameter. However, because several hyper-parameters are co-dependent, any change to a h.p. could change the optimal value for other parameters.
-- __Grid search__ `GridSearchCV`: An exhaustive search over all parameter, training and validating the model on each possible combination of parameters.
-
 ---
 
 ### LightGBM vs XGBoost vs Deep Learning
@@ -279,9 +266,33 @@ Differences:
 Although there are several deep learning architecture, here I provide one of the more rescent architecture for illustration: TabTransformer. This method is designed to handle tabular dataset, with mix feature type: numerical and categorical. Before feeding it to the model, it normalizes the numerical features, and employ embedding/ transfomer based model for categorical features. Then it concatenates the two, and feed them into a MLP model
 
 
+---
+---
 
+# Machine learning with LightGBM
 
+__Validate model performance__
 
+- __Cross validation__: an alternative to split data into train/val/test set, is cross-validation, in which the dataset splitting multiple times and train the model multiple times, once for each split.
+- __Stratified k-fold validation__: preservs the percentage of samples for each class when creating folds. This way, all folds will have the same ditribution of classes as the original dataset.
+
+__Parameter optimization (parameter tuning)__
+
+- Naïve strategy: try an extensive range of values for a parameter, find the best value, and then repeat the process for the following parameter. However, because several hyper-parameters are co-dependent, any change to a h.p. could change the optimal value for other parameters.
+- __Grid search__ `GridSearchCV`: An exhaustive search over all parameter, training and validating the model on each possible combination of parameters.
+
+--- 
+## Parameter optimization
+All ensemble tree-based models require to have a regouros fine-tuning to find the optimal hyperparameters. Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
+
+__optuna__
+
+[Ref.](https://optuna.org/)
+
+Optuna provides optimization and pruning in efficient manner via its optimization algorithms: tree-structured Parzen estimator (TPE), and covariance matrix adaptation evolution strategy (CMA-ES) algorithm.
+- TPE: it uses kernel density estimator (a technique to estimate the prob. distribution of a set of data points, which is non-parametric) to compute the likelihood of a set of parameters being good or bad. It first samples a few random combination of parameters. Then it divides them into two groups: good and bad. Finally TPE estimates the probability distributions of hyperparameter combinations for both good and bad groups using the Parzen estimator technique.
+- CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. IT is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. The starting point is a population of candidates. Then it modifies the candidates with each subsequent generation to adapt more closely to the best solution. 
+ 
 
 
 

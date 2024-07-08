@@ -7,8 +7,9 @@
  
  
 1. Data science life cycle
-2. Automate machine learning via FLAML
-3. Supervised learning (regression - classification)
+2. Machine learning operations (MLOps)
+3. Automate machine learning via FLAML
+4. Supervised learning (regression - classification)
     1. Regression (Linear, Ridge/LASSO, Polynomial, SVM, K-NN)
     2. Classification (K-NN, Logistic regression, SVM, Kernelized SVM, Decision Trees, Naive Bayes Classifiers, 
     3. Ensemble models
@@ -114,6 +115,20 @@ Featuretools is an AutoML framework designed for automated feature engineering, 
 
   
 ---
+# Machine Learning oeprations (MLOps)
+
+Concept of MLOps refers to practical actions aims to blend the filed of machine learning with system operation. The __Goal__ is to standardize and streamline the lifecycle of ML model development as well as it deployment. The result will be increase the efficiency and effectiveness of ML solutions with the business setting. 
+
+The focus of MLOps is model creation, experimentation, and evaluation along with deployument, monitoring, and maitenance. This particulary important for ML solutions, since ML systems are more dynamic and less predictable than traditional software systems. 
+
+In nutshell MLOps aiming to accelerate the ML life cycle, facilitating faster experimentation and deployment, through 
+- automation at differrnet stages,
+- ensuring reproducibility,
+- emphasizing on versioning code, data, and model confugurations,
+- monitoring its performance and continuously validating its predictions,
+- use of robust testing practices for ML (e.g. containerization and serverless computing platforms),
+
+In summary, MLOps provides a framework for managing the end-to-end ML life cycle, from initial experimentation to robust, scalable deployment. MLOps emphasizes standardization, automation, reproducibility, monitoring, testing, and collaboration to enable high-throughput ML systems.
 
 
 

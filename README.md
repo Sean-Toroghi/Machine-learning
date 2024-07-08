@@ -7,7 +7,8 @@
  
  
 1. Data science life cycle
-2. Supervised learning (regression - classification)
+2. Automate machine learning via FLAML
+3. Supervised learning (regression - classification)
     1. Regression 
           1. Linear
           2. Ridge
@@ -58,5 +59,23 @@ At the heart of data science lies the data science life cycle, a systematic, ite
 
 ![image](https://github.com/Sean-Toroghi/Machine-learning/assets/50586266/e466f95a-5276-43b6-9a0c-73a3b62fb118)
 [Ref.](https://learning.oreilly.com/library/view/machine-learning-with/9781800564749)
+
+
+Key steps in the data science lifecycle:
+- define the problem:
+- data collection
+- data preparation
+- data exploration
+- model selection
+- model training
+- model evaluation
+- model tuning
+- model deployment
+- model monitoring and maintenance
+- communicate results
+
+
+---
+# Automate machine learning systems via FLAML
 
 

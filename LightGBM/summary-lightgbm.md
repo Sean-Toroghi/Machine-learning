@@ -4,12 +4,12 @@ References
 - [Machine Learning with LightGBM and Python by Andrich van Wyk](https://learning.oreilly.com/library/view/machine-learning-with/9781800564749/B16690_01.xhtml)
 
 ---
-## Ovreview
+## Overview
 
-Data preprocessign pipeline for a machine learning task usually follows these steps:
+Data preprocessing pipeline for a machine learning task usually follows these steps:
 
 
-__Overfitting__ is a phenomenon in the ML field, occurs when a model memorize the data and fit the noise, leading to loose the generalization ability. Overfitting stem from one or combination of the following factors:
+__Overfitting__ is a phenomenon in the ML field, occurs when a model memorize the data and fit the noise, leading to lose the generalization ability. Overfitting stem from one or combination of the following factors:
 - An overly complex model: A model that is too complex for the amount of data we have utilizes additional complexity to memorize the noise in the data, leading to overfitting
 - Insufficient data: If we don’t have enough training data for the model we use, it’s similar to an overly complex model, which overfits the data
 - Too many features: A dataset with too many features likely contains irrelevant (noisy) features that reduce the model’s generalization
@@ -34,12 +34,12 @@ __1- cleasification__
 - accuracy: number of correct predictions divided by the total number of predictions.
 - precision = $\frac{TP}{\text{all positive predictions}}$ indicates how precise the model is in predicting positives.
 - recall  = $\frac{TP}{\text{all positive instances}} measures how effectively the model finds (or recalls) all true positive cases.
-- F1-score is the harmonic mean between precision and recal.
+- F1-score is the harmonic mean between precision and recall.
 
 __2- regression metrics__
-- mean square error: average of the squared differences between predicted and actual values. While it is differenciable (can be used in gradient based learning), it penalizes large errors more heavilty that small errors (due to the squaring the difference).
+- mean square error: average of the squared differences between predicted and actual values. While it is differentiable (can be used in gradient based learning), it penalizes large errors more heavily that small errors (due to the squaring the difference).
 - mean absolute error 
-- average of the absolute differences between predicted and actual values. It is more robust against the size of errors and less sensitive to outliers. Unforetunately it is not differentiable!
+- average of the absolute differences between predicted and actual values. It is more robust against the size of errors and less sensitive to outliers. Unfortunately, it is not differentiable!
 
   
 ---
@@ -57,7 +57,7 @@ Tree-based models employ different approach to measure information gain or entro
 
 The regression task requires additional metric to determine splits at each node, among which are ([ref.](https://scikit-learn.org/stable/modules/tree.html#regression-criteria)):
 - MSE or MAE
-- half Poisson deciance
+- half Poisson distance
 
 
 __Advantages of tree-based models__
@@ -68,10 +68,10 @@ __Advantages of tree-based models__
 __Disadvantages of tree-based models__
 - prone to overfitting
 - perform poor at extrapolation tasks
-- perform poor when trained on unbalanced data. The high-frequency classes will dominate the prediciton.
+- perform poor when trained on unbalanced data. The high-frequency classes will dominate the prediction.
 
-__Mitigate overfitting issue__: there are several strategies implmentedin tree-based models to overcome overfitting issue, among which are:
-- pruning: removing vranches that do not contribute much information gain, leading to reduce model complexity.
+__Mitigate overfitting issue__: there are several strategies implemented tree-based models to overcome overfitting issue, among which are:
+- pruning: removing branches that do not contribute much information gain, leading to reduce model complexity.
 - control max depth: limit the depth of a tree helps to reduce model complexity.
 - control max number of leaf nodes: helps to avoid creation of over-specific branches, leading to less complex model.
 - control min number of samples per leaf: stops splitting, if the number of samples reaches a limit, avoids overly specific leaf nodes, and leads to less complex model
@@ -94,9 +94,9 @@ Decition tree model, as a tree-based model, contains a range of hyperparameters,
 ---
 ## Ensemble methods
 
-To bring diversity to the ensemble, we can train models on subset of samples, subset of features, differnt models, differnt set of hyper-parameters, or differentiate by diversify a part of model (such as embedding, or ramdom initialization of parameters). Some of the most significant ensemble approaches are:
+To bring diversity to the ensemble, we can train models on subset of samples, subset of features, different models, different set of hyper-parameters, or differentiate by diversify a part of model (such as embedding, or random initialization of parameters). Some of the most significant ensemble approaches are:
 - bagging: train on subset of samples and features
-- boosting: interatively train models on the error or the previous models
+- boosting: interactively train models on the error or the previous models
 - stacking: train multiple based models, and higher-order models (meta-models) are then trained to learn from base model predictions, and make final prediction
 - blending: meta-models are first trained on prediction made by the base-models on a hold-out set (a part of the training data the base learners were not trained on)
 
@@ -123,7 +123,7 @@ This method applies randomness inside the model. Some nodes split samples random
 
 __Gradient boost decision tree__
 
-GBDT (also called multipleadditive regression trees (MART)) method sequentially train models, each learns from the mistakes of the previous models. Each model uses the entire dataset. Some of the hyper-parameters for graient bossting method are as follow ([ref](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)):
+GBDT (also called multiple additive regression trees (MART)) method sequentially train models, each learns from the mistakes of the previous models. Each model uses the entire dataset. Some of the hyper-parameters for gradient boosting method are as follow ([ref](https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)):
 - n_estimators: Controls the number of trees in the ensemble. Generally, more trees are better. However, a point of diminishing returns is often reached, and overfitting occurs when there are too many trees.
 - learning_rate: Controls the contribution of each tree to the ensemble. Lower learning rates lead to longer training times and may require more trees to be built (larger values for n_estimators). Setting learning_rate to a very large value may cause the optimization to miss optimum points and must be combined with fewer trees. Then, the DART algorithm is to apply additional scaling of the contribution of the new tree.
 
@@ -140,16 +140,16 @@ DART is an extension of GBDT, which employs dropouts to avoid overfitting. First
 
 ## Overview
 
-LightGBM is a gradient-boosting framework for tree-based ensemble method, with focus on efficiency (swpace and time), while improving accuracy. Applications with high-dim and large data size is where LightGBM shines. It supports both regression and classification (binary or multiclass) tasks, and ranking via LambdaRank. LightGBM employs several techniques and provides customization through hyper-parameter tuning, including DART, bagging, continous training, early stopping, and several other options.
+LightGBM is a gradient-boosting framework for tree-based ensemble method, with focus on efficiency (swpace and time), while improving accuracy. Applications with high-dim and large data size is where LightGBM shines. It supports both regression and classification (binary or multiclass) tasks, and ranking via LambdaRank. LightGBM employs several techniques and provides customization through hyper-parameter tuning, including DART, bagging, continuous training, early stopping, and several other options.
 
 __Optimization__
 
 To improve model efficiency, Lightbgm benefits from __histogram sorting__ method:
-- Reduce computation complexity via _histogram sorting_: the most computational intense task of a GBDT is training the regression tree for each iteration, where finding the optimal split is very expensive. Algorithm requires to sort the samples (either at prior to spliting, or at the time of spliting). By creating feature histograms, the time-complexity for building a decision node reduce from $O(n)$ (pre-sorting approach) to $O(b)$, where $b$ is number of bins.
-- Employ _histogram subtraction_ for building the historams for the leaves. This approach subtracts the leaf’s neighbor’s histogram from the parent’s histogramn, instead of calculating the histogram for each leaf.
+- Reduce computation complexity via _histogram sorting_: the most computational intense task of a GBDT is training the regression tree for each iteration, where finding the optimal split is very expensive. Algorithm requires to sort the samples (either at prior to splitting, or at the time of splitting). By creating feature histograms, the time-complexity for building a decision node reduce from $O(n)$ (pre-sorting approach) to $O(b)$, where $b$ is number of bins.
+- Employ _histogram subtraction_ for building the histograms for the leaves. This approach subtracts the leaf’s neighbor’s histogram from the parent’s histogram, instead of calculating the histogram for each leaf.
 - Employ histogram to reduce space complexity (memory cost). Any sorting method requires memory allocation, while histogram sorting does mot. Also, a more efficient data type is required to store bins (number of bins is much smaller than the size of dataset).
 
-LightGBM employs __exlusive feature bundling (EFB)__ to optimize working with sparse data.
+LightGBM employs __exclusive feature bundling (EFB)__ to optimize working with sparse data.
 
 LightGBM employs __gradient-based one-side sampling (GOOS)__, which discard samples that do not contribute significantly to the training process, leading to reduse size of the training data.
 
@@ -167,7 +167,7 @@ LightGBM supports both L1 and L2 regularization:
 ---
 ### LightGBM hyper-parameters
 
-While LightGBM has many hyper-parameters, they can be divided into core framework, accuracy related, and learning constrol (avoid overfitting) parameters:
+While LightGBM has many hyper-parameters, they can be divided into core framework, accuracy related, and learning control (avoid overfitting) parameters:
 
 __Core framework parameters__:
 
@@ -263,7 +263,7 @@ Differences:
 
 #### Deep learning - TabTransformer
 
-Although there are several deep learning architecture, here I provide one of the more rescent architecture for illustration: TabTransformer. This method is designed to handle tabular dataset, with mix feature type: numerical and categorical. Before feeding it to the model, it normalizes the numerical features, and employ embedding/ transfomer based model for categorical features. Then it concatenates the two, and feed them into a MLP model
+Although there are several deep learning architecture, here I provide one of the more recent architecture for illustration: TabTransformer. This method is designed to handle tabular dataset, with mix feature type: numerical and categorical. Before feeding it to the model, it normalizes the numerical features, and employ embedding/ transformer-based model for categorical features. Then it concatenates the two, and feed them into a MLP model
 
 
 ---
@@ -274,18 +274,18 @@ Although there are several deep learning architecture, here I provide one of the
 __Validate model performance__
 
 - __Cross validation__: an alternative to split data into train/val/test set, is cross-validation, in which the dataset splitting multiple times and train the model multiple times, once for each split.
-- __Stratified k-fold validation__: preservs the percentage of samples for each class when creating folds. This way, all folds will have the same ditribution of classes as the original dataset.
+- __Stratified k-fold validation__: preserves the percentage of samples for each class when creating folds. This way, all folds will have the same distribution of classes as the original dataset.
 
 __Parameter optimization (parameter tuning)__
 
-- Naïve strategy: try an extensive range of values for a parameter, find the best value, and then repeat the process for the following parameter. However, because several hyper-parameters are co-dependent, any change to a h.p. could change the optimal value for other parameters.
+- Naïve strategy: try an extensive range of values for a parameter, find the best value, and then repeat the process for the following parameter. However, because several hyper-parameters are co-dependent, any change to a hyperparameter could change the optimal value for other parameters.
 - __Grid search__ `GridSearchCV`: An exhaustive search over all parameter, training and validating the model on each possible combination of parameters.
 
 --- 
 ## Parameter optimization
-All ensemble tree-based models require to have a regouros fine-tuning to find the optimal hyperparameters. Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
+All ensemble tree-based models require to have a rigorous fine-tuning to find the optimal hyperparameters. Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
 
-### optuna
+### Optuna
 
 [Ref.](https://optuna.org/)
 
@@ -296,7 +296,7 @@ __Optimization__
 
 The optimization part of optuna is done via a range of algorithms among which are: tree-structured Parzen estimator (TPE), and covariance matrix adaptation evolution strategy (CMA-ES) algorithm.
 
-- TPE: it uses kernel density estimator (a technique to estimate the prob. distribution of a set of data points, which is non-parametric) to compute the likelihood of a set of parameters being good or bad. It first samples a few random combination of parameters. Then it divides them into two groups: good and bad. Finally TPE estimates the probability distributions of hyperparameter combinations for both good and bad groups using the Parzen estimator technique.
+- TPE: it uses kernel density estimator (a technique to estimate the prob. distribution of a set of data points, which is non-parametric) to compute the likelihood of a set of parameters being good or bad. It first samples a few random combinations of parameters. Then it divides them into two groups: good and bad. Finally, TPE estimates the probability distributions of hyperparameter combinations for both good and bad groups using the Parzen estimator technique.
 - CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. IT is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
 
   The starting point is a population of candidates. Then it modifies the candidates with each subsequent generation to adapt more closely to the best solution. CMA-ES applies the evolutionary principles as follows:
@@ -314,16 +314,16 @@ The main differences between TPE and CMA-ES lie in their overall approach. TPE i
  
 __Pruning__
 
-Optuna also provides pruning sstrategy to avoid spending time on unpromissing trails. Pruning occurs synchronously with the model training process: the validation error is checked during training, and the training is stopped if the algorithm is underperforming. In this way, pruning is similar to early stopping.
+Optuna also provides pruning strategy to avoid spending time on unpromising trails. Pruning occurs synchronously with the model training process: the validation error is checked during training, and the training is stopped if the algorithm is underperforming. In this way, pruning is similar to early stopping.
 - Median pruning
 - Successive halving
 - Hyperband
 
 __Implementing optuna__
 
-- we need to define a set of objective for an study.
+- we need to define a set of objectives for a study.
 - We can save the study at different stages, and continue running the study from the saved point.
-- A study could have single or multiple objectives. An example for single objective is to minimize f1=score. An example for multi-objective optimization is to minimize f1-score while having the highet learning rate (faster training).
+- A study could have single or multiple objectives. An example for single objective is to minimize f1=score. An example for multi-objective optimization is to minimize f1-score while having the highest learning rate (faster training).
 - There are several visualization options to examine the result of the optimization:
   - Pareto front
   - Parallel coordinate plot

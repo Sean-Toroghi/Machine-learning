@@ -62,17 +62,17 @@ At the heart of data science lies the data science life cycle, a systematic, ite
 
 
 Key steps in the data science lifecycle:
-- define the problem:
-- data collection
-- data preparation
-- data exploration
-- model selection
-- model training
-- model evaluation
-- model tuning
-- model deployment
-- model monitoring and maintenance
-- communicate results
+- define the problem: as a priliminary part of a project, this step requires a deep understanding stakeholder requirements, formulating hypothesis, and determining project scopre. The outcome will be a clear and consice buiness problem statement, goals, and objectives.
+- data collection: collecting data from different sources (e.g. databases, web scraping, third party provider, ...) and ensure the data is accurate, relevant to the problem in hand, and representative. This phase requires to establish data lineage through documentation including origin of data, and how it moved around. Also, documenting data format. structure, content, meaning, and any potential bias during the sampling/collection is helpful.
+- data preparation: this phase consists of data cleaning (e.g. imputation and removing duplicates), transformation (e.g. normalization and encoding categorical variables), feature engineering (e.g. aggregating or create new features), and moving/joining data as needed.
+- data exploration: performing explanatory data ana;ysis (EDA) helps to gain insights into the data. This phase includes visualizing distributions, itentifying trend/patterns, detecting outliers/anomalities, and checking for potential relationship among/correlation between features.
+- model selection: based on the problem in hand and characteristics of the data, we need to pick the appropriate modeling technique and choose a set of algorithms (to validate performance).
+- model training: decide about spliting technique (train/val/test or cross-validation), set the parameters (hyper-parameters) and fitting model to data are done in this step.
+- model evaluation: assessing model performance via appropriate technique (e.g. f1-score, AUC-ROC, RMSE) and compare them to select the best performing model/s is crusial in machine learning pipeline. To ensure an unbias evaluation, we could employ techniques such as cross-validation or hold out test sets.
+- model tuning: fine-tune selected mdoel/s via optimizing hyper-parameters, feature selection, or incorporating domain knowledge are part of model tuning. 
+- model deployment: Deploying the final model into a production environment is the final step of modeling stage, which will put the model in use, whetehr for making a predictio or inform decision-making. This step involves integrating the model to the exisitng sytem, creating API, or setting up monitoring and maintenance procedures.  
+- model monitoring and maintenance: in many cases the data stream over time could negatively impact the performance of a model, as new data may drift away from the original data, which the model was trained/tuned on. Continous monitoring the model performance could detect model or data drift and perform mitigation strategies such as retraining the model with new data, updating features, or refining the problem definition..
+- communicate results: finally as the last stage of data science lifecycle and includes share insights and results with stakeholders such as any recommendations or actions based on the analysis. Data scientist could employ techniques such as creating visualizations, dashboards, or reports to communicate the findings effectively.
 
 
 ---

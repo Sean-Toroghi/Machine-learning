@@ -77,4 +77,49 @@ Again, the downside of employ AutoML is it acts as a black box. A continious mon
 ---
 ## Fask and lightweight AutoML (FLAML)
 
-FLAML is an AutoML solution proposed by Microsoft. The primary aim of FLAML is to minimize the resources required to tune hyperparameters and identify optimal ML models, making AutoML more accessible and cost-effective, particularly for users with budget constraints.
+FLAML is an AutoML solution proposed by Microsoft. The primary aim of FLAML is to minimize the resources required to tune hyperparameters and identify optimal ML models, making AutoML more accessible and cost-effective, particularly for users with budget constraints. It automatically choose the best algorithm for a given dataset and optimize its hyperparameters, providing users with an optimal model without extensive manual intervention.
+
+Key feature of FLMAL are:
+- efficiency: the efficiency of FLMAL is by large comes from its cost-effective search algorithms. 
+- versatility: FLMAL works with different enviroment, and supprot a range of ML algorithms including CatBoost, RandomForest, XGBoost, LightGBM, and several linear models.
+
+__Hyperparameter optimization algorithm in FLMAL__
+- Cost frugal optimization
+
+  CFO is a local search method that leverages random direct search to explore the hyperparameter space. It starts at a low cost configuration and walks toward higher cost options via randomly taking steps for a fixed number of iterations among available options. The step-size is adaptive. CFO also employs random restarts toavoid stucking in local optimal.
+- BlendSearch
+
+  BlendSearch is an alternative to the CFO approach, that runs both local and global search. Similar to CFO it starts with low cost option. However, it does not wait for the local search to stagnate before exploring new regions. Instead, a global search algorithm (such as Bayesian optimization) continually suggests new starting points. These starting points are filtered based on their proximity to the current standing and prioritized by their cost. Each iteration of BlendSearch then chooses whether to continue a local search or start at a new global search point based on the performance in the previous iteration. 
+
+Comparison:
+- BlendSearch is recommended over CFO if the hyperparameter search space is highly complex.
+- CFO is faster and more efficient. A good practice is to start with CFO, nd only switch to BlendSearch if CFO is struggling.
+  
+__FLAML limitations__
+- For complex, domain-specific tasks, manual tuning may deliver better results.
+- Its output is not as interpretable as other methods such as Optuna.
+- FLAML only performs the model selection and tuning part of the ML process.
+
+
+---
+
+## Featuretools
+
+
+
+Featuretools is an AutoML framework designed for automated feature engineering, and very practical in the case of transforming relational datasets and temporal data. 
+
+- [Ref. 2](https://featuretools.alteryx.com/en/stable/#)
+- [Ref.](https://featuretools.alteryx.com/en/stable/api_reference.html)
+
+  
+---
+
+
+
+
+---
+__References__
+- C. Wang, Q. Wu, M. Weimer, and E. Zhu, “FLAML: A Fast and Lightweight AutoML Library,” in MLSys, 2021.
+- Q. Wu, C. Wang and S. Huang, Frugal Optimization for Cost-related Hyperparameters, 2020.
+- C. Wang, Q. Wu, S. Huang, and A. Saied, “Economical Hyperparameter Optimization With Blended Search Strategy,” in ICLR, 2021.

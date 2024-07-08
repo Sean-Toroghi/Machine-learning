@@ -291,7 +291,21 @@ __optuna__
 
 Optuna provides optimization and pruning in efficient manner via its optimization algorithms: tree-structured Parzen estimator (TPE), and covariance matrix adaptation evolution strategy (CMA-ES) algorithm.
 - TPE: it uses kernel density estimator (a technique to estimate the prob. distribution of a set of data points, which is non-parametric) to compute the likelihood of a set of parameters being good or bad. It first samples a few random combination of parameters. Then it divides them into two groups: good and bad. Finally TPE estimates the probability distributions of hyperparameter combinations for both good and bad groups using the Parzen estimator technique.
-- CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. IT is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. The starting point is a population of candidates. Then it modifies the candidates with each subsequent generation to adapt more closely to the best solution. 
+- CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. IT is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
+
+  The starting point is a population of candidates. Then it modifies the candidates with each subsequent generation to adapt more closely to the best solution. CMA-ES applies the evolutionary principles as follows:
+  - Within the hyperparameter search space, initialize the mean and the covariance matrix.
+  - Repeat the evolutionary process:
+    - Generate a population of candidates from the search space using the mean and the covariance matrix. Each candidate represents a combination of hyperparameter values.
+    - Evaluate the fitness of the candidates. Fitness refers to the quality of a candidate or how well it solves the optimization problem. With CMA-ES, this means training the model on the dataset using the candidate hyperparameters and evaluating the performance on the validation set.
+    - Select the best candidates from the population.
+    - Update the mean and the covariance matrix from the best candidates.
+    - Repeat for a maximum number of trials or until no improvement is seen in the population’s fitness.
+   
+
+This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
+
+
  
 
 

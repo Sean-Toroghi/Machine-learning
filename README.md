@@ -56,6 +56,25 @@ Key steps in the data science lifecycle:
 
 
 ---
-# Automate machine learning systems via FLAML
+# Automate machine learning systems  
 
+AutoMl systems aim to simplify some of the tedious parts of ML piepline and are available at various levels of complexity, targeting one or some parts of the developing a model such as preprocessing, feature engineering, model selection, and hyperparametr fin tuning. Two examples of AutoML framework are Optuna and FLAML.
 
+## Automating feature engineering
+
+Data clearning and feature engineering are crusial part of ML workflow, which includes dealing with unusable data, handling missing values, and creating meaningful features. In a general form AutoML could be done either by using heuristic algorithms and tests to select he best technique, or take multiple approaches and tests which works best by training models against the data. 
+
+Example of automated data cleaning is to perform imputation using descriptive statistic (e.g. mean or mode). 
+
+One shortcomming of automated feature engineering is it cannot benefit from domain knwoledge and expert inputs during the process.
+
+## Automated model selection and tuning
+
+AutoML is very useful when it is used for model selection and hyperparameter tuning. There are several techniques for AutML in terms of model selection, incluing Bayesian optimization and meta-learning. Coupling AutoML with cross-validation technique reduces the risk of overfitting. Furthermore, some AutoML solutions also provide value in ongoing model monitoring and maintenance. AutoML can help monitor model performance and retrain the model as needed, ensuring that the deployed ML system remains effective in the long run.
+
+Again, the downside of employ AutoML is it acts as a black box. A continious monitoring and examination is required to ensure the outcomes are align with the initial objectives. 
+
+---
+## Fask and lightweight AutoML (FLAML)
+
+FLAML is an AutoML solution proposed by Microsoft. The primary aim of FLAML is to minimize the resources required to tune hyperparameters and identify optimal ML models, making AutoML more accessible and cost-effective, particularly for users with budget constraints.

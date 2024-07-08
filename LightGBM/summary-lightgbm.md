@@ -285,11 +285,17 @@ __Parameter optimization (parameter tuning)__
 ## Parameter optimization
 All ensemble tree-based models require to have a regouros fine-tuning to find the optimal hyperparameters. Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
 
-__optuna__
+### optuna
 
 [Ref.](https://optuna.org/)
 
-Optuna provides optimization and pruning in efficient manner via its optimization algorithms: tree-structured Parzen estimator (TPE), and covariance matrix adaptation evolution strategy (CMA-ES) algorithm.
+Optuna provides optimization and pruning in efficient manner [ref](https://github.com/optuna/optuna/wiki/Benchmarks-with-Kurobako).
+
+
+__Optimization__
+
+The optimization part of optuna is done via a range of algorithms among which are: tree-structured Parzen estimator (TPE), and covariance matrix adaptation evolution strategy (CMA-ES) algorithm.
+
 - TPE: it uses kernel density estimator (a technique to estimate the prob. distribution of a set of data points, which is non-parametric) to compute the likelihood of a set of parameters being good or bad. It first samples a few random combination of parameters. Then it divides them into two groups: good and bad. Finally TPE estimates the probability distributions of hyperparameter combinations for both good and bad groups using the Parzen estimator technique.
 - CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. IT is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
 
@@ -302,13 +308,22 @@ Optuna provides optimization and pruning in efficient manner via its optimizatio
     - Update the mean and the covariance matrix from the best candidates.
     - Repeat for a maximum number of trials or until no improvement is seen in the population’s fitness.
    
+_Comparison between TPE and CMA-ES_
 
-This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
-
-
+The main differences between TPE and CMA-ES lie in their overall approach. TPE is a probabilistic model with a sequential search strategy, compared to CMA-ES, which is population-based and evaluates solutions in parallel. This often means TPE is more exploitative in its search, while CMA-ES balances exploration and exploitation using population control mechanisms. However, TPE is typically more efficient than CMA-ES, especially for a small number of parameters.
  
+__Pruning__
 
+Optuna also provides pruning sstrategy to avoid spending time on unpromissing trails. Pruning occurs synchronously with the model training process: the validation error is checked during training, and the training is stopped if the algorithm is underperforming. In this way, pruning is similar to early stopping.
+- Median pruning
+- Successive halving
+- Hyperband
 
+__Implementing optuna__
+
+- we need to define a set of objective for an study.
+- We can save the study at different stages, and continue running the study from the saved point.
+- A study could have single or multiple objectives. An example for single objective is to minimize f1=score. An example for multi-objective optimization is to minimize f1-score while having the highet learning rate (faster training).
 
 
 

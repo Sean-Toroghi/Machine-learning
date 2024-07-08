@@ -324,7 +324,9 @@ __Implementing optuna__
 - we need to define a set of objective for an study.
 - We can save the study at different stages, and continue running the study from the saved point.
 - A study could have single or multiple objectives. An example for single objective is to minimize f1=score. An example for multi-objective optimization is to minimize f1-score while having the highet learning rate (faster training).
-
-
+- There are several visualization options to examine the result of the optimization:
+  - Pareto front
+  - Parallel coordinate plot
+  - Parameter importance and plot it
 
 

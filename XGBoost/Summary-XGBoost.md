@@ -46,7 +46,7 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 
 ---
 
-## Hyper-parameters tuning for XGBoost
+# Hyper-parameters
 
 ### References: Friedman J.H., 2001, Greedy Function Approximation: A Gradient Boosting Machine [link](http://luthuli.cs.uiuc.edu/~daf/courses/Opt-2017/Papers/2699986.pdf)
 Here is a summary of the suggestions for tuning by Freedman:
@@ -57,12 +57,53 @@ __Tradeoff between numeber of trees and learning rate (1)__
 - Shrinkage parameter between $0<v<1$ constrols the learning rate. A very small learning rate ($v \leq 0.1$) leads to a better generalization error.
 
 __Subsampling__
+- almost all types of resampling is better than the deterministic approach.
+- He suggested a good subsampling fraction is 40% (without replacement), while even lower percentage (20%-30%) at each iteration also improves performance (compare with no sampling approach). For a very large dataset, subsampling smaller than 50% is preferred.
+- Also sampling increases the computation speed.
+- 
 
 
 __Terminal nodes__
+- terminal nodes value between 3 to 6 perform better than larger values such as 11,21, and 41.
 
+### Book: The Elements of Statistical Learning: Data Mining, Inference, and Prediction
+- good value for number of trees at each node = 6 ; and good range is between 4-8. 
+- use early stopping, by monitoring validation performance
+- emphasizes on the tradeoff between number of trees and learning rate and recommend small value for learning rate (less than 0.1)
 
-1. Early stopping (
+### Suggestion by R 
+-  number of trees = 100
+-  number of leaves = 1
+-  min number of samples in tree terminal nodes = 10
+-  learning rate = 0.001
+-  iterations = 3000 to 10,000 with learning rate btw 0.01 and 0.001
 
-2. 
+### Suggestion by sklearn
+- learning rate = 0.1
+- number of trees = 100
+- max depth = 3
+- min samples split =2
+- min samples leaf = 1
+- subsamples = 1
 
+### Suggetions by XGBoost
+- learning rate = 0.3
+- max depth = 6
+- subsample = 1
+
+### General suggestions
+- run the model by default config
+- if overfit, use smaller learning rate (shrinkage)
+- if underfit, incerase learning rate
+- number of trees btw 100 and 1000 depending on the dataset size
+- learning rate: $\frac{2~10}{\text{number of trees}}$
+- subsample (row sampling): greedsearch in range of [0.5, 0.75, 1.0], another suggestion fix 1.0
+- column sampling grid search in range of [0.4, 0.6, 0.8, 1.0], another suggestion grid search in range 0.3 - 0.5
+- min leaf weight $\frac{3}{\text{percentage of rate event obs in dataset}}$, another suggetion $\frac{1}{\sqrt{\text{percentage of rate event obs in dataset}}}$
+- tree size: grid search [4, 6, 8, 10]
+- min split gain (gamma) fixed with at 0.0
+
+---
+
+## Tune hyperparameters
+- 

@@ -329,4 +329,73 @@ __Implementing optuna__
   - Parallel coordinate plot
   - Parameter importance and plot it
 
+---
+# GPU-based and distributed learning with LightGBM
+
+## Distributed learning with LightGBM and Dask
+
+__Dask__ in a library for distributed computing and integrates seamlessly with Python libraries, inclugin sklearn and lightGBM [Ref.](https://www.dask.org/). It allows to set up clusters on a single machine, or across several machines. 
+
+To run a local cluster we need to create local cluster object and assign alient to it:
+```python
+cluster = LocalCluster(n_workers=4, threads_per_worker=2) # cluster with 4 workers and 2 threads per worker
+client = Client(cluster)
+```
+The cluster runs on localhost, with the scheduler running on port 8786 by default. Dask has a diagnostic dashboard, implemented with Bokeh.
+
+Dask has its own dataframe implementation, called Dask DataFrane, compromises many smaller pandas Dataframes. 
+```python
+import dask.dataframe as dd
+df = dd.read_csv("data.csv", blocksize="64MB")
+print(f" Rows in dataframe: {df.shape[0].compute}")
+
+# split dataset into X,y
+X = df.iloc[:, :-1]
+y = df.iloc[:, -1]
+X_train, X_test, y_train, y_test = dask_ml.model_selection.train_test_split(X, y)
+
+# employ LightGBM to classify
+dask_model = lgb.DaskLGBMClassifier(n_estimators=200, client=client)
+dask_model.fit(X_train, y_train)
+
+# Make prediction
+predictions = dask_model.predict(X_test)
+#display results
+predictions.compute()
+
+```
+__Note__ if the memory is large enough to fit a panda dataframe, it runs faster than Dast dataframe. 
+
+Dask has three LightGBm learner implementations: `DaskLGBMRegressor`, `DaskLGBMClassifier`, and `DaskLGBMRanker`.
+Dask LightGBM models can be fully serialized using Pickle or joblib.
+
+LightGBM uses a Reduce-Scatter strategy for paralell computation:
+- During the histogram-building phase, each worker builds histograms for different non-overlapping features. Then, a Reduce-Scatter operation is performed: each worker shares a part of its histogram with each other worker.
+- After the Reduce-Scatter, each worker has a complete histogram for a subset of features and then finds the best split for these features.
+- Finally, a gathering operation is performed: each worker shares its best split with all other workers, so all workers have all the best splits.
+- The best feature split is chosen, and the data is partitioned accordingly.
+
+## Train LightGBM on GPU
+
+To train LightGBM, we can use two platforms: OpenCL and CUDA. To train LightGBM on GPU, we need to specify the device type in parameters. 
+
+```python
+model = lgb.LGBMClassifier(
+        n_estimators=150,
+        device="cuda",
+        is_enable_sparse=False # it is not supported on GPU devices
+)
+model = model.fit(X_train, y_train)
+```
+
+__Best practive training with GPU__
+- Always verify that the GPU is being used. LightGBM returns to CPU training if the GPU is unavailable despite setting device=gpu. A good way of checking is with a tool such as nvidia-smi, as shown previously, or comparing training times to reference benchmarks.
+- Use a much smaller max_bin size. Large datasets reduce the impact of a smaller max_bin size, and the smaller number of bins benefits training on the GPU. Similarly, use single-precision floats for increased performance if your GPU supports it.
+- GPU training works best for large, dense datasets. Data needs to be moved to the GPU’s VRAM for training, and if the dataset is too small, the overhead involved with moving the data is too significant.
+- Avoid one-hot encoding of feature columns, as this leads to sparse feature matrices, which do not work well on the GPU.
+- If employ automated optimization framework such as Optuna, set `n_jobs` to 1, when performing study optimization. Running running parallel jobs leveraging the GPU could cause unnecessary contention and overhead. `study.optimize(objective(), n_trials=10, gc_after_trial=True, n_jobs=1)`
+
+-  
+
+
 

@@ -58,10 +58,22 @@ XGBoost automatically learn how to best handles missing values, due to the its d
 
 ---
 ## Evaluation
-__Model evaluation_
-- Generally k-fold cross-validation is the gold-standard for evaluating the performance of a machine learning algorithm on unseen data with k set to 3, 5, or 10.
-- Use stratified cross-validation to enforce class distributions when there are a large number of classes or an imbalance in instances for each class.
-- Using a train/test split is good for speed when using a slow algorithm and produces performance estimates with lower bias when using large datasets.
+__Model evaluation__
+- Simplest method is split into train/test. But, the downside is it could result in high variance (the difference between train and test sets could be so high that affect the accuracy difference).  Using a train/test split is good for speed when using a slow algorithm and produces performance estimates with lower bias when using large datasets.
+- A better option is k-fold cross-validation, which in many cases considered as a gold-standard for evaluating the performance of a machine learning algorithm (k usually is set to 3, 5, or 10; but the size of dataset plays the ultimate factor in choosing the right k value).
+
+  ```python
+  from sklearn.model_selection import KFold
+  from sklearn.model_selection import cross_val_score
+
+  # define k value
+  kfold = KFold(n_splits=10, random_state=7)
+  # evaluate model and return a list of the scores for each model trained on each fold
+  results = cross_val_score(model, X, Y, cv=kfold)
+  ```
+  
+  
+- Use stratified cross-validation to enforce class distributions when there are a _large number of classes or imbalanced class labels_.
 
 ---
 
@@ -79,16 +91,23 @@ XGBoost supports a range of performance metrics including ([Ref.](http://xgboost
 ---
 ## Others
 
-- __save model__:
-  - regular save: `pickle.dump(model, open("model_checkpoint.dat", "wb"))`
-  - seriealized save with joblib: `joblib.dump(model, "model_checkpoint.dat")`
-- __load model__:
-  - reular load: `loaded_model = pickle.load(open("model_checkpoint.dat", "rb"))`
-  - load serialized save model: `loaded_model = joblib.load("model_checkpoint.dat")`
+__Other usefull functions__
+- __Plot individual tree__
+
+  Within a trained model, XGBoost Python API has `plot_tree(mdoel, num_trees)` function that plots decision trees (requires `graphviz` library). `num_trees` gets int, representing the decision tree index. 
+
+- __save/load model with pickle__ (`import pickle`):
+  - save model: `pickle.dump(model, open("model_checkpoint.dat", "wb"))`
+  - load model: `loaded_model = pickle.load(open("model_checkpoint.dat", "rb"))`
+- __save/load model with joblib__ (`from sklearn.externals import joblib`):
+  - save model: `joblib.dump(model, "model_checkpoint.dat")`
+  - load model: `loaded_model = joblib.load("model_checkpoint.dat")`
 
 ---
 
-__Feature selection with feature importance scores__
+__Feature selection and feature importance scores__
+
+Feature importance score indicates how useful each feature was in the construction of boosted decision trees, within the model.  Importance is calculated for a single decision tree by the amount that each attribute split point improves the performance measure, weighted by the number of observations the node is responsible for.
 
 Using `sklearn.feature_selection.SelectFromModel` we can select most important features to train a model, following these steps:
 - pre-train a model

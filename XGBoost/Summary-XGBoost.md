@@ -51,6 +51,7 @@ feature = onehot_encoder.fit_transform(feature)
 ```
 
 __Missing values__
+XGBoost automatically learn how to best handles missing values, due to the its design to work with sparse data [ref](https://arxiv.org/abs/1603.02754). However, the expected missing values for XGBosot is zero. A better approach is to specify missing values as `numpy.nan`. Finally, another option is imputation, which can improve or degrate performance dependiing on the imputation method.
 
 
 

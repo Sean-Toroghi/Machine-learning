@@ -4,8 +4,59 @@ References
 - 
 
 # Overview
-XGBoost is an extension of gradient boosted decision trees, with the goal of improving its speed and performance. 
+eXtreme Gradient Boosting (XGBoost) is an extension of gradient boosted decision trees, with the goal of improving its speed and performance. Gradient boosting cosists of three components: 
+1. loss function: depending on the problem in hand, differnt loss function is used. However, modern frameworks benefit from an optimized generic loss function.
+2. weak learner: the regression trees that are used to produce real values. These real values then added together and the next tree tries to correct the residuals in the prediction. A greedy approach is used for constructing the trees, choosing the best split points based on the purity scocre (e.g. gini).
+3. additive model to add weak learners to minimize the loss: A functional gradient descent procedure is used to minimize the loss. The output of a tree is added to the output of previous trees, in an effort to correct or improve the final output of the model. Because of the greedy approach in constructing trees, model has a high tendency for overfitting. There are four main mechanisms implemented to mitigate overfitting
+   - tree construction: adding more trees, and put limit on trees' depth (4-8 levels), number of nodes or leaves,  min number of observation per split, and min improvement to loss are all options added to the algorithm to reduce risk of overfitting.
+   - shrinkage: The contribution of each tree to this sum can be weighted to slow down the learning by the algorithm. This weight is called shrinkage or learning rate.
+   - random sampling: at each iteration a subsample of the training data is drawn at random (without replacement) from the full training dataset. The randomly selected subsample is then used, instead of the full sample, to fit the base learner. A range of subsampling methods are available: subsample rows before creating each tree., subsample columns before creating each tree, or subsample  columns before considering each split.
+   - penalized learning: the leaf weight values of trees are regularized with L1 or L2 regularization method.
 
+Some features of XGBoost:
+- Algorithm features:
+  - handle missing values with sparse aware implementation
+  - support the parallelization of tree construction with block construction
+  - able to perform constinued training, to handle model update on new data
+- system features
+  - parallelization of tree construction using multi-thread during training
+  - distributed computing for large mdoel
+  - out-of-core computing for large dataset
+- mdoel features
+  - employ learning rate
+  - employ subsampling at three levels:  row, column and column per split
+  - employ regularization
+
+# Implementation - notes
+
+## Prepare data
+XGBoost inherently is an ensemble of regression trees, and requires numerical values as inputs. In case of categorical values, we need to transform them to numerical format. Also, for classification, if the classes are in string format, we need to encode them.
+
+__Classification: output encoding__
+
+In classification task, if the output has string format, we need to employ laber encoding to transform labels to numbers.
+```python
+from sklearn.preprocessing import LabelEncoder
+label_encoder = LabelEncoder()
+Y_encoded = label_encoder.fit_transform(Y)
+```
+
+__Categorical features__
+
+For the categorical features, we employ transformation to encode categorical to have a numerical representation. However, to avoid interpreting the numerical representation as ordinal, we employ `OneHotEncoder` instead. 
+```python
+from sklearn.preprocessing import OneHotEncoder
+onehot_encoder = OneHotEncoder(sparse=False)
+feature = onehot_encoder.fit_transform(feature)
+```
+
+__Missing values__
+
+
+
+
+---
+## Evaluation
 __Model evaluation_
 - Generally k-fold cross-validation is the gold-standard for evaluating the performance of a machine learning algorithm on unseen data with k set to 3, 5, or 10.
 - Use stratified cross-validation to enforce class distributions when there are a large number of classes or an imbalance in instances for each class.
@@ -14,8 +65,6 @@ __Model evaluation_
 ---
 
 __Performance metrics__
-
-
 
 XGBoost supports a range of performance metrics including ([Ref.](http://xgboost.readthedocs.io/en/latest/parameter.html):
 - rmse for root mean squared error.
@@ -27,6 +76,8 @@ XGBoost supports a range of performance metrics including ([Ref.](http://xgboost
 
 
 ---
+## Others
+
 - __save model__:
   - regular save: `pickle.dump(model, open("model_checkpoint.dat", "wb"))`
   - seriealized save with joblib: `joblib.dump(model, "model_checkpoint.dat")`
@@ -46,7 +97,7 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 
 ---
 
-# Hyper-parameters
+## Hyper-parameters
 
 ### References: Friedman J.H., 2001, Greedy Function Approximation: A Gradient Boosting Machine [link](http://luthuli.cs.uiuc.edu/~daf/courses/Opt-2017/Papers/2699986.pdf)
 Here is a summary of the suggestions for tuning by Freedman:

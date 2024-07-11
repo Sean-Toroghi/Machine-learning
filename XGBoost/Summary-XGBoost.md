@@ -1,6 +1,10 @@
 <h1>XGBoost</h1>
 
 References
+
+- [XG-boost homepage](https://xgboost.readthedocs.io/)
+- [XGBoost: A Scalable Tree Boosting System, 2016](http://goo.gl/aFfSef)
+- [Lsit of usefull resources](https://github.com/dmlc/xgboost/blob/master/demo/README.md)
 - 
 
 # Overview
@@ -29,6 +33,9 @@ Some features of XGBoost:
 
 # Implementation - notes
 
+## Sklearn implenetation
+XGBoost comes with different API, including its own API and sklearn API. The sklearnn API benefits from the functions avilable for sklearn, including: `fit` and `predict`, `train_test_split`, `cross_val_score`, `RandomizedSearchCV`, and `GridSearchCV`.
+
 ## Prepare data
 XGBoost inherently is an ensemble of regression trees, and requires numerical values as inputs. In case of categorical values, we need to transform them to numerical format. Also, for classification, if the classes are in string format, we need to encode them.
 
@@ -53,8 +60,57 @@ feature = onehot_encoder.fit_transform(feature)
 __Missing values__
 XGBoost automatically learn how to best handles missing values, due to the its design to work with sparse data [ref](https://arxiv.org/abs/1603.02754). However, the expected missing values for XGBosot is zero. A better approach is to specify missing values as `numpy.nan`. Finally, another option is imputation, which can improve or degrate performance dependiing on the imputation method.
 
+---
+__Templates__
 
+1. classification: Iris dataset - multiclass classification task
 
+   ```python
+   import pandas as pd
+   import numpy as np
+   from sklearn import datasets
+   iris = datasets.load_iris() # numpy array - trian and test sets
+   df = pd.DataFrame(data= np.c_[iris['data']
+      , iris['target']]
+      ,columns= iris['feature_names'] + ['target']) # concatenate train and test into single df
+
+   # split to train/test
+   from sklearn.model_selection import train_test_split
+   X_train, X_test, y_train, y_test = train_test_split(iris['data'], iris['target'], random_state=2)
+
+   # create classification model
+   from xgboost import XGBClassifier
+   from sklearn.metrics import accuracy_score # other scoring method for classification: AUC
+
+   # initialize model
+   xgb = XGBClassifier(
+      booster='gbtree' # set base learner
+      , objective='multi:softprob' #multi-class classification
+      , max_depth=6 # number of branches each tree has
+      , learning_rate=0.1 #limit the variance by reducing the weight of each tree to the given percentage
+      , n_estimators=100 # number of boosted trees in the model
+      , random_state=2
+      , n_jobs=-1
+      )
+   # train the model
+   xgb.fit(X_train, y_train)
+
+   # make prediction
+   y_pred = xgb.predict(X_test)
+
+   # evaluate model
+   score = accuracy_score(y_pred, y_test)
+   print(f"Accuracy: {round(score, 2)}")
+   
+
+   
+   ```
+   
+
+3. Regression
+
+   ```python
+   ```
 
 ---
 ## Evaluation
@@ -123,6 +179,7 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 Here is a summary of the suggestions for tuning by Freedman:
 
 __Tradeoff between number of trees and learning rate (1)__
+- In XGBoost new trees are created to correct the residual errors in the predictions from the existing trees and the weigth factors applies to this correction is called shrinkage factor or learning rate. 
 - There is a tradeoff between number of trees and learning rate.
 - Good practice: start with a  a large value for the number of trees, then tune the shrinkage parameter to achieve the best results. Studies in the paper preferred a shrinkage value of 0.1, a number of trees in the range 100 to 500 and the number of terminal nodes in a tree between 2 and 8.
 - Shrinkage parameter between $0<v<1$ controls the learning rate. A very small learning rate ($v \leq 0.1$) leads to a better generalization error.
@@ -174,6 +231,15 @@ __Terminal nodes__
 - tree size: grid search [4, 6, 8, 10]
 - min split gain (gamma) fixed with at 0.0
 
+
+### Effect of hyper-parameters
+- Number of trees (`n_estimator`) and size of each tree (`max_depth`) are related to each other as we need less larger trees or more shalow trees.
+- Picking a smaller learning rate (`learning_rate`) helps reduce the risk of overfitting. Smaller learning rates. generally, requires more trees. While the larger rating rate will result in reaching peak performance with less trees, the model performance is much worse than peaking a small rating rate and more trees.
+- Subsampling
+   - row subsampling `subsample`: it involves selecting a random sample of the training dataset without replacement. A good range is between 0.2-0.5
+   - column subsampling ` colsample bytree`:  it creates a random sample the features prior to creating each decision tree. After around 0.4, the performance plateaus, but it depends heavily on data.
+   - column subsampling ` colsample bylevel `: similar to random forest, here subsampling occurs at each split, instead of subsample once for each tree. After value around 0.3, the performance plateaus, but it depends heavily on data.
+   - 
 ---
 
 ## Tune hyperparameters

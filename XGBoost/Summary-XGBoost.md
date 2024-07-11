@@ -100,16 +100,36 @@ __Templates__
 
    # evaluate model
    score = accuracy_score(y_pred, y_test)
-   print(f"Accuracy: {round(score, 2)}")
-   
-
-   
+   print(f"Accuracy: {round(score, 2)}")  
    ```
    
 
-3. Regression
+3. Regression: diabetes dataset - regression task
 
    ```python
+   # dataset
+   X,y = datasets.load_diabetes(return_X_y=True)
+
+   # build model
+   from sklearn.model_selection import cross_val_score
+   from xgboost import XGBRegressor
+   xgb = XGBRegressor(
+      booster='gbtree'
+      , objective='reg:squarederror'
+      , max_depth=6
+      , learning_rate=0.1
+      , n_estimators=100
+      , random_state=2
+      , n_jobs=-1
+      )
+
+   # train and evaluate model: cross-validation
+   scores = cross_val_score(xgb, X, y, scoring='neg_mean_squared_error', cv=5)
+
+   # examine model performance
+   rmse = np.sqrt(-scores)
+   print('RMSE:', np.round(rmse, 3))
+   print('RMSE mean: %0.3f' % (rmse.mean()))
    ```
 
 ---

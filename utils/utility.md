@@ -11,3 +11,11 @@ np.array(cols)
 
 ```
 
+## replace header with column names and add the header as a row to the dataset
+```python
+original_cols = df.columns.tolist()
+df.columns = all_cols
+df_original_cols = pd.DataFrame([original_cols], columns=all_cols)
+df = pd.concat([df, df_original_cols], ignore_index=True)
+```
+

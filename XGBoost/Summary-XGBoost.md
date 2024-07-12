@@ -285,7 +285,27 @@ __List of important hyperparameters__
 
 ![B15551_06_02](https://github.com/user-attachments/assets/3c43485c-c09e-4d0d-a4a2-08631867bcb9)
 
+- `n_estimators`: number of trees trained on the residual in the ensemble. Increase this values for small dataste does not increase performance.
+- `learning_rate`: weight applies to the residual for the next tree. Lowering it helps to avoid overfitting. Default is 0.3, while for a large dataset increasing it could improve speed. This hyperparameter and `n_estimator` affect each other. 
+- `max_depth`: determines lenght (level) of each tree, and limiting it help to prevent overfitting (by reducing variance). A good range: `[1, 2, 3, 4, 5, 6, 7, 8]`
+- `gamma`: provides a threshold that nodes must surpass before making further splits according to the loss function. There is no limit to this hyperparameter, but any value above 10 is very high (defualt is 0).
+- `min_child_weight`: the minimum sum of weights required for a node to split into a child. If the sum of the weights is less than the value of min_child_weight, no further splits are made. Value range 1-5 is a good start point.
+- `subsample`: represents percentage of rows (training instances) for each boosting round (a good starting point is 0.8).
+- `colsample_bytree`: percentage of columns (features) picked randomly for each round (a good starting point 0.7).
+- `early_stopping_rounds`: early stopping is not a hyperparameter, but a strategy for optimizing the `n_estimator` parameter. It provides a limit to the number of rounds that iterative machine learning algorithms train on. It stops training after number of consecutive training rounds fail to improve the model.
+- `eval_set` and `eval_metric`: can be used as parameter for training (`.fit~) to generate test score for each training round. 
+   - `early_stopping_rounds`: an optional parameter to include with `eval_set` and `eval_metric`.
 
+__Strategy and tips for hyperparameter tuning__
+- one hyperparameter at a time:
+   - start with gridsearch and a range of parameters for `n_estimators: [2, 25, 50, 75, 100]`
+   - once get the optimum value for `n_estimators`, add  `max_depth` and use grid search again: `grid_search(params={'max_depth':[1, 2, 3, 4, 5, 6, 7, 8], 'n_estimators':[50]})`
+   - once get the optimum values for `n_estimators` and `max_depth`, use a grid search with tight range for both hyperparameters (for example, 2 and 50) to make sure we have overal optimum values: `grid_search(params={'max_depth':[1, 2, 3], 'n_estimators':[2, 50, 100]})`
+   - add `learning_rate` with grid search and optimum values for previous hyperparameters: `grid_search(params={'learning_rate':[0.01, 0.05, 0.1, 0.2, 0.3, 0.4, 0.5], 'max_depth':[1], 'n_estimators':[50]})`
+   - add `min_child_weight`: `grid_search(params={'min_child_weight':[1, 2, 3, 4, 5], 'max_depth':[1], 'n_estimators':[50], 'learning_rate': [0.2]})`
+   - add `subsample`: the same procedure
+   - follow the same procedure for the rest of the hyperparameters: `colsample_bylevel`, `colsample_bynode`, `gamma`, ...
+   - Employ `RandomizedSearchCV` with tight range for all optimum values dicovered for all hyperparameters to get the best combination, while optimizing for speed.
 
 
 ---
@@ -357,5 +377,7 @@ __Terminal nodes__
    - 
 ---
 
-## Tune hyperparameters
+## Better results by using different base-learners
+
+
 -

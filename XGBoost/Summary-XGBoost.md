@@ -61,7 +61,10 @@ __Missing values__
 XGBoost automatically learn how to best handles missing values, due to the its design to work with sparse data [ref](https://arxiv.org/abs/1603.02754). However, the expected missing values for XGBosot is zero. A better approach is to specify missing values as `numpy.nan`. Finally, another option is imputation, which can improve or degrate performance dependiing on the imputation method.
 
 ---
-__Templates__
+
+
+---
+__Templates - sklearn__
 
 1. classification: Iris dataset - multiclass classification task
 
@@ -132,6 +135,89 @@ __Templates__
    print('RMSE mean: %0.3f' % (rmse.mean()))
    ```
 
+   Cross-Validation approach
+   ```python
+   from sklearn.model_selection import cross_val_score
+
+   # model
+   model = XGBClassifier(
+      booster='gbtree' # base learner: gradient boosted tree
+      , objective='binary:logistic'
+      , random_state=2
+      )
+
+   # train and evaluate
+   scores = cross_val_score(model, X, y, cv=5)
+   print('Accuracy:', np.round(scores, 2))
+   print('Accuracy mean: %0.2f' % (scores.mean()))
+   ```
+
+   Stratified cross validation to maintain same percentage of target values in each fold:
+   ```python
+   from sklearn.model_selection import StratifiedKFold
+
+   kfold = StratifiedKFold(
+      n_splits=5
+      , shuffle=True
+      , random_state=2
+      )
+
+   # train and evaluate model
+   scores = cross_val_score(model, X, y, cv=kfold)
+   print('Accuracy:', np.round(scores, 2))
+   print('Accuracy mean: %0.2f' % (scores.mean()))
+   ```
+
+   Employ GreedSearch / RandomizedSearchCV for hyperparameter tuning
+
+   ```python
+   from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+
+   # initialize
+   xgb = XGBClassifier(booster='gbtree', objective='binary:logistic', random_state=2)
+
+   # train and evaluate
+   def train_xgb(random = True):
+      if random:
+         grid = RandomizedSearchCV(xgb, params, cv=kfold, n_iter=20, n_jobs=-1)
+      else:
+         grid = GridSearchCV(xgb, params, cv=kfold, n_jobs=-1)
+      return grid
+      
+   # train
+   grid.fit(X, y)
+   
+   # get best values for hyper parameters
+   best_params = grid.best_params_
+   print("Best params:", best_params)
+
+   # Model score
+   best_score = grid.best_score_
+   print("Training score: {:.3f}".format(best_score))
+   ```
+
+__Template: XGBost API__
+- classification - Higgs dataset - binary classification task
+  ```python
+  # create model - use DMatrix to convert dataframe
+  import xgboost as xgb
+  xgb_clf = xgb.DMatrix( 
+                        X
+                       , y
+                       , missing=-999.0 # missining values in dataset are defined as -999.0
+                       , weight=df['test_Weight']) # for imbalance label, compute weights and assign it
+  # define parameters
+  param = {
+     'objective': 'binary:logitraw' # binary classification
+     ,'scale_pos_weight': scale_pos_weight # scale imbalance labels
+     ,'eta': 0.1 # learning rate
+     ,'max_depth': 6
+     ,'eval_metric': 'auc
+     }
+  # train
+  xgb_clf.train(**param)
+  ```
+
 ---
 ## Evaluation
 __Model evaluation__
@@ -194,6 +280,15 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 ---
 
 ## Hyper-parameters
+
+__List of important hyperparameters__
+
+![B15551_06_02](https://github.com/user-attachments/assets/3c43485c-c09e-4d0d-a4a2-08631867bcb9)
+
+
+
+
+---
 
 ### References: Friedman J.H., 2001, Greedy Function Approximation: A Gradient Boosting Machine [link](http://luthuli.cs.uiuc.edu/~daf/courses/Opt-2017/Papers/2699986.pdf)
 Here is a summary of the suggestions for tuning by Freedman:

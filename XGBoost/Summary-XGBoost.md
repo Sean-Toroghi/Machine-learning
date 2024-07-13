@@ -378,6 +378,65 @@ __Terminal nodes__
 ---
 
 ## Better results by using different base-learners
+The base learner is the machine learning model that XGBoost uses to build the first model in its ensemble.
+
+__gbtree__
+The default base learner is `gbtree`. 
+
+__gblinear__
+A linear gradient boosted model ideal for a case in which there is a linear relashionship btw dep and ind variables. It has linear regularization implemented term, and could be used for both classification and regression tasks. 
+
+Example: XGBRegressor with linear learner
+```python
+def grid_search(params, reg=XGBRegressor(booster='gblinear')):
+    grid_reg = GridSearchCV(reg, params, scoring='neg_mean_squared_error', cv=kfold)
+    grid_reg.fit(X, y)
+    best_params = grid_reg.best_params_
+    print("Best params:", best_params)
+    best_score = np.sqrt(-grid_reg.best_score_)
+```
+
+__DART__ add dropout techniques to the model, by selecting random sample of previous trees and normalize the leaves by scaling factor computed as ratio of the number of trees dropped. This techniques helps to avoid overfitting. Using this learner requires to set an additional set of hyperparameters to accomodate dropouts. 
+
+Example: XGBRegressor with DART
+```python
+def regression_model(model):
+    scores = cross_val_score(model, X, y, scoring='neg_mean_squared_error', cv=kfold)
+    rmse = (-scores)**0.5
+    return rmse.mean()
+
+
+regression_model(XGBRegressor(booster='dart', objective='reg:squarederror'))
+```
+
+Example: XGBClassifier with DART
+```python
+def classification_model(model):
+    scores = cross_val_score(model, X_census, y_census, scoring='accuracy', cv=kfold)
+    return scores.mean()
+classification_model(XGBClassifier(booster='dart'))
+```
+
+Hyperparameters
+- `sample_type`: Default: "uniform", Range: ["uniform", "weighted"], and Determines how dropped trees are selected
+- `normalize_type`: Default: "tree", Range: ["tree", "forest"], Calculates weights of trees in terms of dropped trees
+- `rate_drop`: Default: 0.0, Range: [0.0, 1.0], Percentage of trees that are dropped
+- `one_drop`: Default: 0, Range: [0, 1], Used to ensure drops
+- `skip_drop`: Default: 0.0, Range: [0.0, 1.0], Probability of skipping the dropout
+- 
+
+__RandomForest__: There are two strategies to implement random-forest within XGBoost. 
+1. use random-forest as base learnerby setting `num_parallel_trees` to a value larger than 1, we will have random-forest as learner in the XGBoost model. NOTE that this method is at experimental stage.
+   Hyperparameter: `num_parallel_trees`: Default: 1, Range: [1, inf), Gives number of trees boosted in parallel
+2. use XGBoost original randomforests [ref](https://xgboost.readthedocs.io/en/latest/tutorials/rf.html) - as of 2024, the sklearn wrapper for this approach is in experimenal phase.
+
+
+---
+
+## Tips and tricks for better model
+
+
+
 
 
 -

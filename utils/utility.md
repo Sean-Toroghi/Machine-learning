@@ -1,3 +1,24 @@
+# Machine learning
+
+## Feature engineering
+
+### Categorical features
+- _convert to numerical values_ via `pd.get_dummies` or `sklearn.preprocessing.OneHotEncoder`
+- _Frequency of each class_: convert categorical columns into their frequencies, which equates to the percentage of times each category appears within the given column.
+  ```python
+  df['cat_freq'] = df.groupby('categorical_feature')['categorical_feature'].transform('count') 
+  df['cat_freq'] = df['cat_freq']/len(df)
+  ```
+- _Mean encoding (also called target encoding)_: transforms categorical columns into numerical columns based on the mean target variable. To avoid data leakage, we need to apply a regularization technique after the transformation.
+  ```python
+  from category_encoders.target_encoder import TargetEncoder
+  encoder =  TargetEncoder()
+  df['categorical_mean_encoded'] = encoder.fit_transform(df['categogircal_feature'], df['target'])
+  ```
+- 
+
+
+# coding 
 ## print all elements in a list
 ```python
 # option 1

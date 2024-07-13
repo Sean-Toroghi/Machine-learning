@@ -23,6 +23,9 @@ If employ tree-based model, employ method such as `.feature_importances_`, could
 
 One approach to achive a high performance outcome, is to ensemble models. However, it does not mean to include all models, but those that are not correlated. In the case of ensemble models, adding highly correlated models does not benefit the overal performance (as they all predict the same values with small variance). One approach is to employ _majority rules_ for getting the final results.
 
+
+__Example: ensemble models for a classifciation task__
+
 To perform correlation test on predictions, we first concatenate the results of all models, and then run `.corr` method to obtain correlations. 
 ```python
 def y_pred(model):
@@ -69,7 +72,38 @@ print(scores.mean())
 Note that while correlation provides a valuable information, it does not tell the whole story! 
 
 ### Stacking models
-Stacking combines machine learning models at two different levels: the base level, whose models make predictions on all the data, and the meta level, which takes the predictions of the base models as input and uses them to generate final predictions.
+Stacking combines machine learning models at two different levels: the base level, whose models make predictions on all the data, and the meta level, which takes the predictions of the base models as input and uses them to generate final predictions. In most cases, the meta-model is simple model such as linear regression or logistic-regression. 
+
+Example - stacking approach for a classification task
+```python
+# create base models
+base_models = []
+base_models.append(('lr', LogisticRegression()))
+base_models.append(('xgb', XGBClassifier()))
+base_models.append(('rf', RandomForestClassifier(random_state=2)))
+
+# meta-model
+meta_model = LogisticRegression()
+
+# define stacking classifier
+clf = StackingClassifier(estimators=base_models, final_estimator=meta_model)
+
+# evalute model
+scores = cross_val_score(clf, X, y, cv=kfold)
+print(scores.mean())
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---

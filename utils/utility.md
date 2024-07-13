@@ -1,6 +1,8 @@
 # Machine learning
 
 ## Feature engineering
+If employ tree-based model, employ method such as `.feature_importances_`, could verify which features (created or existed int he dataset) are more significant.
+
 
 ### Categorical features
 - _convert to numerical values_ via `pd.get_dummies` or `sklearn.preprocessing.OneHotEncoder`
@@ -9,14 +11,69 @@
   df['cat_freq'] = df.groupby('categorical_feature')['categorical_feature'].transform('count') 
   df['cat_freq'] = df['cat_freq']/len(df)
   ```
-- _Mean encoding (also called target encoding)_: transforms categorical columns into numerical columns based on the mean target variable. To avoid data leakage, we need to apply a regularization technique after the transformation.
+- _Mean encoding (also called target encoding)_: transforms categorical columns into numerical columns based on the mean target variable. To avoid data leakage, we need to apply a regularization technique after the transformation. [Ref.](https://www.kaggle.com/vprokopev/mean-likelihood-encodings-a-comprehensive-study)
   ```python
   from category_encoders.target_encoder import TargetEncoder
   encoder =  TargetEncoder()
   df['categorical_mean_encoded'] = encoder.fit_transform(df['categogircal_feature'], df['target'])
   ```
-- 
+## Model building
 
+### Ensemble models
+
+One approach to achive a high performance outcome, is to ensemble models. However, it does not mean to include all models, but those that are not correlated. In the case of ensemble models, adding highly correlated models does not benefit the overal performance (as they all predict the same values with small variance). One approach is to employ _majority rules_ for getting the final results.
+
+To perform correlation test on predictions, we first concatenate the results of all models, and then run `.corr` method to obtain correlations. 
+```python
+def y_pred(model):
+  '''return prediction score (accuracy) for the input model'''
+  model.fit(X_train, y_train)
+  y_pred = model.predict(X_test)
+  score = accuracy_score(y_pred, y_test)
+  print(score)
+  return y_pred
+
+# prepare dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=2)
+
+# get accuracy score for a range of models
+y_pred_gbtree = y_pred(XGBClassifier())
+y_pred_dart = y_pred(XGBClassifier(booster='dart', one_drop=True))
+y_pred_forest = y_pred(RandomForestClassifier())
+y_pred_logistic = y_pred(LogisticRegression(max_iter=10000))
+y_pred_xgb = y_pred(XGBClassifier(max_depth=2, n_estimators=500, learning_rate=0.1))
+
+# concatenate results
+df_pred = pd.DataFrame(data= np.c_[y_pred_gbtree, y_pred_dart, y_pred_forest, y_pred_logistic, y_pred_xgb], columns=['gbtree', 'dart','forest', 'logistic', 'xgb'])
+
+# Compute correlation between results
+df_pred.corr()
+```
+The second step is to implement majority voting (`VotingClassifier` or `VotingRegressor`)
+```python
+# create models
+estimators = []
+logistic_model = LogisticRegression(max_iter=10000)
+xgb_model = XGBClassifier(max_depth=2, n_estimators=500, learning_rate=0.1)
+estimators.append(('xgb', xgb_model))
+rf_model = RandomForestClassifier(random_state=2)
+estimators.append(('rf', rf_model))
+
+# apply majority voting
+ensemble = VotingClassifier(estimators)
+# evaluate ensemble model
+scores = cross_val_score(ensemble, X, y, cv=kfold)
+print(scores.mean())
+```
+
+Note that while correlation provides a valuable information, it does not tell the whole story! 
+
+### Stacking models
+Stacking combines machine learning models at two different levels: the base level, whose models make predictions on all the data, and the meta level, which takes the predictions of the base models as input and uses them to generate final predictions.
+
+
+---
+---
 
 # coding 
 ## print all elements in a list

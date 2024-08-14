@@ -1,4 +1,25 @@
-# Machine learning
+<h1>Utility functions and codes for machine learning</h1> 
+
+This depository consists of two resources:
+1. a set of utility codes
+2. summary and code examples of some of the concepts in machine learning for quick referencing 
+
+__Table of contents__
+
+List of utility codes
+- SMOOTE
+- 
+
+[Summary and code examples](#code)
+- Feature engineering
+- Model building
+- Other coding 
+
+
+
+---
+
+# <a ref = 'code'>Summary and code examples</a>
 
 ## Feature engineering
 If employ tree-based model, employ method such as `.feature_importances_`, could verify which features (created or existed int he dataset) are more significant.

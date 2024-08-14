@@ -7,7 +7,7 @@ This depository consists of two resources:
 __Table of contents__
 
 List of utility codes
-- SMOTE: mitigate imbalanced dataset via oversample-SMOTE
+- [SMOTE](https://github.com/Sean-Toroghi/Machine-learning/blob/main/utils/smote.py): mitigate imbalanced dataset via oversample-SMOTE
 - preprocessing: split univariate seq into samples for supervised learning - For a simple MLP model
 
 [Summary and code examples](#code)

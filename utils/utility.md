@@ -1,16 +1,14 @@
 <h1>Utility functions and codes for machine learning</h1> 
 
-This depository consists of two resources:
-1. a set of utility codes
-2. summary and code examples of some of the concepts in machine learning for quick referencing 
+This depository consists of two resources: 1. a set of utility codes, and 2. summary and code examples of some of the concepts in machine learning for quick referencing.
 
-__Table of contents__
+## Table of contents
 
-List of utility codes
+__List of utility codes__
 - [SMOTE](https://github.com/Sean-Toroghi/Machine-learning/blob/main/utils/src/smote.py): mitigate imbalanced dataset via oversample-SMOTE
 - [preprocessing](https://github.com/Sean-Toroghi/Machine-learning/blob/main/utils/src/preprocessing.py): split univariate seq into samples for supervised learning - For a simple MLP model
 
-[Summary and code examples](#code)
+__[Summary and code examples](#code)__
 - Feature engineering
 - Model building
 - Other coding 

@@ -7,8 +7,8 @@ This depository consists of two resources:
 __Table of contents__
 
 List of utility codes
-- SMOOTE
-- Seq-preprocessing: split univariate seq into samples for supervised learning - For a simple MLP model
+- SMOTE: mitigate imbalanced dataset via oversample-SMOTE
+- preprocessing: split univariate seq into samples for supervised learning - For a simple MLP model
 
 [Summary and code examples](#code)
 - Feature engineering

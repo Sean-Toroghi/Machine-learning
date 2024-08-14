@@ -8,7 +8,7 @@ __Table of contents__
 
 List of utility codes
 - SMOOTE
-- 
+- Seq-preprocessing: split univariate seq into samples for supervised learning - For a simple MLP model
 
 [Summary and code examples](#code)
 - Feature engineering
@@ -19,7 +19,7 @@ List of utility codes
 
 ---
 
-# <a ref = 'code'>Summary and code examples</a>
+# <a id= 'code'>Summary and code examples</a>
 
 ## Feature engineering
 If employ tree-based model, employ method such as `.feature_importances_`, could verify which features (created or existed int he dataset) are more significant.

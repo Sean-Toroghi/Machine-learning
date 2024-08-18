@@ -283,11 +283,26 @@ __Parameter optimization (parameter tuning)__
 
 --- 
 ## Parameter optimization
-All ensemble tree-based models require to have a rigorous fine-tuning to find the optimal hyperparameters. Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
+All ensemble tree-based models require to have a rigorous fine-tuning to find the optimal hyperparameters. The hyperparameters significantly impact the algorithm’s performance and generalization capability. The optimal parameters are also specific to the model used and the learning problem being solved. As the result, the first step after building a LightGBM model is to optimize its hyperparameters. What makes this a complex task is threefolds: 
+- cost associate with performing try and error approach is high. For each setup, we need to run the model to evalute the effect of the chosen hyper-parameters on its performance.
+- high-dimension search space make it impossible to test every values for hyperparameters, provided each can take a range of vlaues.
+- parameter interaction with each other, which makes it impossible to test the effect of a hyper-parameter in an isolated environment.
 
-### Optuna
+### Visualization aid to investigate interaction between hyperparametr
+__Parallel coordiation plot__ is a visualizaton aid that can be used to investigate effect of hyper-parameters on each other and on the model performance. It is very useful to visualize the result of hyper-parameter optimization task and pinpoint which hyperparameter values or combinations are most conducive to optimal model performance.
 
-[Ref.](https://optuna.org/)
+Each dimension (in this context, a hyperparameter) is portrayed as a vertical axis arranged in parallel. The range of each axis mirrors the range of values that the hyperparameter can assume. Every individual configuration of hyperparameters is depicted as a line crossing all these axes, with the intersection point on each axis indicating the value of that hyperparameter for the given configuration.
+
+
+There are three approaches for hyper-parameter optimization: manual, bruteforce and optimized approach. 
+-  With manual optimization, a human practitioner selects parameters based on intuitive understanding and experience. A model is trained with these parameters, and the process is repeated until satisfactory parameters are found. Manual optimization is simple to implement but is very time-consuming due to the human-in-the-loop nature of the process. Human intuition is also fallible, and good parameter combinations can easily be missed.
+-  The brute-force approach exhaustively tested each possible combination to find the optimal values. _Grid search_ can be used to perform this approach. With grid search a range of values for each hyperparameter is given to the algorithm and it checks every combination. The downside for this appraoch is its cost.
+-  Auomated and optimized approach employs a set of algorithm to find the best combination of hyper-parameters efficiently. 
+
+Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
+
+### Optuna [Link](https://optuna.org/)
+ Optuna is one of the optimization algorithm that finds the best set of hyper-parameters for a LightGBM model. 
 
 Optuna provides optimization and pruning in efficient manner [ref](https://github.com/optuna/optuna/wiki/Benchmarks-with-Kurobako).
 

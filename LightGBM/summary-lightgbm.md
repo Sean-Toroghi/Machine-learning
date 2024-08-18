@@ -302,7 +302,11 @@ There are three approaches for hyper-parameter optimization: manual, bruteforce 
 Several frameworks are proposed for this purpose: grid search, SHERPA, Hyperopt, Talos, and other.
 
 ### Optuna [Link](https://optuna.org/)
- Optuna is one of the optimization algorithm that finds the best set of hyper-parameters for a LightGBM model. 
+ Optuna is a hyperparameter optimizaton framework of the optimization algorithm that finds the best set of hyper-parameters for a machine learning model. Some of the Optuna features are:
+ - efficient optimization alogrithm to search hyperparameter space
+ - pruning strategy that elimiates inefficient hyperparameters
+ - capable of getting parameter type as input (int, float, or categorical)
+ - visualization feature for the results
 
 Optuna provides optimization and pruning in efficient manner [ref](https://github.com/optuna/optuna/wiki/Benchmarks-with-Kurobako).
 
@@ -312,7 +316,7 @@ __Optimization__
 The optimization part of optuna is done via a range of algorithms among which are: tree-structured Parzen estimator (TPE), and covariance matrix adaptation evolution strategy (CMA-ES) algorithm.
 
 - TPE: it uses kernel density estimator (a technique to estimate the prob. distribution of a set of data points, which is non-parametric) to compute the likelihood of a set of parameters being good or bad. It first samples a few random combinations of parameters. Then it divides them into two groups: good and bad. Finally, TPE estimates the probability distributions of hyperparameter combinations for both good and bad groups using the Parzen estimator technique.
-- CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. IT is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
+- CMA-ES: is used in the case in which we have continuous variables and when the search space is non-linear and non-convex. It is an example of evolutionary algorithm (EA), which aims to find the best solution to a problem by mimicking how nature evolves species through selection, reproduction, mutation, and inheritance. This method is well perform when we have a complex and non-linear search space or the evaluation of the validation is noisy such as when the metric is an inconsistent performance indicator.
 
   The starting point is a population of candidates. Then it modifies the candidates with each subsequent generation to adapt more closely to the best solution. CMA-ES applies the evolutionary principles as follows:
   - Within the hyperparameter search space, initialize the mean and the covariance matrix.
@@ -330,9 +334,9 @@ The main differences between TPE and CMA-ES lie in their overall approach. TPE i
 __Pruning__
 
 Optuna also provides pruning strategy to avoid spending time on unpromising trails. Pruning occurs synchronously with the model training process: the validation error is checked during training, and the training is stopped if the algorithm is underperforming. In this way, pruning is similar to early stopping.
-- Median pruning
-- Successive halving
-- Hyperband
+- Median pruning: each trial reports an intermediate result after n steps. The median of the intermediate results is then taken, and any trials below the median of previous trials at the same step are stopped.
+- Successive halving: takes a more global approach and assigns a small, equal budget of training steps to all trials. Successive halving then proceeds iteratively: at each iteration, the performance of each trial is evaluated, and the top half of the candidates are selected for the next round, with the bottom half pruned away. The training budget is doubled for the next iteration, and the process is repeated. This way, the optimization budget is spent on the most promising candidates. As a result, a small optimization budget is spent on eliminating the underperforming candidates, and more resources are spent on finding the best parameters.
+- Hyperband: extends successive halving by incorporating random search and a multi-bracket resource allocation strategy. It uses a multi-bracket resource allocation strategy, which divides the total computational budget into several brackets, each representing a different level of resource allocation. Within each bracket, successive halving is applied to iteratively eliminate underperforming configurations and allocate more resources to the remaining promising ones. At the beginning of each bracket, a new set of hyperparameter configurations is sampled using random search, which allows Hyperband to explore the hyperparameter space more broadly and reduce the risk of missing good configurations. This concurrent process enables Hyperband to adaptively balance exploration and exploitation in the search process, ultimately leading to more efficient and effective hyperparameter tuning.
 
 __Implementing optuna__
 

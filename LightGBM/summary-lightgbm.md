@@ -338,16 +338,173 @@ Optuna also provides pruning strategy to avoid spending time on unpromising trai
 - Successive halving: takes a more global approach and assigns a small, equal budget of training steps to all trials. Successive halving then proceeds iteratively: at each iteration, the performance of each trial is evaluated, and the top half of the candidates are selected for the next round, with the bottom half pruned away. The training budget is doubled for the next iteration, and the process is repeated. This way, the optimization budget is spent on the most promising candidates. As a result, a small optimization budget is spent on eliminating the underperforming candidates, and more resources are spent on finding the best parameters.
 - Hyperband: extends successive halving by incorporating random search and a multi-bracket resource allocation strategy. It uses a multi-bracket resource allocation strategy, which divides the total computational budget into several brackets, each representing a different level of resource allocation. Within each bracket, successive halving is applied to iteratively eliminate underperforming configurations and allocate more resources to the remaining promising ones. At the beginning of each bracket, a new set of hyperparameter configurations is sampled using random search, which allows Hyperband to explore the hyperparameter space more broadly and reduce the risk of missing good configurations. This concurrent process enables Hyperband to adaptively balance exploration and exploitation in the search process, ultimately leading to more efficient and effective hyperparameter tuning.
 
-__Implementing optuna__
 
-- we need to define a set of objectives for a study.
+
+
+
+
+__Implementing optuna for optimizing LightGBM hyperparameters__
+
+- we need to define a set of objective/s for a study. Optuna passes a trial object to the objective function, which we can use to set up the parameters for the specific trial.
 - We can save the study at different stages, and continue running the study from the saved point.
-- A study could have single or multiple objectives. An example for single objective is to minimize f1=score. An example for multi-objective optimization is to minimize f1-score while having the highest learning rate (faster training).
+- A study could have single or multiple objectives. An example for single objective is to minimize f1-score. An example for multi-objective optimization is to minimize f1-score while having the highest learning rate (faster training).
 - There are several visualization options to examine the result of the optimization:
   - Pareto front
   - Parallel coordinate plot
   - Parameter importance and plot it
+ 
+__Define hyperparameter range__
 
+Int he following example, all three types of hyperparameter are shown:
+1. categorical: `trial.suggest_categorical('<name of hyperparameter>', '<list of parameters>')`
+2. int: `trial.suggest_int('<name of hyperparameter>', low= ,high=, step=, log=)`
+3. float: `trial.suggest_float('<name of hyperparameter>',  low=, high= , step=, log=)`
+
+__Log scaling for numeric hyperparameters__
+
+Numeric parameters (int and float) can have the option to log scale the range of possible values. Log scaling the parameter range has the effect that more values are tested close to the range’s lower bound and (logarithmically) fewer values towards the upper bound. Log scaling is particularly well suited to the learning rate where we want to focus on smaller values and exponentially increase tested values until the upper bound.
+
+__Example__
+```python
+def objective(trial):
+  boosting_type = trial.suggest_categorical("boosting_type", ["dart", "gbdt"])
+  lambda_l1= trial.suggest_float('lambda_l1', 1e-8, 10.0, log=True),
+  min_child_samples= trial.suggest_int('min_child_samples', 5, 100),
+  learning_rate = trial.suggest_float("learning_rate", 0.0001, 0.5, log=True),
+  ...
+```
+
+__Apply pruning__
+
+To apply pruning, we need to define callback and integrate it with the optimization. We need to specify the error metric (for example `binary`) in the call back:
+`pruning_callback = optuna.integration.LightGBMPruningCallback(trial, "binary")`
+
+
+__Define the model__
+
+We define the model in a standard fashion, and pass callback and hyperparameters to it. 
+
+Example:
+```python
+model = lgb.LGBMClassifier(
+    force_row_wise=True,
+    boosting_type=boosting_type,
+    n_estimators=n_estimators,
+    lambda_l1=lambda_l1,
+    lambda_l2=lambda_l2,
+    num_leaves=num_leaves,
+    feature_fraction=feature_fraction,
+    bagging_fraction=bagging_fraction,
+    bagging_freq=bagging_freq,
+    min_child_samples=min_child_samples,
+    learning_rate=learning_rate,
+    max_bin=max_bin,
+    callbacks=[pruning_callback],
+    verbose=-1)
+```
+
+__Trian the model__
+
+Training the model follwos the standard process.
+
+__Employ ptimization__
+
+To run the optimization with objective function that was defined previously, we need to initialize sampler, pruner, and study. Then call optimize with our objective function: 
+```python
+sampler = optuna.samplers.TPESampler()
+pruner = optuna.pruners.HyperbandPruner(
+    min_resource=10, max_resource=400, reduction_factor=3)
+study = optuna.create_study(
+    direction='maximize', sampler=sampler,
+    pruner=pruner
+)
+study.optimize(objective(), n_trials=100, gc_after_trial=True, n_jobs=-1)
+```
+
+In the above code, TPE is employed as sampler. The minimum and maximum resources specified for the Hyperband pruner control the minimum and the maximum number of iterations (or estimators) trained per trial. When applying pruning, the reduction factor controls how many trials are promoted in each halving round. The study is created by specifying the optimization direction (maximize or minimize).  In the above code, becasue the objective is _F1-Score_, the direction is maximize. `gc_after_trial` performs `gc.collect()` after each trial.
+
+To get the best trial and parameters we can run this code: `print(study.best_trial)`
+
+
+
+### saving and resuming an optimization study
+Optuna provides two methods for saving and resuming an optimization study: 1.in memory and 2. using a remote database (RDB). When a study is run in memory, the standard Python methods for serializing an object such as joblib or pickle can be used:
+- ```python
+    joblib.dump(study, "lgbm-optuna-study.pkl")
+  ```
+
+- ```python
+  study = joblib.load("lgbm-optuna-study.pkl")
+  study.optimize(objective(), n_trials=20, gc_after_trial=True, n_jobs=-1)
+  ```
+
+RDB is an alternative approach for saving optimization study, in which the study’s intermediate (trial) and final results are persisted in a SQL database backend. The RDB can be hosted on a separate machine. Any of the SQL databases supported by SQL Alchemy may be used. 
+
+__Example: saving a study using SQLite__
+```python
+study_name = "lgbm-tpe-rdb-study"
+storage_name = f"sqlite:///{study_name}.db"
+study = optuna.create_study(
+    study_name=study_name,
+    storage=storage_name,
+    load_if_exists=False,
+    sampler=sampler,
+    pruner=pruner)
+```
+
+__Example: loading a study__
+```python
+study = optuna.create_study(study_name=study_name, storage=storage_name, load_if_exists=True)
+```
+
+### Visualization aid in Otuna
+Optuna provides several visualization aids, among which is hyperparameter importance. It is a helpful tool for investigating hyperparameters and perhaps eliminating less important ones, or put more emphasize and resources for optimizing the more important ones. 
+```python
+fig = optuna.visualization.plot_param_importances(study)
+fig.show()
+```
+
+Also we can employ parallel coordinate plot to visualize the interaction between parameters that are more important:
+```python
+fig = optuna.visualization.plot_parallel_coordinate(study, params=["boosting_type", "feature_fraction", "learning_rate", "n_estimators"])
+```
+
+### Multi-objective optimization
+Optuna has the option for performing multi-objective optimization. We can defne several objectives, such as _F1-score_ (largest) and _number of leaves_ (smallest), with Optuna. We first need to define th emulti-objective function, and then perform the training. 
+```python
+def moo_objective(trial):
+    learning_rate = trial.suggest_float("learning_rate", 0.0001, 0.5, log=True),
+    model = lgb.LGBMClassifier(
+        force_row_wise=True,
+        boosting_type='gbdt',
+        n_estimators=200,
+        num_leaves=6,
+        bagging_freq=7,
+        learning_rate=learning_rate,
+        max_bin=320,
+    )
+    scores = cross_val_score(model, X, y, scoring="f1_macro")
+    return learning_rate[0], scores.mean()
+
+# set the firection for both objectives during th etrianing phase:
+study = optuna.create_study(directions=["maximize", "maximize"])
+study.optimize(moo_objective, n_trials=100)
+```
+
+__Visualize the resutls__
+
+To visualize the trade-off between two objectives, we can employ Pareto Front plot. 
+
+
+
+
+
+
+
+
+
+
+  
 ---
 # GPU-based and distributed learning with LightGBM
 

@@ -59,8 +59,8 @@ CMA-ES
 ### Pruning strategies
 Pruning occurs
 synchronously with the model training process: the validation error is checked during training, and the training is stopped if the algorithm is underperforming. In this way, pruning is similar to early stopping. Some of the pruning methods in optuna are:
-- Median pruning: each trial reports an intermediate result after $n$ steps. The median of the intermediate results is then taken, and any trials below the median of previous trials at the same step are stopped.
-- Successive halving: takes a more global approach and assigns a small, equal budget of training steps to all trials. Successive halving then proceeds iteratively: at each iteration, the performance of each trial is evaluated, and the top half of the candidates are selected for the next round, with the bottom half pruned away. The training budget is doubled for the next iteration, and the process is repeated.
+- __Median pruning__: each trial reports an intermediate result after $n$ steps. The median of the intermediate results is then taken, and any trials below the median of previous trials at the same step are stopped.
+- __Successive halving__: takes a more global approach and assigns a small, equal budget of training steps to all trials. Successive halving then proceeds iteratively: at each iteration, the performance of each trial is evaluated, and the top half of the candidates are selected for the next round, with the bottom half pruned away. The training budget is doubled for the next iteration, and the process is repeated.
 
   Thos method relies on a fixed initial set of configurations and a single resource allocation scheme.
   

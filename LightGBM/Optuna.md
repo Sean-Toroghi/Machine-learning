@@ -111,9 +111,51 @@ __3. Final step is to define samplers (TPE or CMA-ES), pruner, study, and call o
 __4. to get results__ we need to call `study.best_trial`.
 
 ### Saving and resuming optimization
+Optimizing hps may take a long time. Saving optimization study and resuming it later is done in two ways: 
+1. in memory, with standard python methods for serializung object, such as `joblib` or `pickle`. Example: `joblib.dump(study, "lgbm-optuna-study.pkl")`
 
+  To restore and continue the optimization, we can then load the saved study and continue the optimization. Example:
+  ```python
+  study = joblib.load("lgbm-optuna-study.pkl")
+  study.optimize(objective(), n_trials=20, gc_after_trial=True, n_jobs=-1)
+  ```
+2. using remote database: When using an RDB, the study’s intermediate (trial) and final results are persisted in a SQL database backend. The RDB can be hosted on a separate machine. Any of the SQL databases supported by SQL Alchemy may be used.
+
+  Example:
+  ```python
+  # SQLite as an RDB
+  study_name = "lgbm-tpe-rdb-study"
+  storage_name = f"sqlite:///{study_name}.db"
+  study = optuna.create_study(
+                              study_name=study_name,
+                              storage=storage_name,
+                              load_if_exists=False,
+                              sampler=sampler,
+                              pruner=pruner)
+```
+To restore the optimization, we need to specify the same storage ad set `load_if_exist = True`:
+
+```python
+study = optuna.create_study(study_name=study_name,
+storage=storage_name, load_if_exists=True)
+```
 
 ### Analyze results: parameter effects
+After the initial round of optimization, analyszing the results helps to identify those paramters that have more effect on the model performance. For the next round of optimization, we can then perform optimization of those parameters with smaller granuality. 
+
+A strightforward visualization technique is employing built-in visualization feature of optuna. Example:
+```python
+# visuaalize the parameter importance as barchart
+fig = optuna.visualization.plot_param_importances(study)
+fig.show()
+```
+Another approach is employing parallel coordinate plot. This approach requires to specify which parameters we would like the plot to contain. Example:
+
+```python
+fig = optuna.visualization.plot_parallel_coordinate(study, params=
+["boosting_type", "feature_fraction", "learning_rate", "n_estimators"])
+fig.show()
+```
 
 ## Multi-object optimization
 

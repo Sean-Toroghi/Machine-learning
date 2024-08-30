@@ -64,7 +64,23 @@ synchronously with the model training process: the validation error is checked d
 
   Thos method relies on a fixed initial set of configurations and a single resource allocation scheme.
   
-- Hyperband:  extends successive halving by incorporating random search and a multi-bracket resource allocation strategy
+- Hyperband:  extends successive halving by incorporating random search and a multi-bracket resource allocation strategy. It  uses a multi-bracket resource allocation strategy, which divides the total computational budget into several brackets, each representing a different level of resource allocation. Within each bracket, successive halving is applied to iteratively eliminate underperforming configurations and allocate more resources to the remaining promising ones. At the beginning of each bracket, a new set of hyperparameter configurations is sampled using random search, which allows Hyperband to explore the hyperparameter space more broadly and reduce the risk of missing good configurations. This concurrent process enables Hyperband to adaptively balance exploration and exploitation in the search process, ultimately leading to more efficient and effective hyperparameter tuning. According to [benchmark study by optuna](https://github.com/optuna/optuna/wiki/Benchmarks-with-Kurobako), hyperband is the among pruning method, employ witehr with TPE or CMA-ES.
+
+# Optimization with optuna
+Process of optimization with optuna starts with __1. defining an objective__. The objective function is called once for each trial. Optuna passes a trial object to the objective function, which we can use to set up the parameters for the specific trial. An exmaple of objective function can be maxmizing the f1-score. In the objective function, we can define potential values for each hp, (int, float, boolean, or categories) as follow:
+
+```python
+def objective(trial):
+  boosting_type = trial.suggest_categorical("boosting_type", ["dart", "gbdt"])
+  lambda_l1= trial.suggest_float('lambda_l1', 1e-8, 10.0, log=True),
+  ...
+  min_child_samples= trial.suggest_int('min_child_samples', 5, 100),
+  learning_rate = trial.suggest_float("learning_rate", 0.0001, 0.5, log=True),
+  max_bin = trial.suggest_int("max_bin", 128, 512, 32)
+  n_estimators = trial.suggest_int("n_estimators", 40, 400, 20)
+```
+
+
 
 
  

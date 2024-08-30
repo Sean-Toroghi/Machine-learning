@@ -64,23 +64,47 @@ synchronously with the model training process: the validation error is checked d
 
   Thos method relies on a fixed initial set of configurations and a single resource allocation scheme.
   
-- Hyperband:  extends successive halving by incorporating random search and a multi-bracket resource allocation strategy. It  uses a multi-bracket resource allocation strategy, which divides the total computational budget into several brackets, each representing a different level of resource allocation. Within each bracket, successive halving is applied to iteratively eliminate underperforming configurations and allocate more resources to the remaining promising ones. At the beginning of each bracket, a new set of hyperparameter configurations is sampled using random search, which allows Hyperband to explore the hyperparameter space more broadly and reduce the risk of missing good configurations. This concurrent process enables Hyperband to adaptively balance exploration and exploitation in the search process, ultimately leading to more efficient and effective hyperparameter tuning. According to [benchmark study by optuna](https://github.com/optuna/optuna/wiki/Benchmarks-with-Kurobako), hyperband is the among pruning method, employ witehr with TPE or CMA-ES.
+- __Hyperband:__  extends successive halving by incorporating random search and a multi-bracket resource allocation strategy. It  uses a multi-bracket resource allocation strategy, which divides the total computational budget into several brackets, each representing a different level of resource allocation. Within each bracket, successive halving is applied to iteratively eliminate underperforming configurations and allocate more resources to the remaining promising ones. At the beginning of each bracket, a new set of hyperparameter configurations is sampled using random search, which allows Hyperband to explore the hyperparameter space more broadly and reduce the risk of missing good configurations. This concurrent process enables Hyperband to adaptively balance exploration and exploitation in the search process, ultimately leading to more efficient and effective hyperparameter tuning. According to [benchmark study by optuna](https://github.com/optuna/optuna/wiki/Benchmarks-with-Kurobako), hyperband is the among pruning method, employ witehr with TPE or CMA-ES.
 
 # Optimization with optuna
+
 Process of optimization with optuna starts with __1. defining an objective__. The objective function is called once for each trial. Optuna passes a trial object to the objective function, which we can use to set up the parameters for the specific trial. An exmaple of objective function can be maxmizing the f1-score. In the objective function, we can define potential values for each hp, (int, float, boolean, or categories) as follow:
 
 ```python
 def objective(trial):
   boosting_type = trial.suggest_categorical("boosting_type", ["dart", "gbdt"])
-  lambda_l1= trial.suggest_float('lambda_l1', 1e-8, 10.0, log=True),
+  lambda_l1= trial.suggest_float('lambda_l1', 1e-8, 10.0, log=True), # log-scale the range: more values are tested close to the range’s lower bound
   ...
   min_child_samples= trial.suggest_int('min_child_samples', 5, 100),
   learning_rate = trial.suggest_float("learning_rate", 0.0001, 0.5, log=True),
-  max_bin = trial.suggest_int("max_bin", 128, 512, 32)
-  n_estimators = trial.suggest_int("n_estimators", 40, 400, 20)
+  max_bin = trial.suggest_int("max_bin", low = 128, high = 512, step = 32)
+  n_estimators = trial.suggest_int("n_estimators", low = 40, high = 400, step = 20)
 ```
 
+__2. defining pruning__ in optuna is perform by defining `pruning_callback`, which is integrated with the optimization process. This requires to _define error metric_. Example: `pruning_callback =  optuna.integration.LightGBMPruningCallback(trial, "binary")`.
 
+__3. Fitting the model__ by passing parameters and call back as done normally. 
+```ptyhpn
+model = lgb.LGBMClassifier(
+                            force_row_wise=True,
+                            boosting_type=boosting_type,
+                            n_estimators=n_estimators,
+                            lambda_l1=lambda_l1,
+                            lambda_l2=lambda_l2,
+                            num_leaves=num_leaves,
+                            feature_fraction=feature_fraction,
+                            bagging_fraction=bagging_fraction,
+                            bagging_freq=bagging_freq,
+                            min_child_samples=min_child_samples,
+                            learning_rate=learning_rate,
+                            max_bin=max_bin,
+                            callbacks=[pruning_callback],
+                            verbose=-1)
+# train the model using five-fold cross validation w. F1 macro score
+scores = cross_val_score(model, X, y, scoring="f1_macro")
+# objective function to return mean of the F1-scores.
+return scores.mean()
+```
 
 
  

@@ -110,8 +110,8 @@ __FLAML limitations__
 
 Featuretools is an AutoML framework designed for automated feature engineering, and very practical in the case of transforming relational datasets and temporal data. 
 
-- [Ref. 2](https://featuretools.alteryx.com/en/stable/#)
-- [Ref.](https://featuretools.alteryx.com/en/stable/api_reference.html)
+- Featuretools website [link](https://featuretools.alteryx.com/en/stable/)
+- Featuretools API ref. [link](https://featuretools.alteryx.com/en/stable/api_reference.html)
 
   
 ---

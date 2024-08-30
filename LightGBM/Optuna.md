@@ -84,7 +84,8 @@ def objective(trial):
 __2. defining pruning__ in optuna is perform by defining `pruning_callback`, which is integrated with the optimization process. This requires to _define error metric_. Example: `pruning_callback =  optuna.integration.LightGBMPruningCallback(trial, "binary")`.
 
 __3. Fitting the model__ by passing parameters and call back as done normally. 
-```ptyhpn
+
+```python
 model = lgb.LGBMClassifier(
                             force_row_wise=True,
                             boosting_type=boosting_type,
@@ -158,6 +159,29 @@ fig.show()
 ```
 
 ## Multi-object optimization
+Optimizing a study may require to optimize two or more competing objectives, such as F1-score, while minimizing the number of leaves (smaller model). Optuna has __multi-objective
+optimization (MOO)__ capability to run multiple objectives. To do so, we need to define an object function, fixing all other parameters to the optimal values found in the previous round, and perform evaluations on the new MOO task. 
 
+Example:
+```python
+def moo_objective(trial):
+  learning_rate = trial.suggest_float("learning_rate", 0.0001, 0.5, log=True)
+  model = lgb.LGBMClassifier(force_row_wise=True,
+                             boosting_type='gbdt',
+                             n_estimators=200,
+                             num_leaves=6,
+                             bagging_freq=7,
+                             learning_rate=learning_rate,
+                             max_bin=320,
+                            )
+  scores = cross_val_score(model, X, y, scoring="f1_macro")
+  return learning_rate[0], scores.mean()
 
+# calling the optimization function
+study = optuna.create_study(directions=["maximize", "maximize"])
+study.optimize(moo_objective, n_trials=100)
+```
+
+### Analyzing the result
+One method for analyzing a MOO study is visualization, which can be done by ploting _Pareto front_ plot. This plot shows the trade-off between the two objectives.  
  

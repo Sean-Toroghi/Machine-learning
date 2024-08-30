@@ -106,5 +106,16 @@ scores = cross_val_score(model, X, y, scoring="f1_macro")
 return scores.mean()
 ```
 
+__3. Final step is to define samplers (TPE or CMA-ES), pruner, study, and call optimization__. For pruning, in case of choosing hyperband method, we need to define upper and lower band of resources, which controls number of iterations. The reduction factor in pruning controls how many trials are promoted in each halving round. When creating a study, we need to define direction (maximize or minimize) according to the objective. 
+
+__4. to get results__ we need to call `study.best_trial`.
+
+### Saving and resuming optimization
+
+
+### Analyze results: parameter effects
+
+## Multi-object optimization
+
 
  

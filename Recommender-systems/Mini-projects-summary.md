@@ -9,7 +9,7 @@ Description: In this mini-project, an item-based recommender system is developed
 
 # Project 2 - develop a recommender system model to improve performance of an online marketing campaign
 
-[_Link to mini-project 2__]([https://github.com/Sean-Toroghi/Machine-learning/blob/de2f2d94e247ed09c83b9dd04c5d12f507f03fa7/Recommender-systems/P01_ItemBasedCollaborateFiltering.ipynb](https://github.com/Sean-Toroghi/Machine-learning/blob/f4de5939a648714c785f076037cd7709cdf21a6a/Recommender-systems/P02_UserBasedCollaborativeFiltering.ipynb))
+[_Link to mini-project 2__](https://github.com/Sean-Toroghi/Machine-learning/blob/f4de5939a648714c785f076037cd7709cdf21a6a/Recommender-systems/P02_UserBasedCollaborativeFiltering.ipynb)
 
 Description: In this mini-project, a user-based recommender system is developed, using Naive Bayes Classifier. The model predicts whether a user will click on an advertisement or not, by training the model on dataset containing information about other users and their response to the advertisement. 
 

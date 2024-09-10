@@ -92,10 +92,6 @@ The item-based collaborate filtering generates recommendations based on the simi
 
 Item-base and user-based collaborate filtering both generate similar item recommendations, while the item-based method is more suited for dataset with less information regarding user charactristics and tastes.
 
-[__Example mini-project__](https://github.com/Sean-Toroghi/Machine-learning/blob/de2f2d94e247ed09c83b9dd04c5d12f507f03fa7/Recommender-systems/P01_ItemBasedCollaborateFiltering.ipynb)
-
-In this mini-project, an item-based recommender system is developed, using correlation coefficient. First a utility matrix is generated. Then via SVD method, the generated utilty matrix is compressed. Finally correlation matrix is created using Peirson correlation. Finally, an application of this model is illustrated by providing recommendation on two levels, for books with similar ratings to target book titled '1984'.
-
 # User-based collaborative filtering
 User-based filtering __first takes a selected user__, finds users similar to that user based on similar ratings, and then recommends items that similar users also liked.
 

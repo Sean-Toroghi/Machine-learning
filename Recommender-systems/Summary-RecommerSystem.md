@@ -51,18 +51,30 @@ One challenge of computing preference via indirect feedback is the interpretatio
 
 ## data structure
 
-Input data comes in two major categories: structured and unstructred. Structured data is information that resides in a fixed field within a record or file. 
+Input data comes in two major categories: structured and unstructred. __Structured data__ is information that resides in a fixed field within a record or file. This format has a predefine schema. __Unstructured data__ or non-structured data is information that doesn’t fit neatly into a pre-defined data model or isn’t organized in a pre-defined manner. An example of unstructured data is information in email or social media posts. 
 
+## data reduction
 
+Data reduction helps to separate the signal from the noise, reduce total processing time, and minimize the consumption of computational resources. This is a crusial step, specifically in the case the data originates from a popular e-commerce platforms or social media networks. Another use of data reduction is to aid better visualization. 
 
+One downside of data reduction is its potential negative effect on accuracy and relevancy.
 
+Some of the data reduction techniques are
+- row compression
+- dimension reduction
+- principle component analysis
 
+__Row compression__ 
 
+Row compresion involves reducing the volume of rows while attempting to preserve information from the original structure. One approach is to employ clustering, and based on the results perform an aggregation method.
 
+__Dimension reduction__
 
+Dimension reduction (also called descending dimension algorithms) transforms data from high-dimensional to low-dimensional. A range of approaches are available to reduce dimension, from manual manipulation to employ an algorithm. An exmple is to group together some features as a single feature.
 
+__Principle component analysis (PCA)__
 
-
+PCA (also caleld general factor analysis) involves 
 
 
 

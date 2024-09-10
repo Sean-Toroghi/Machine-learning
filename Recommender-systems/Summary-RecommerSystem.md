@@ -11,7 +11,18 @@ __References__
 
 Recommender systems, unlike other machine learning methods such as decision trees, are a mismatch of algorithms that are all act under a common goal: to make a relevant recommendation. At a high level, recommenders sytems can be divided into two main categories:
 1. collaborate filtering: recommend items to an individual based on the items similar users with shared interests, purchased on consumed.
-2. content-based (item-based) filtering: recommend similar items to an inddividual based on items the user has already purchased or consumed.
+
+   Advantages
+   - since it does not rely on understanding items and their attributes, it is usefull in the case we have low knowledge about item characteristics
+   - it is a flexible method that can handle and adopt to changes over time.
+   - it generates recommendation of items outside the user's standard periphery
+  
+   Disadvantages
+   - it requires enough data to build a user preference dataset
+   - it is highly volunerable to malicious activity. To mitigate the sensitivity of model against shillinh attach is to limit the model's analysis to users purchase, not the browsing habit or other activities that can be fabricated easily.
+   - in some cases it lacks consistency, as users have different standards.For example, a three-star rating could have different meaning for different people. 
+     
+3. content-based filtering: recommend similar items to an inddividual based on items the user has already purchased or consumed.
 
 There is a trade-off between the two approaches, as the collaborate filtering method requires information about the users up-front. Content-based filtering requires information about new items upfront. 
 
@@ -77,8 +88,17 @@ __Principle component analysis (PCA)__
 PCA (also caleld general factor analysis) examines interrelations among a set of variables and removes components thtat have the least impact on data variablit. The befit of PCA is it helps to reveal hidden and simplified structures in the data and is often used as a pre-processing step before applying another algorithm. t also helps to reduce data complexity. Furthermore, PCA can be used to visualize a high dimension dataset.  
 
 # Item-based collaborative filtering
+The item-based collaborate filtering generates recommendations based on the similar item to the one a user has already purchased/selected (translated to user preference). This method __first takes a given item__, then finds users who liked that item. In the final step, it retrives other items that those users liked. 
 
-# User0based filtering
+Item-base and user-based collaborate filtering both generate similar item recommendations, while the item-based method is more suited for dataset with less information regarding user charactristics and tastes.
+
+[__Example mini-project__]()
+
+# User-based collaborative filtering
+User-based filtering __first takes a selected user__, finds users similar to that user based on similar ratings, and then recommends items that similar users also liked.
+
+User-based filtering is more accurate than item-based filtering, when the dataset contains a large number of users with esoteric interests. 
+
 
 # Content-based filtering
 

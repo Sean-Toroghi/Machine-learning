@@ -74,7 +74,11 @@ Dimension reduction (also called descending dimension algorithms) transforms dat
 
 __Principle component analysis (PCA)__
 
-PCA (also caleld general factor analysis) involves 
+PCA (also caleld general factor analysis) examines interrelations among a set of variables and removes components thtat have the least impact on data variablit. The befit of PCA is it helps to reveal hidden and simplified structures in the data and is often used as a pre-processing step before applying another algorithm. t also helps to reduce data complexity. Furthermore, PCA can be used to visualize a high dimension dataset.  
 
+# Item-based collaborative filtering
 
+# User0based filtering
+
+# Content-based filtering
 

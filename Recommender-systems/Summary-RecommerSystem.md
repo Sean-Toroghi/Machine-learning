@@ -100,3 +100,4 @@ User-based filtering is more accurate than item-based filtering, when the datase
 
 # Content-based filtering
 
+# Evaluating models

@@ -50,6 +50,19 @@ The goal of feature engineering is to make modifications to the dataset to ensur
 
   
 ### Perform imputation
+While some ML algorithms can inherently handle missing values, some other cannot. In most cases, it is much more safer to handle missing values at the initial stage of data preprocessing to avoid any future interuption in the pipeline. 
+
+If the sample size be large enough and removing rows/clolumn with missing values does not negatively effect model (for example rows with missing values represent a target class and deleting them removes a target class form dataset), we can simply delete rows with missing values. Also, this decision can be made based on the rate of missing values in a row.
+
+Beside removing samples with missing values, we can perform imputation. Imputation methods are categorized into two main categories:
+
+| Technique         | Pros                                                                                       | Cons                                                                                                                            |
+|-------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| Mean/median/mode  | Simple to implement                                                                        | Might not account for outliers compared to tree-based methods Not as suitable for categorical variables                         |
+| Tree-based models | Can capture more underlying patterns Suitable for both numerical and categorical variables | Adds a level of complexity during data preprocessing Model needs to be retrained if the underlying distribution of data changes |
+
+
+
 
 ### Address duplicate data
 

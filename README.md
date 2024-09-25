@@ -6,7 +6,7 @@
 
  
  
-1. Data science life cycle
+1. [Data science life cycle](https://github.com/Sean-Toroghi/Machine-learning/blob/3e24cbf497770d97b487d82d2f7c66d53efbfc5f/DataScience_LifeCycle.md)
 2. Machine learning operations (MLOps)
 3. Automate machine learning via FLAML
 4. Supervised learning (regression - classification)

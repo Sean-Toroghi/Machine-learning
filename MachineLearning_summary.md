@@ -58,15 +58,35 @@ Beside removing samples with missing values, we can perform imputation. Imputati
 
 | Technique         | Pros                                                                                       | Cons                                                                                                                            |
 |-------------------|--------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| Mean/median/mode  | Simple to implement                                                                        | Might not account for outliers compared to tree-based methods Not as suitable for categorical variables                         |
-| Tree-based models | Can capture more underlying patterns Suitable for both numerical and categorical variables | Adds a level of complexity during data preprocessing Model needs to be retrained if the underlying distribution of data changes |
+| Mean/median/mode/prior value, next available value/average or past n values,...  | Simple to implement                                                                        | Might not account for outliers compared to tree-based methods Not as suitable for categorical variables                         |
+| Tree-based or other ML models | Can capture more underlying patterns Suitable for both numerical and categorical variables | Adds a level of complexity during data preprocessing Model needs to be retrained if the underlying distribution of data changes |
 
+__Data leakage and imputation__
 
+Imputation, if not properly perform, can lead to data leakage. For example, using mean to impute a feature needs to be done after splitting data into train/val/test and seperately to each set.
 
 
 ### Address duplicate data
+Python and SQL are equiped with methods to remove duplicate variables, such as coverting a list to set in Python, or UNIQUE in SQL.
 
 ### Standardizing data
+
+Data standardization includes: handling outliers, scaling features, and  data type consistency.
+
+__Outliers__
+
+To address outlier issue in dataset, we have several options
+- define a threshold (e.g. any value above/below 3s.d. over mean) and remove outliers from sample
+- winsorizing: replacing outliers with less extreme vlaues
+- perform logarithmic scale transform
+
+Removing outliers requires having domain knwoledge, as in some casesit leads to lowering the capability of model to generalize. 
+
+__Scale features__
+
+Scale of features effect many ML algorithms. There are two main methods for scaling features, normalization and standardization. It is important to consider effect of outlier on scaling. For example, a feature with extreme outliers creates missleading when we pick min and max to perform scaling
+- standardization (z-score normalization) data range $\[-1,1\]$: by transform data to have mean = 0 and s.d. = 1
+- normalization data range $\[0,1\]$ by computing the following ratio $\frac{x_i-\mu}{x_{max} - x_{min}}$
 
 ### Data preprocessing
 

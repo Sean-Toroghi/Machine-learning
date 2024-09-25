@@ -18,7 +18,7 @@ Perhaps define and translate a problem into ML problem is the most critical poin
 
 __References__
 - [Making Scence of Data - By Glenn J. Myatt, Wayne P. Johnson](https://learning.oreilly.com/library/view/making-sense-of/9781118422106/)
-- [Hands-On Data Preprocessing in Python - By Roy Jafari]([https://learning.oreilly.com/library/view/hands-on-data-preprocessing](https://learning.oreilly.com/library/view/hands-on-data-preprocessing/9781801072137/))
+- [Hands-On Data Preprocessing in Python - By Roy Jafari](https://learning.oreilly.com/library/view/hands-on-data-preprocessing/9781801072137/)
 - [Hands-On Exploratory Data Analysis with Python - By Suresh Kumar Mukhiya, Usman Ahmed](https://learning.oreilly.com/library/view/hands-on-exploratory-data/9781789537253/)
 
 There are many options available for data acquisition in the context of ML, such as access to proprietary data, public datasets, web scraping, purchasing data from vendors, and creating synthetic data.

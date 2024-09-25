@@ -6,7 +6,9 @@ A machine learning prject, in its general form, goes through the following phase
 0. define problem
 1. collecting and aquiring data
 2. preprocess and clean data
-3. select algorithm apprpriate for the task in hand, and process of selecting best algorithm among all cadidates
+   - EDA
+   - Feature engineering 
+4. select algorithm apprpriate for the task in hand, and process of selecting best algorithm among all cadidates
   - develop a baseline to evalue model performance in the next step (either a simple algorithm with low cost and/or heuristic-based (i.e., rules-based) approach)
   - training process and optimizing the model to gain highest performance, including fine-tuneining, hyperparameter tuning, experiment tracking. 
 4. evaluate model and examine its generalization capability
@@ -25,10 +27,12 @@ There are many options available for data acquisition in the context of ML, such
 
 # Step 2 - data preprocessing and feature engineering
 
-## EDA
+## 2.1 - EDA
 Explanatory data analysis is the first step in data processing. In a general form, it consists of 
 - gain a high-level overview of distribution of data: mean, s.d., max, min, ... for continous, and count, number of unique categories, ... for categorical variables
 - find any potential flaws, such as missing vlaues, skewness, duplicates, and outliers
+
+
 To interpret the resutls of EDA, it is important to have some domain knwoledge. Simply looking at statistical results may not be enought
 
 __Tools__
@@ -37,6 +41,23 @@ __Tools__
 - Create custom function to generate a report
 - Visualization (python packages (Matplotlib, Seaborn, Plotly), Softwares (Tableau))
   
+## 2.2 - Feature engineering
+The goal of feature engineering is to make modifications to the dataset to ensure its compatibility with ML algorithms and fix any flaws or incompleteness in data. 
+- imputation
+- duplicate data
+- standardizing data
+- preprocessing (categoricl encoding, binning, feature selection, ...)
+
+  
+### Perform imputation
+
+### Address duplicate data
+
+### Standardizing data
+
+### Data preprocessing
 
 
-#
+
+
+

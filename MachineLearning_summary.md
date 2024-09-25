@@ -117,6 +117,14 @@ Some techniques used for feature selection are
 
 Also dimentionality reduction method can be used to reduce the dimentionality of data.
 
+### Class imbalance
+
+Class imbalance can negatively effect the performance of a ML method. The following traditional strategies can be employed to address class imbalance:
+
+- Undersampling reduces the size of the majority class to match the minority class. This helps balance the dataset but may result in the loss of valuable majority class examples.
+- Oversampling increases the size of the minority class to match the majority class by duplicating existing examples. This improves balance but can lead to model overfitting on the repeated data examples.
+- Synthetic Minority Over-sampling TEchnique (SMOTE) is similar to oversampling, except that it generates synthetic examples instead of simply duplicating existing ones. It does this by generating new instances based on examples that are similar in feature space.
+
 ## Training model
 Model training is an iterative proces and includes the following steps
 - define ML task

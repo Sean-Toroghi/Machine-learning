@@ -95,13 +95,22 @@ In some cases there is a missmatch between feature and its data type. For exampl
 ### Data preprocessing
 Data preprocessing involves changing data to the format that can be interpreted by a ML algorithm. 
 
-__Categorical encoding__
+#### Categorical encoding
 
 While some ML algotrithm can handle categorical features in their original form, such as CatBoost, many ML algorithm only can handle numerical vlaues. Hense, those algorithms require the categorical features to be converted to numerical. Some of the techniques for encoding categorical data are as follow:
-- One-hot encoding
-- Factorization
-- get_ummy method in Pandas
-- label encoding
+- One-hot encoding: similar to get_dummy function, this class (from scikit-learn) generates binary columns for eah unique class. In addition, it can handle unseen categories. IT is appropriate for nominal data. Similar to get_dummy, in case of high cardinality it is required to group together categories to avoid generating too many new features.
+- Factorize: this function (from Numpy) assign unique interger to each unique category and returns an array of integers aliong with the uqniue categories. It is similar to label encoding, but also provides mapping. As the result, it is appropriate for ordinal data.
+- get_ummy method in Pandas: creates a binary column for each category. This method is appropriate for nominal categores with no intrinsic order. The downside of this method is it creates sparse dataset. Furthermore, this method is not efficient and negatively effect model performacnce if applies to categorical features with high cardinality (curse of dimensionality). In such a case, we need to first downsize the number of categories by grouping unique categories and then apply it. 
+- label encoding: convert categorical values into integer. This method assign unioque number to each unique category. This is appropriate for _ordinal_ data.
+- target encoding (mean encoding):
+- binary encoding
+- frequency encoding
+- ordinal encoding
+- hashing encoding
+- leave-one-out encoding
+- CatBoost encoding
+
+
 
 __Binning numerical values__
 

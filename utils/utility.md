@@ -7,6 +7,9 @@ This depository consists of two resources: 1. a set of utility codes, and 2. sum
 __List of utility codes__
 - [SMOTE](https://github.com/Sean-Toroghi/Machine-learning/blob/main/utils/src/smote.py): mitigate imbalanced dataset via oversample-SMOTE
 - [preprocessing](https://github.com/Sean-Toroghi/Machine-learning/blob/main/utils/src/preprocessing.py): split univariate seq into samples for supervised learning - For a simple MLP model
+- [reduce_memory_usage](https://github.com/Sean-Toroghi/Machine-learning/blob/d3149572d0c1f7b688174038687a5d2f5574f57f/utils/src/reduce_memory_usage.py)
+  reduce memory of numerical features in a dataframe. 
+-   
 
 __[Summary and code examples](#code)__
 - Feature engineering

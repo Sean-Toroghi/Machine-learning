@@ -9,7 +9,8 @@ __List of utility codes__
 - [preprocessing](https://github.com/Sean-Toroghi/Machine-learning/blob/main/utils/src/preprocessing.py): split univariate seq into samples for supervised learning - For a simple MLP model
 - [reduce_memory_usage](https://github.com/Sean-Toroghi/Machine-learning/blob/d3149572d0c1f7b688174038687a5d2f5574f57f/utils/src/reduce_memory_usage.py)
   reduce memory of numerical features in a dataframe. 
--   
+- [XGBoost_Train_Chunk.py](https://github.com/Sean-Toroghi/Machine-learning/blob/91058d5c76e795f2a06de91f10d5b5b0729891f4/utils/src/XGBoost_Train_Chunk.py)
+  Train XGBoost model on a very large dataset by dividing the dataset into chunks and iteratively going through the data during the training.
 
 __[Summary and code examples](#code)__
 - Feature engineering

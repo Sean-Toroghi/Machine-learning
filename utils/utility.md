@@ -133,6 +133,27 @@ print(scores.mean())
 ---
 
 # coding 
+
+## Loading custom libraries
+
+To avoid the need for restarting kernel every time making change to a custom library to upate the chage apply the following code. The numbers options are as following:
+1. `%autoreload 0` (default)- disables the auto-reloading.
+2. `%autoreload 1` - only auto-reload modules that were imported using the `%aimport <function>`.
+3. `%autoreload 2` - auto-reload all the modules. 
+```python
+%load_ext autoreload
+%autoreload <number 0, 1, or 2>
+
+# in case of 1:
+%aimport custom_package
+from custom_package import custom_function1, custom_function2, ...
+
+# in case of 2:
+from custom_package import custom_function1, custom_function2, ...
+
+```
+
+
 ## print all elements in a list
 ```python
 # option 1

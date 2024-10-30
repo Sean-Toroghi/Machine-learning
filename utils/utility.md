@@ -11,6 +11,7 @@ __List of utility codes__
   reduce memory of numerical features in a dataframe. 
 - [XGBoost_Train_Chunk.py](https://github.com/Sean-Toroghi/Machine-learning/blob/91058d5c76e795f2a06de91f10d5b5b0729891f4/utils/src/XGBoost_Train_Chunk.py)
   Train XGBoost model on a very large dataset by dividing the dataset into chunks and iteratively going through the data during the training.
+- [check_corr](https://github.com/Sean-Toroghi/Machine-learning/blob/21218fb0fe45bff841b12e1de9c0e079cccea5b1/utils/src/check_corr.py): Check features in dataframe and report features with corr higher than 0.95.  
 
 __[Summary and code examples](#code)__
 - Feature engineering

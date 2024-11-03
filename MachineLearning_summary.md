@@ -25,6 +25,7 @@ __References__
 
 There are many options available for data acquisition in the context of ML, such as access to proprietary data, public datasets, web scraping, purchasing data from vendors, and creating synthetic data.
 
+---
 # Step 2 - data preprocessing and feature engineering
 
 ## 2.1 - EDA
@@ -73,7 +74,7 @@ Python and SQL are equiped with methods to remove duplicate variables, such as c
 
 Data standardization includes: handling outliers, scaling features, and  data type consistency.
 
-__Outliers__
+### Outliers
 
 To address outlier issue in dataset, we have several options
 - define a threshold (e.g. any value above/below 3s.d. over mean) and remove outliers from sample
@@ -82,20 +83,23 @@ To address outlier issue in dataset, we have several options
 
 Removing outliers requires having domain knwoledge, as in some casesit leads to lowering the capability of model to generalize. 
 
-__Scale features__
+### Scale features
 
 Scale of features effect many ML algorithms. There are two main methods for scaling features, normalization and standardization. It is important to consider effect of outlier on scaling. For example, a feature with extreme outliers creates missleading when we pick min and max to perform scaling
 - standardization (z-score normalization) data range $\[-1,1\]$: by transform data to have mean = 0 and s.d. = 1
 - normalization data range $\[0,1\]$ by computing the following ratio $\frac{x_i-\mu}{x_{max} - x_{min}}$
 
-__Data type consistency__
+### Data type consistency
 
 In some cases there is a missmatch between feature and its data type. For example, a numerical feature can be saved as string in dataframe. Perform a data-type survey during the preprocessing phase ensures the constency between stored data type and expected data type for a feature.
 
-### Data preprocessing
+
+## Data preprocessing
 Data preprocessing involves changing data to the format that can be interpreted by a ML algorithm. 
 
-#### Categorical encoding
+
+
+### Categorical encoding
 
 While some ML algotrithm can handle categorical features in their original form, such as CatBoost, many ML algorithm only can handle numerical vlaues. Hense, those algorithms require the categorical features to be converted to numerical. Some of the techniques for encoding categorical data are as follow:
 - One-hot encoding: similar to get_dummy function, this class (from scikit-learn) generates binary columns for eah unique class. In addition, it can handle unseen categories. IT is appropriate for nominal data. Similar to get_dummy, in case of high cardinality it is required to group together categories to avoid generating too many new features.
@@ -110,7 +114,36 @@ While some ML algotrithm can handle categorical features in their original form,
 - leave-one-out encoding
 - CatBoost encoding
 
+__category_encoders__
 
+This library contains a list of techniques for encoding in one: [category_encoders](https://contrib.scikit-learn.org/category_encoders/)
+```python
+import category_encoders as ce
+
+encoder = ce.BackwardDifferenceEncoder(cols=[...])
+encoder = ce.BaseNEncoder(cols=[...])
+encoder = ce.BinaryEncoder(cols=[...])
+encoder = ce.CatBoostEncoder(cols=[...])
+encoder = ce.CountEncoder(cols=[...])
+encoder = ce.GLMMEncoder(cols=[...])
+encoder = ce.GrayEncoder(cols=[...])
+encoder = ce.HashingEncoder(cols=[...])
+encoder = ce.HelmertEncoder(cols=[...])
+encoder = ce.JamesSteinEncoder(cols=[...])
+encoder = ce.LeaveOneOutEncoder(cols=[...])
+encoder = ce.MEstimateEncoder(cols=[...])
+encoder = ce.OneHotEncoder(cols=[...])
+encoder = ce.OrdinalEncoder(cols=[...])
+encoder = ce.PolynomialEncoder(cols=[...])
+encoder = ce.QuantileEncoder(cols=[...])
+encoder = ce.RankHotEncoder(cols=[...])
+encoder = ce.SumEncoder(cols=[...])
+encoder = ce.TargetEncoder(cols=[...])
+encoder = ce.WOEEncoder(cols=[...])
+
+encoder.fit(X, y)
+X_cleaned = encoder.transform(X_dirty)
+```
 
 __Binning numerical values__
 

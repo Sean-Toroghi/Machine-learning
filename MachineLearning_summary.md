@@ -161,9 +161,16 @@ data['yeojohnson_transformed'], _ = yeojohnson(data['feature'])
 ## Preprocessing > Feature engineering > Scale features
 
 Scale of features effect many ML algorithms. There are two main methods for scaling features, normalization and standardization. It is important to consider effect of outlier on scaling. For example, a feature with extreme outliers creates missleading when we pick min and max to perform scaling
-- standardization (z-score normalization) data range $\[-1,1\]$: by transform data to have mean = 0 and s.d. = 1
-- normalization data range $\[0,1\]$ by computing the following ratio $\frac{x_i-\mu}{x_{max} - x_{min}}$
+- standardization
+- normalization
 
+
+__Standardization__: (z-score normalization) data range $\[-1,1\]$: by transform data to have mean = 0 and s.d. = 1
+
+__Normalization__: data range $\[0,1\]$ by computing the following ratio $\frac{x_i-\mu}{x_{max} - x_{min}}$
+
+
+---
 ### Data type consistency
 
 In some cases there is a missmatch between feature and its data type. For example, a numerical feature can be saved as string in dataframe. Perform a data-type survey during the preprocessing phase ensures the constency between stored data type and expected data type for a feature.

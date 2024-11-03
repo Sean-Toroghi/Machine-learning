@@ -74,16 +74,91 @@ Python and SQL are equiped with methods to remove duplicate variables, such as c
 
 Data standardization includes: handling outliers, scaling features, and  data type consistency.
 
-### Outliers
+---
+## Preprocessing > Feature Engineering > Outliers
 
 To address outlier issue in dataset, we have several options
 - define a threshold (e.g. any value above/below 3s.d. over mean) and remove outliers from sample
 - winsorizing: replacing outliers with less extreme vlaues
-- perform logarithmic scale transform
+- perform transform
 
-Removing outliers requires having domain knwoledge, as in some casesit leads to lowering the capability of model to generalize. 
+### Perform transformation to handle outliers
 
-### Scale features
+There are several transformation for handling outliers, among which are Box-Cox, Log-transfomation, Reciprocal transformation, 
+
+__Box-Cox Transformation__: This is a power transform that aims to make data more normally distributed. It requires data to be positive and works by finding the best lambda (power) to apply.
+
+```python
+from scipy import stats
+transformed_data, lambda_ = stats.boxcox(data)
+```
+__Log Transform:__ This is a simpler method that works well when the data spans several orders of magnitude. It’s particularly useful for reducing right-skewed distributions.
+
+```python
+import numpy as np
+log_transformed_data = np.log(data)
+```
+
+__Square Root Transform:__ Useful for data with moderate skewness. It stabilizes variance and makes the data more normally distributed.
+
+```python
+sqrt_transformed_data = np.sqrt(data)
+```
+
+__Reciprocal Transform:__ This transformation can handle certain types of skewness by taking the reciprocal of the data.
+
+```python
+reciprocal_transformed_data = 1/data
+```
+
+__Exponential Transformation:__ Can be used to make highly skewed data more symmetric. Opposite of the log transformation.
+```python
+import numpy as np
+
+# Ensure data is within 0 and 1 range
+data['feature'] = data['feature'] / data['feature'].max()
+data['arcsine_transformed'] = np.arcsin(np.sqrt(data['feature']))
+```
+
+__Arc Sine Transformation:__ Useful for data in proportion (range 0 to 1). Often used in genetics and ecology.
+
+```python
+import numpy as np
+
+# Ensure data is within 0 and 1 range
+data['feature'] = data['feature'] / data['feature'].max()
+data['arcsine_transformed'] = np.arcsin(np.sqrt(data['feature']))
+
+```
+
+__Rank Transformation:__ Converts numerical data to ranks. Eliminates outliers by comparing data relatively rather than absolutely.
+
+```python
+import pandas as pd
+
+# Assuming data is your DataFrame and 'feature' is the column you want to transform
+data['rank_transformed'] = data['feature'].rank()
+
+```
+
+__Yeo-Johnson Transformation:__ A variation of Box-Cox that can handle zero and negative values, making it more flexible.
+
+```python
+from scipy.stats import yeojohnson
+
+# Assuming data is your DataFrame and 'feature' is the column you want to transform
+data['yeojohnson_transformed'], _ = yeojohnson(data['feature'])
+```
+
+
+
+
+### Considerations
+- Removing outliers requires having domain knwoledge, as in some casesit leads to lowering the capability of model to generalize. 
+
+
+---
+## Preprocessing > Feature engineering > Scale features
 
 Scale of features effect many ML algorithms. There are two main methods for scaling features, normalization and standardization. It is important to consider effect of outlier on scaling. For example, a feature with extreme outliers creates missleading when we pick min and max to perform scaling
 - standardization (z-score normalization) data range $\[-1,1\]$: by transform data to have mean = 0 and s.d. = 1

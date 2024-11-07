@@ -2,7 +2,9 @@
 
 <a id='up'></a>
 
-<h4> Table of contents </h4>
+## Table of contents
+
+- Machine learning - steps and concepts
 
  
  
@@ -29,3 +31,9 @@
         6. Evaluate clustering algorithm
 
 ---
+
+## Refernces 
+
+- [Book - Designing Machine Learning Systems by Chip Huyen](https://learning.oreilly.com/library/view/designing-machine-learning/9781098107956/)
+- [Book - Mathematics for Machine Learning](https://mml-book.github.io/)
+- 

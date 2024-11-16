@@ -24,7 +24,7 @@ A data ingestion pipeline is a sequence of tasks that move and transform the dat
  - Azur Databrick: this service provides option to perform a task via coding (SQL, Python, or R). This service employs Spark cluster for distribution computation.
  - Azur Machine Learning: the pipeline can be crated with the Designer, or by creating a collection of scripts. Pipeline can be used for ETL, as well as other task in this service.
 
-Azur Synapse and Databrick provide more scalable compute than Machine-Learning serivce. 
+Azur Synapse and Databrick provide more scalable compute than Machine-Learning serivce.  
 
 
 Eample: while the services can peform diferent tasks, each one has a targeted task that their design makes them suitable foor that specific task. For example a _data ingestion solution_ could be as follow:

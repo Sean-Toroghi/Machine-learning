@@ -24,3 +24,17 @@ df_1.select(
   pl.col('orrders'),
   pl.col('weight') / 1000, 'weight_kg')
 ```
+
+## Create new column - `df.with_columns()`
+This method is used to create new column/s, wither from existing ones, or scratch. 
+
+__Example__
+- create two new features
+- create a column from scratch and use `alias()` to give the new column a name
+- create second column frm exisitng column
+```python
+df_1.with_columns(
+  pl.lit(True).alias('Boolean_new_column'),
+  column_name_2 = pl.col('name').str.end_with('some_string')
+)
+```

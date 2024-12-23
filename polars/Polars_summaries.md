@@ -9,11 +9,14 @@ __table of content__
 ---
 # <a id='expression'>Expressions</a>
 
-An expression is a tree of operations that describe how to construct one or more Series (an array of values with the same data type). Expressions in Polar is used for selecting a column, creating a column, perform aggregation, and fitering rows. The expression class in Polar (`polars.Expr`) has over 350 methods. These methods are categorized under namespaces in the expression, such as string (`Expr.str`), temporal values (`Expr.dt`), and categorical variables (`Expr.cat`).  It is neither practical, nor beneficial to put them all here. I create a list and desription of the fundamental methods. 
+An expression is a tree of operations that describe how to construct one or more Series (an array of values with the same data type). Expressions in Polar is used for selecting a column, creating a column, perform aggregation, and fitering rows. They are just a description, in tree format, that executed when they are passed as arguments to functions. 
+
+The expression class in Polar (`polars.Expr`) has over 350 methods. These methods are categorized under namespaces in the expression, such as string (`Expr.str`), temporal values (`Expr.dt`), and categorical variables (`Expr.cat`).  It is neither practical, nor beneficial to put them all here. I create a list and desription of the fundamental methods. 
 
 Expression are applied by passing them to a dataframe of lazyframe. 
 
-## Selecting columns - `df.select()`
+## Experession methods
+### Selecting columns - `df.select()`
 
 This method is used to select one or more columns. Any column not mentioned in the selection are dropped from the output. Also, for any name not in the original dataframe, a new column is created. 
 
@@ -25,7 +28,7 @@ df_1.select(
   pl.col('weight') / 1000, 'weight_kg')
 ```
 
-## Create new column - `df.with_columns()`
+### Create new column - `df.with_columns()`
 This method is used to create new column/s, wither from existing ones, or scratch. 
 
 __Example__
@@ -39,11 +42,23 @@ df_1.with_columns(
 )
 ```
 
-## Filtering rows - `df.filter()`
+### Filtering rows - `df.filter()`
 
-## Aggregation - `df.groupby(...).agg(...)`
+### Aggregation - `df.groupby(...).agg(...)`
 
-## Sorting rows - `df.sort()`
+### Sorting rows - `df.sort()`
 
-## 
+### Filtering - 
+
+
+
+### Perform mathematical transformation
+
+### Missing values
+
+### Apply smoothing
+
+### Selecting a value
+
+### Summarizing statstical values
 

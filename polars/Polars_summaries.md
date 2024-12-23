@@ -9,7 +9,7 @@ __table of content__
 ---
 # <a id='expression'>Expressions</a>
 
-Expressions in Polar is used for selecting a column, creating a column, perform aggregation, and fitering rows. The expression class in Polar (`polars.Expr`) has over 350 methods. These methods are categorized under namespaces in the expression, such as string (`Expr.str`), temporal values (`Expr.dt`), and categorical variables (`Expr.cat`).  It is neither practical, nor beneficial to put them all here. I create a list and desription of the fundamental methods. 
+An expression is a tree of operations that describe how to construct one or more Series (an array of values with the same data type). Expressions in Polar is used for selecting a column, creating a column, perform aggregation, and fitering rows. The expression class in Polar (`polars.Expr`) has over 350 methods. These methods are categorized under namespaces in the expression, such as string (`Expr.str`), temporal values (`Expr.dt`), and categorical variables (`Expr.cat`).  It is neither practical, nor beneficial to put them all here. I create a list and desription of the fundamental methods. 
 
 Expression are applied by passing them to a dataframe of lazyframe. 
 
@@ -34,7 +34,16 @@ __Example__
 - create second column frm exisitng column
 ```python
 df_1.with_columns(
-  pl.lit(True).alias('Boolean_new_column'),
-  column_name_2 = pl.col('name').str.end_with('some_string')
+  pl.lit(True).alias('Boolean_new_column'),  # create a boolean column with initial value True 
+  column_name_2 = pl.col('name').str.ends_with('some_string')
 )
 ```
+
+## Filtering rows - `df.filter()`
+
+## Aggregation - `df.groupby(...).agg(...)`
+
+## Sorting rows - `df.sort()`
+
+## 
+

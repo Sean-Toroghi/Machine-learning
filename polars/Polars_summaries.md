@@ -7,6 +7,8 @@ __table of content__
 
 __References__
 - [Polars - offcial](https://docs.pola.rs/py-polars/html/reference/)
+
+
 ---
 # <a id='expression'>Expressions</a>
 
@@ -54,6 +56,7 @@ df_1.with_columns(
 
 
 ### Perform mathematical transformation
+ 
 
 ### Missing values
 

@@ -110,7 +110,48 @@ class CatBoostClassifier(iterations=None,
                          text_processing=None,
                          fixed_binary_splits=None)
 ```
-Certainly! Here are the parameters of `CatBoostClassifier` explained one by one:
+
+Among these parameters, the following are the most influencial ones:
+1. **iterations**: Number of boosting iterations.
+   - This controls how many times the algorithm will pass through the data to improve the model. Typical values are between 100 and 1000.
+
+2. **learning_rate**: The rate at which the model learns.
+   - A smaller value (e.g., 0.01 to 0.1) generally leads to better performance, though training will be slower.
+
+3. **depth**: Depth of the tree.
+   - Determines how many layers the trees will have. Typical values range from 4 to 10.
+
+4. **l2_leaf_reg**: L2 regularization term on weights.
+   - Helps to prevent overfitting. Values typically range from 1 to 10.
+
+5. **rsm**: Random subspace method.
+   - Fraction of features to be used for fitting each tree. Values typically range from 0.5 to 1.0.
+
+6. **loss_function**: Loss function used to evaluate model performance.
+   - Common options are 'Logloss' for classification tasks and 'RMSE' for regression tasks.
+
+7. **eval_metric**: Metric for evaluating the model performance.
+   - It’s important to set this to a metric that aligns with your specific objective, such as 'Accuracy' or 'AUC'.
+
+8. **od_type**: Type of overfitting detection.
+   - Options include 'IncToDec' or 'Iter', and it helps in early stopping to prevent overfitting.
+
+9. **od_wait**: Number of iterations to wait for overfitting detection.
+   - This controls the patience of the early stopping mechanism. Typical values are between 20 and 50.
+
+10. **random_strength**: Strength of the randomness.
+    - Controls the level of randomness when selecting splits, which can help with overfitting. Typical values range from 1 to 10.
+
+11. **bagging_temperature**: Temperature parameter for Bayesian bagging.
+    - Influences the random subsampling of the data, with typical values around 0.5 to 1.0.
+
+12. **depth**: Maximum depth of the tree.
+    - Controls the maximum number of splits from the root to the leaf node. Typical values range from 4 to 10.
+   
+
+---
+
+Description of all parameters:
 
 1. **iterations**: Number of boosting iterations. More iterations usually mean better accuracy but can lead to overfitting.
 2. **learning_rate**: The rate at which the model learns. A smaller value makes learning slower but can result in better accuracy.
@@ -216,7 +257,7 @@ Certainly! Here are the parameters of `CatBoostClassifier` explained one by one:
 102. **text_processing**: Text processing settings.
 103. **fixed_binary_splits**: Enable fixed binary splits.
 
-
+---
 The range of value each hyper-parameter takes is as following:
 1. **iterations**: Number of boosting iterations.
    - Range: Positive integer (e.g., 100 to 10000)
@@ -425,42 +466,5 @@ The range of value each hyper-parameter takes is as following:
 103. **fixed_binary_splits**: Enable fixed binary splits.
     - Options: True, False
  
-Among these parameters, the following are the most influencial ones:
-Absolutely, here are some of the most important and impactful parameters you should consider when using `CatBoostClassifier`:
 
-1. **iterations**: Number of boosting iterations.
-   - This controls how many times the algorithm will pass through the data to improve the model. Typical values are between 100 and 1000.
-
-2. **learning_rate**: The rate at which the model learns.
-   - A smaller value (e.g., 0.01 to 0.1) generally leads to better performance, though training will be slower.
-
-3. **depth**: Depth of the tree.
-   - Determines how many layers the trees will have. Typical values range from 4 to 10.
-
-4. **l2_leaf_reg**: L2 regularization term on weights.
-   - Helps to prevent overfitting. Values typically range from 1 to 10.
-
-5. **rsm**: Random subspace method.
-   - Fraction of features to be used for fitting each tree. Values typically range from 0.5 to 1.0.
-
-6. **loss_function**: Loss function used to evaluate model performance.
-   - Common options are 'Logloss' for classification tasks and 'RMSE' for regression tasks.
-
-7. **eval_metric**: Metric for evaluating the model performance.
-   - It’s important to set this to a metric that aligns with your specific objective, such as 'Accuracy' or 'AUC'.
-
-8. **od_type**: Type of overfitting detection.
-   - Options include 'IncToDec' or 'Iter', and it helps in early stopping to prevent overfitting.
-
-9. **od_wait**: Number of iterations to wait for overfitting detection.
-   - This controls the patience of the early stopping mechanism. Typical values are between 20 and 50.
-
-10. **random_strength**: Strength of the randomness.
-    - Controls the level of randomness when selecting splits, which can help with overfitting. Typical values range from 1 to 10.
-
-11. **bagging_temperature**: Temperature parameter for Bayesian bagging.
-    - Influences the random subsampling of the data, with typical values around 0.5 to 1.0.
-
-12. **depth**: Maximum depth of the tree.
-    - Controls the maximum number of splits from the root to the leaf node. Typical values range from 4 to 10.
  

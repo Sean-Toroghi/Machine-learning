@@ -216,11 +216,8 @@ Certainly! Here are the parameters of `CatBoostClassifier` explained one by one:
 102. **text_processing**: Text processing settings.
 103. **fixed_binary_splits**: Enable fixed binary splits.
 
+
 The range of value each hyper-parameter takes is as following:
-
- 
-Absolutely! Here's a brief explanation of each parameter in `CatBoostClassifier` along with their typical ranges or value options:
-
 1. **iterations**: Number of boosting iterations.
    - Range: Positive integer (e.g., 100 to 10000)
 2. **learning_rate**: The rate at which the model learns.

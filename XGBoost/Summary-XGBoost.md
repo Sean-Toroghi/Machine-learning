@@ -2,7 +2,8 @@
 
 - [Overview](#overview)
 - [Hyper-parameters](#parm)
-- 
+
+
 References
 
 - [XG-boost homepage](https://xgboost.readthedocs.io/)
@@ -282,7 +283,7 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 
 ---
 
-</a name = 'parm'># Hyper-parameters</a>
+# Hyper-parameters </a id = 'parm'></a>
 
 __List of important hyperparameters__
 

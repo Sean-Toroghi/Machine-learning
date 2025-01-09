@@ -1,11 +1,14 @@
 <h1>XGBoost</h1>
 
+- [Overview](#overview)
+- [Hyper-parameters](#parm)
+- 
 References
 
 - [XG-boost homepage](https://xgboost.readthedocs.io/)
 - [XGBoost: A Scalable Tree Boosting System, 2016](http://goo.gl/aFfSef)
 - [Lsit of usefull resources](https://github.com/dmlc/xgboost/blob/master/demo/README.md)
-- 
+- [
 
 # Overview
 eXtreme Gradient Boosting (XGBoost) is an extension of gradient boosted decision trees, with the goal of improving its speed and performance. Gradient boosting cosists of three components: 
@@ -279,7 +282,7 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 
 ---
 
-## Hyper-parameters
+</a id = 'parm'># Hyper-parameters</a>
 
 __List of important hyperparameters__
 

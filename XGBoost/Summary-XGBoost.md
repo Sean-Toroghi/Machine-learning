@@ -283,7 +283,7 @@ Using `sklearn.feature_selection.SelectFromModel` we can select most important f
 
 ---
 
-# Hyper-parameters </a id = 'parm'></a>
+# Hyper-parameters <a id = 'parm'></a>
 
 __List of important hyperparameters__
 

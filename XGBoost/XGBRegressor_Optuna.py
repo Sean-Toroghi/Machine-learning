@@ -6,7 +6,8 @@ from sklearn.preprocessing import StandardScaler
 import optuna
 # -----------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------
-#Hyper-parameters tuning  perform for XGBRegressor (sklean imeplementation) via optuna package.
+# Hyper-parameters tuning for XGBRegressor (sklean imeplementation) via optuna 
+# By Sean Toroghi
 # -----------------------------------------------------------------------------------
 # -----------------------------------------------------------------------------------
 def weighted_MAE(y_true, y_pred, weight):

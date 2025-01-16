@@ -12,7 +12,7 @@ The folowing is the list of XGBoost parameters in layers divided by their impact
                                         #metric_name= 'rmse',
                                         )
     params = {
-        # initial parameters to tune
+        # First layer -  initial parameters to tune
         'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1, log=True),
         'max_depth': trial.suggest_int('max_depth', 4, 12),
         'n_estimators': trial.suggest_int('n_estimators', 500, 2000),
@@ -21,7 +21,7 @@ The folowing is the list of XGBoost parameters in layers divided by their impact
         #'subsample': trial.suggest_float('subsample', 0.5, 1.0, log=True),
         #'colsample_bytree': trial.suggest_float('colsample_bytree', 0.1, 1.0),
         
-        ## fine-tune - regulaization parameters
+        ## Third layer - fine-tune - regulaization parameters
         #'reg_lambda': trial.suggest_float('reg_lambda', 0.01, 10.0, log=True),
         #'reg_alpha': trial.suggest_float('reg_alpha', 0.01, 10.0, log=True),
         #'gamma': trial.suggest_float('gamma', 0.01, 10.0, log=True),

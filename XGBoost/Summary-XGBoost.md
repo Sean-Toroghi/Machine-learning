@@ -66,6 +66,11 @@ XGBoost automatically learn how to best handles missing values, due to the its d
 
 ---
 
+__GPU__ - list of hyper-parameters affected by using GPU:
+
+`{subsample, sampling_method, colsample_bytree, colsample_bylevel, max_bin, gamma, gpu_id, predictor, grow_policy, monotone_constraints, interaction_constraints, single_precision_histogram}`
+
+
 
 ---
 __Templates - sklearn__

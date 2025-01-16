@@ -1,5 +1,43 @@
 # XGBoost quick reference
 
+## XGBoost regressor parameters - layer
+The folowing is the list of XGBoost parameters in layers divided by their impact on the model performance. I follow this list for hyper-parameters tuning step by step, from high level to more granual level for fine-tuning.
+
+```python
+ es = callback.EarlyStopping(rounds=50,
+                                        #min_delta=1e-3,
+                                        #save_best=True,
+                                        #maximize=False,
+                                        #data_name="validation_0",
+                                        #metric_name= 'rmse',
+                                        )
+    params = {
+        # initial parameters to tune
+        'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.1, log=True),
+        'max_depth': trial.suggest_int('max_depth', 4, 12),
+        'n_estimators': trial.suggest_int('n_estimators', 500, 2000),
+        
+        ## Second layer parameters to tune: reduce overfitting
+        #'subsample': trial.suggest_float('subsample', 0.5, 1.0, log=True),
+        #'colsample_bytree': trial.suggest_float('colsample_bytree', 0.1, 1.0),
+        
+        ## fine-tune - regulaization parameters
+        #'reg_lambda': trial.suggest_float('reg_lambda', 0.01, 10.0, log=True),
+        #'reg_alpha': trial.suggest_float('reg_alpha', 0.01, 10.0, log=True),
+        #'gamma': trial.suggest_float('gamma', 0.01, 10.0, log=True),
+        #'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+        
+        'objective': 'reg:squarederror',
+        'device': 'cuda',           # Use GPU for training
+        'tree_method': 'gpu_hist',  # Use GPU for training
+        'random_state': 42,
+        'enable_categorical': True,  # Enable categorical feature support
+        'callbacks': [es]
+    }
+```
+
+
+
 ---
 ### XGBoost parameters complete
 ```

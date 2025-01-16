@@ -1,7 +1,7 @@
 # XGBoost quick reference
 
 ## XGBoost regressor parameters - layer
-The folowing is the list of XGBoost parameters in layers divided by their impact on the model performance. I follow this list for hyper-parameters tuning step by step, from high level to more granual level for fine-tuning.
+The folowing is the list of XGBoost parameters in layers divided by their impact on the model performance. I use this list in optuna for hyper-parameters tuning step by step, from high level to more granual level for fine-tuning.
 
 ```python
  es = callback.EarlyStopping(rounds=50,

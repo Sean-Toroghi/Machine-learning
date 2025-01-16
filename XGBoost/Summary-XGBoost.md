@@ -65,10 +65,24 @@ __Missing values__
 XGBoost automatically learn how to best handles missing values, due to the its design to work with sparse data [ref](https://arxiv.org/abs/1603.02754). However, the expected missing values for XGBosot is zero. A better approach is to specify missing values as `numpy.nan`. Finally, another option is imputation, which can improve or degrate performance dependiing on the imputation method.
 
 ---
+## GPU
+__Parameter setting to trian with GPU (fit method)__
 
-__GPU__ - list of hyper-parameters affected by using GPU:
+```python
+GPU_parameters = {
+                  'device': 'cuda', 
+                  'tree_method': 'gpu_hist',
+                  'enable_categorical': True
+                  "updater": "grow_gpu_hist",
+                  "updater_seq": "grow_gpu_hist"
+                  }
+```
 
-`{subsample, sampling_method, colsample_bytree, colsample_bylevel, max_bin, gamma, gpu_id, predictor, grow_policy, monotone_constraints, interaction_constraints, single_precision_histogram}`
+__list of hyper-parameters affected by using GPU:__
+
+```python
+{subsample, sampling_method, colsample_bytree, colsample_bylevel, max_bin, gamma, gpu_id, predictor, grow_policy, monotone_constraints, interaction_constraints, single_precision_histogram}
+```
 
 
 

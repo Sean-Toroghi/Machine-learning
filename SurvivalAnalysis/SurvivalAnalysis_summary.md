@@ -8,4 +8,39 @@ References
 Sure! Here's the provided BibTeX entry converted to Chicago format:
 
 
- 
+
+---
+# Deep learning approach
+To categorize DL models, three metrics could be use: 
+1. model class, based on which type of statistical survival technique is used to form the DL model.
+2. loss function, and combination of loss-functions.
+3. parameterization, that defines which part of a model is parametrized by a NN method. 
+
+__Cox-based approach__
+
+This approach employs DL to model Cox regression, parameterizing the log-risk function (hazart rate) by a NN and minimize the Cox-loss (neg. log of the partial likelihood of the Cox model).
+
+Examples:
+- DeepSurv by Katzman (2018)
+-  Cox-Time by Kvamme et al. (2019) - extension of DeepSurv
+-  NN-DeepSurv b yTong and Zhao (2022) - extension of DeepSurv
+
+__Discrete-time approach__
+
+this approach considers the time to be discrete and in most cases employs classification techniques with binary event indicater for each descret timestamp. The standard loss function for this approach is negative log-likelihood and it is typical for the descrete hazard to be parameterized by the NN. 
+
+This appraoch is much more heterogeneous in terms of loss function and architecture, compare wit hCox-based approach.
+
+Examples:
+- DeepHit by Lee et al. (2018)
+- Dynamic-DeepHit by Lee et al. (2019)
+-  TransformerJM  by Lin and Luo (2022)
+-  Nnet-survival  by Gensheimer and Narasimhan (2019)
+-  Tho2022  by Thorsen-Meyer (2022)
+-  DRSA by Ren (2019)
+
+__Parametric approach__
+
+__PEM‑based approach__
+
+

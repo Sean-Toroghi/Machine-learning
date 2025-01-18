@@ -219,7 +219,7 @@ Result_tuned_8folds = run_purged_cv_optimized_model(
     include_categorical = True,
     purge_ratio         = 0.1, 
     make_predictions    = True,
-    save_predictions_path="/kaggle/working"
+    save_predictions_path="/working_directory"
     )
 
 print(f"Average Weighted MAE:   {avg_weighted_mae}")

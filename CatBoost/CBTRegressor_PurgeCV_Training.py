@@ -1,12 +1,18 @@
+# -------------------------------------------------------------------------------------------------------
 # Training catBoost model via purged cross-validation
 # option 1 - use MAE
 # option 2 - employ custom metric weighted-MAE
+# -------------------------------------------------------------------------------------------------------
 
 
 
-# Catboost via purged cv - MAE
+
+# -------------------------------------------------------------------------------------------------------
+#                                      Catboost via purged cv - MAE
+# -------------------------------------------------------------------------------------------------------
 import numpy as np
 import pandas as pd
+import os, gc
 from sklearn.model_selection import KFold
 from catboost import CatBoostRegressor, Pool
 
@@ -84,20 +90,19 @@ def purged_cv(X, y, weights, X_test,
         # Store the fold predictions for later use (averaging across folds)
         fold_predictions.append(y_pred)
         
-        # Save fold predictions to disk if the path is provided
-        if save_predictions_path:
-            fold_pred_df = pd.DataFrame({
-                'fold': [fold] * len(y_pred),
-                'true_values': y_valid,
-                'predictions': y_pred
-            })
-            fold_pred_df.to_csv(f"{save_predictions_path}_fold_{fold}_predictions.csv", index=False)
-
+ 
         # Predict on the test data for inference
         test_pool = Pool(X_test, cat_features=cat_features)
         test_pred = model.predict(test_pool)
         test_predictions.append(test_pred)
-
+        # Save fold predictions to disk if the path is provided
+        if save_predictions_path:
+            fold_pred_df = pd.DataFrame({
+                'fold': [fold] * len(test_pred),
+                f'predictions_{fold}': test_pred
+            })
+            fold_pred_df.to_csv(os.path.join(save_predictions_path, f"fold_{fold}_predictions.csv"), index=False)
+        gc.collect()
     # Save results in a dictionary
     results['models'] = models
     results['avg_weighted_mae'] = total_weighted_mae / n_splits
@@ -176,10 +181,12 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
 
 
 
-
-#  Option 2. Catboost via purged cv - custom weighted-MAE
+# ----------------------------------------------------------------------------------------------------
+#                         Option 2. Catboost via purged cv - custom weighted-MAE
+# ----------------------------------------------------------------------------------------------------
 import numpy as np
 import pandas as pd
+import os, gc
 from sklearn.model_selection import KFold
 from catboost import CatBoostRegressor, Pool
 
@@ -214,7 +221,7 @@ def weighted_MAE_metric(y_pred, y_true):
 
 def purged_cv(X, y, weights, X_test, 
               catboost_params, cat_features, 
-              early_stopping_rounds = 50, n_splits=5, purge_ratio=0.1, 
+              early_stopping_rounds=50, n_splits=5, purge_ratio=0.1, 
               save_models=True, make_predictions=False, save_predictions_path=None):
     """
     Purged Cross-Validation for time series data, with options to save models and generate predictions.
@@ -261,15 +268,14 @@ def purged_cv(X, y, weights, X_test,
 
         # Create Pool for CatBoost with categorical features
         train_pool = Pool(X_train, y_train, cat_features=cat_features, weight=weights_train)
-        valid_pool = Pool(X_valid, y_valid, cat_features=cat_features)
+        valid_pool = Pool(X_valid, y_valid, cat_features=cat_features, weight=weights_valid)
 
         # Train the model on the purged data using the optimized parameters
         model = CatBoostRegressor(**catboost_params)
         model.fit(train_pool, 
-                  #cat_features = cat_features,
-                  #sample_weight=None,
+                  custom_metric=[weighted_MAE_metric],
                   eval_set=valid_pool,
-                  early_stopping_rounds = early_stopping_rounds,
+                  early_stopping_rounds=early_stopping_rounds,
                   verbose=False)
         
         # Save the best model if required
@@ -285,21 +291,20 @@ def purged_cv(X, y, weights, X_test,
         
         # Store the fold predictions for later use (averaging across folds)
         fold_predictions.append(y_pred)
-        
-        # Save fold predictions to disk if the path is provided
-        if save_predictions_path:
-            fold_pred_df = pd.DataFrame({
-                'fold': [fold] * len(y_pred),
-                'true_values': y_valid,
-                'predictions': y_pred
-            })
-            fold_pred_df.to_csv(f"{save_predictions_path}_fold_{fold}_predictions.csv", index=False)
 
         # Predict on the test data for inference
         test_pool = Pool(X_test, cat_features=cat_features)
         test_pred = model.predict(test_pool)
         test_predictions.append(test_pred)
 
+        # Save fold predictions to disk if the path is provided
+        if save_predictions_path:
+            fold_pred_df = pd.DataFrame({
+                'fold': [fold] * len(test_pred),
+                f'predictions_{fold}': test_pred
+            })
+            fold_pred_df.to_csv(os.path.join(save_predictions_path, f"fold_{fold}_predictions.csv"), index=False)
+        gc.collect()
     # Save results in a dictionary
     results['models'] = models
     results['avg_weighted_mae'] = total_weighted_mae / n_splits
@@ -367,7 +372,7 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
     # Using Purged Cross-Validation
     results = purged_cv(X_train, y_train, weights_train, 
                         X_test, catboost_params, cat_features,
-                        early_stopping_rounds = early_stopping_rounds,
+                        early_stopping_rounds=early_stopping_rounds,
                         n_splits=n_splits, 
                         save_models=save_models,
                         purge_ratio=purge_ratio, 
@@ -375,3 +380,4 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
                         save_predictions_path=save_predictions_path)
     
     return results
+

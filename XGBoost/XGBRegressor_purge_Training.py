@@ -1,7 +1,9 @@
 # ------------------------------------------------------------------------------
 #   Employ purge training method to train XGBRegressor on time series dataset
 # ------------------------------------------------------------------------------
-import os, gc
+
+
+ import os, gc
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
@@ -22,7 +24,7 @@ def weighted_MAE(y_true, y_pred, weight):
     """
     return np.sum(weight * np.abs(y_true - y_pred)) / np.sum(weight)
 
-def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1, save_models=True, make_predictions=False, save_predictions_path=None):
+def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1, save_models=True, save_predictions_path=None):
     """
     Purged Cross-Validation for time series data, with options to save models and generate predictions.
 
@@ -35,7 +37,6 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
     n_splits (int): Number of folds for cross-validation.
     purge_ratio (float): Percentage of the most recent data to be purged from each training set.
     save_models (bool): Whether to save the best model for each fold.
-    make_predictions (bool): Whether to return the predictions for each fold.
     save_predictions_path (str): Path to save fold predictions as CSV files.
 
     Returns:
@@ -83,16 +84,18 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
         # Store the fold predictions for later use (averaging across folds)
         fold_predictions.append(y_pred)
          
-        # Predict on the test data for inference
-        test_pred = model.predict(X_test)
-        test_predictions.append(test_pred)
-        # Save fold predictions to disk if the path is provided
-        if save_predictions_path:
-            fold_pred_df = pd.DataFrame({
-                'fold': [fold] * len(test_pred),
-                f'predictions_{fold}': test_pred
-            })
-            fold_pred_df.to_csv(os.path.join(save_predictions_path, f"fold_{fold}_predictions.csv"), index=False)
+        # Predict on the test data for inference, if provided
+        if X_test is not None:
+            test_pred = model.predict(X_test)
+            test_predictions.append(test_pred)
+
+            # Save fold predictions to disk if the path is provided
+            if save_predictions_path:
+                fold_pred_df = pd.DataFrame({
+                    'fold': [fold] * len(test_pred),
+                    f'predictions_{fold}': test_pred
+                })
+                fold_pred_df.to_csv(os.path.join(save_predictions_path, f"fold_{fold}_predictions.csv"), index=False)
         gc.collect()
 
     # Save results in a dictionary
@@ -101,8 +104,8 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
     
     print(f"Average Weighted MAE: {results['avg_weighted_mae']}")
     
-    # If make_predictions is True, return the averaged predictions
-    if make_predictions:
+    # If X_test is provided, return the averaged predictions
+    if X_test is not None:
         # Averaging the predictions from each fold
         results['avg_fold_predictions'] = np.mean(fold_predictions, axis=0)
         results['avg_test_predictions'] = np.mean(test_predictions, axis=0)
@@ -114,23 +117,20 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
             })
             avg_test_pred_df.to_csv(f"{save_predictions_path}_avg_test_predictions.csv", index=False)
 
-        return results
-
     return results
 
 
 # Example usage after performing hyperparameter optimization with Optuna
 def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series, 
                                   weights_train: pd.Series, 
-                                  X_test: pd.DataFrame,
-                                  n_splits,
-                                  save_models,
-                                  xgb_parameters=None, 
-                                  gpu=False,
-                                  include_categorical=True,
-                                  purge_ratio=0.1, 
-                                  make_predictions=False,
-                                  save_predictions_path=None):
+                                  X_test: pd.DataFrame = None,
+                                  n_splits = 5,
+                                  save_models = True,
+                                  xgb_parameters = None, 
+                                  gpu = False,
+                                  include_categorical = True,
+                                  purge_ratio = 0.1, 
+                                  save_predictions_path = None):
     """
     Run Purged Cross-Validation on the optimized model.
     
@@ -142,7 +142,6 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
     xgb_parameters (dict): Optimized hyperparameters for the model.
     n_splits (int): Number of folds for cross-validation.
     purge_ratio (float): The fraction of data to purge from the training set.
-    make_predictions (bool): Whether to return the predictions or not.
     save_predictions_path (str): Path to save predictions during training.
     
     Returns:
@@ -174,13 +173,10 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
                         n_splits=n_splits, 
                         save_models=save_models,
                         purge_ratio=purge_ratio, 
-                        make_predictions=make_predictions,
                         save_predictions_path=save_predictions_path)
     
     return results
 
-
- 
 # -------------------------------------------------------------------------------------
 # Example, running the training
 # -------------------------------------------------------------------------------------

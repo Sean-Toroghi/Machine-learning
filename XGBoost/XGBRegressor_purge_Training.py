@@ -1,6 +1,7 @@
 # ------------------------------------------------------------------------------
 #   Employ purge training method to train XGBRegressor on time series dataset
 # ------------------------------------------------------------------------------
+import os, gc
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
@@ -89,11 +90,12 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
                 'true_values': y_valid,
                 'predictions': y_pred
             })
-            fold_pred_df.to_csv(f"{save_predictions_path}_fold_{fold}_predictions.csv", index=False)
+            fold_pred_df.to_csv(os.path.join(save_predictions_path, f"fold_{fold}_predictions.csv"), index=False)
 
         # Predict on the test data for inference
         test_pred = model.predict(X_test)
         test_predictions.append(test_pred)
+        gc.collect()
 
     # Save results in a dictionary
     results['models'] = models
@@ -178,6 +180,7 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
                         save_predictions_path=save_predictions_path)
     
     return results
+
  
 # -------------------------------------------------------------------------------------
 # Example, running the training

@@ -2,8 +2,6 @@
 #                           Training catBoost model via purged cross-validation
 # -------------------------------------------------------------------------------------------------------
 
-
-
 import numpy as np
 import pandas as pd
 import os, gc
@@ -54,6 +52,9 @@ def purged_cv(X, y, weights, X_test,
     models = []  # To store models if saving is enabled
     test_predictions = []  # To store test set predictions
     results = {}
+
+    if save_predictions_path and not os.path.exists(save_predictions_path):
+        os.makedirs(save_predictions_path)
 
     for train_index, valid_index in kf.split(X):
         fold += 1
@@ -121,22 +122,10 @@ def purged_cv(X, y, weights, X_test,
     # Save results in a dictionary
     results['models'] = models
     results['avg_weighted_mae'] = total_weighted_mae / n_splits
-    
-    print(f"Average Weighted MAE: {results['avg_weighted_mae']}")
-    
-    # If X_test is provided, return the averaged predictions
     if X_test is not None:
-        # Averaging the predictions from each fold
-        results['avg_fold_predictions'] = np.mean(fold_predictions, axis=0)
-        results['avg_test_predictions'] = np.mean(test_predictions, axis=0)
-
-        # Optionally save the averaged test predictions
-        if save_predictions_path:
-            avg_test_pred_df = pd.DataFrame({
-                'avg_test_predictions': results['avg_test_predictions']
-            })
-            avg_test_pred_df.to_csv(f"{save_predictions_path}_avg_test_predictions.csv", index=False)
-
+        results['test_prediction'] = test_predictions
+    print(f"Average Weighted MAE: {results['avg_weighted_mae']}")
+          
     return results
 
 
@@ -172,19 +161,23 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
     """
     if catboost_params is None:
         catboost_params = {
-            'learning_rate': 0.07,
-            'depth': 7, 
-            'iterations': 1800,
-            'random_seed': 42,
-            'verbose': 0
-        }
+            'learning_rate': 0.03,
+            'depth': 2, 
+            'iterations': 100,
+            }
     if train_on_GPU:
         catboost_params.update({
-            'loss_function': 'RMSE'
+            'loss_function': 'RMSE',
+            
+            'random_seed': 42,
+            'verbose': 0
         })
     else:
         catboost_params.update({
             'loss_function': 'MAE',
+
+            'random_seed': 42,
+            'verbose': 0
         })
 
     # Using Purged Cross-Validation
@@ -199,6 +192,7 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
     
     return results
 
+
 # -----------------------------------------
 # Example
 # -----------------------------------------
@@ -212,7 +206,6 @@ results = run_purged_cv_optimized_model(X_train               = X_train,
                                         early_stopping_rounds = 50,
                                         catboost_params       = None, 
                                         purge_ratio           = 0.1, 
-                                        make_predictions      = True,
                                         save_predictions_path = Path(r"\Work\cbt"),
                                         train_on_GPU          = True
                                        )

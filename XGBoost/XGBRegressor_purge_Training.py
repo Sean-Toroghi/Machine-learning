@@ -2,8 +2,7 @@
 #   Employ purge training method to train XGBRegressor on time series dataset
 # ------------------------------------------------------------------------------
 
-
- import os, gc
+import os, gc
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import KFold
@@ -24,7 +23,8 @@ def weighted_MAE(y_true, y_pred, weight):
     """
     return np.sum(weight * np.abs(y_true - y_pred)) / np.sum(weight)
 
-def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1, save_models=True, save_predictions_path=None):
+def purged_cv(X, y, weights, X_test, xgb_parameters, 
+              n_splits=5, purge_ratio=0.1, save_models=True, save_predictions_path=None):
     """
     Purged Cross-Validation for time series data, with options to save models and generate predictions.
 
@@ -50,7 +50,8 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
     models = []  # To store models if saving is enabled
     test_predictions = []  # To store test set predictions
     results = {}
-
+    if save_predictions_path and not os.path.exists(save_predictions_path):
+            os.makedirs(save_predictions_path)
     for train_index, valid_index in kf.split(X):
         fold += 1
         print(f"Processing Fold {fold}")
@@ -68,7 +69,9 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
 
         # Train the model on the purged data using the optimized parameters
         model = XGBRegressor(**xgb_parameters)
-        model.fit(X_train, y_train, sample_weight=weights_train, eval_set=[(X_valid, y_valid)], verbose=False)
+        model.fit(X_train, y_train, sample_weight=weights_train, 
+                  eval_set=[(X_valid, y_valid)], 
+                  verbose=False)
         
         # Save the best model if required
         if save_models:
@@ -84,8 +87,9 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
         # Store the fold predictions for later use (averaging across folds)
         fold_predictions.append(y_pred)
          
-        # Predict on the test data for inference, if provided
+        # Predict on the test data for inference
         if X_test is not None:
+     
             test_pred = model.predict(X_test)
             test_predictions.append(test_pred)
 
@@ -96,27 +100,16 @@ def purged_cv(X, y, weights, X_test, xgb_parameters, n_splits=5, purge_ratio=0.1
                     f'predictions_{fold}': test_pred
                 })
                 fold_pred_df.to_csv(os.path.join(save_predictions_path, f"fold_{fold}_predictions.csv"), index=False)
+        
         gc.collect()
-
+    
     # Save results in a dictionary
     results['models'] = models
     results['avg_weighted_mae'] = total_weighted_mae / n_splits
-    
-    print(f"Average Weighted MAE: {results['avg_weighted_mae']}")
-    
-    # If X_test is provided, return the averaged predictions
     if X_test is not None:
-        # Averaging the predictions from each fold
-        results['avg_fold_predictions'] = np.mean(fold_predictions, axis=0)
-        results['avg_test_predictions'] = np.mean(test_predictions, axis=0)
-
-        # Optionally save the averaged test predictions
-        if save_predictions_path:
-            avg_test_pred_df = pd.DataFrame({
-                'avg_test_predictions': results['avg_test_predictions']
-            })
-            avg_test_pred_df.to_csv(f"{save_predictions_path}_avg_test_predictions.csv", index=False)
-
+        results['test_prediction'] = test_predictions
+    print(f"Average Weighted MAE: {results['avg_weighted_mae']}")
+          
     return results
 
 
@@ -127,10 +120,10 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
                                   n_splits = 5,
                                   save_models = True,
                                   xgb_parameters = None, 
-                                  gpu = False,
                                   include_categorical = True,
                                   purge_ratio = 0.1, 
-                                  save_predictions_path = None):
+                                  save_predictions_path = None,
+                                  train_on_GPU = False):
     """
     Run Purged Cross-Validation on the optimized model.
     
@@ -159,7 +152,7 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
     if include_categorical:
         xgb_parameters['enable_categorical'] = True
         
-    if gpu:
+    if train_on_GPU:
         xgb_parameters.update({
             'device': 'cuda',
             'tree_method': 'gpu_hist',
@@ -176,6 +169,7 @@ def run_purged_cv_optimized_model(X_train: pd.DataFrame, y_train: pd.Series,
                         save_predictions_path=save_predictions_path)
     
     return results
+
 
 # -------------------------------------------------------------------------------------
 # Example, running the training
@@ -205,20 +199,22 @@ xgb_tuned_parameters = {
     'min_child_weight': 3,
     }
 
+
+
 Result_tuned_8folds = run_purged_cv_optimized_model(
-    X_train             = X_train,
+    X_train             = X_train, 
     y_train             = y_train, 
     weights_train       = weights_train,
     X_test              = X_test,
-    n_splits            = 5,
+    n_splits            = 8,
     save_models         = True,
-    xgb_parameters      = xgb_tuned_parameters,
-    gpu                 = True,
+    xgb_parameters      = xgb_tuned_parameters, 
     include_categorical = True,
     purge_ratio         = 0.1, 
-    make_predictions    = True,
-    save_predictions_path="/working_directory"
-    )
+    save_predictions_path = '/working/xgb',
+    train_on_GPU        = True
+)
+
 
 print(f"Average Weighted MAE:   {avg_weighted_mae}")
 print(f"Fold Predictions size: {len(avg_fold_predictions)}")

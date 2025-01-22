@@ -1,12 +1,16 @@
-import os
-import gc
+import os, gc
+from re import A
+import numpy as np
 import pandas as pd
+from typing import Optional
 from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score
+from sklearn.utils import class_weight
 from xgboost import XGBClassifier
-import numpy as np
 
-def xgb_kfold_cv(X, y, X_test, xgb_parameters, n_splits=5, save_models=True, save_predictions_path=None):
+
+def xgb_kfold_cv(X, y, X_test, xgb_parameters, n_splits=5, 
+                 save_models=True, save_predictions_path=None, APPLY_WEIGHT = False):
     """
     K-Fold Cross-Validation for training XGB classification,
      with options to save models and generate predictions.
@@ -43,9 +47,18 @@ def xgb_kfold_cv(X, y, X_test, xgb_parameters, n_splits=5, save_models=True, sav
         X_train, X_valid = X.iloc[train_index], X.iloc[valid_index]
         y_train, y_valid = y.iloc[train_index], y.iloc[valid_index]
 
+        if APPLY_WEIGHT:
+          classes_weights = class_weight.compute_sample_weight(
+              class_weight='balanced',
+              y=y_train
+          )
+
         # Train the model on the full training data using the optimized parameters
         model = XGBClassifier(**xgb_parameters)
-        model.fit(X_train, y_train, eval_set=[(X_valid, y_valid)], verbose=False)
+        if APPLY_WEIGHT:
+          model.fit(X_train, y_train, sample_weight=classes_weights, eval_set=[(X_valid, y_valid)], verbose=False)
+        else:
+          model.fit(X_train, y_train, eval_set=[(X_valid, y_valid)], verbose=False)
 
         # Save the best model if required
         if save_models:
@@ -86,14 +99,14 @@ def xgb_kfold_cv(X, y, X_test, xgb_parameters, n_splits=5, save_models=True, sav
     return results
 
 
-# Example usage after performing hyperparameter optimization with Optuna
 def run_xgb_classifier_kfold_cv(X_train: pd.DataFrame, y_train: pd.Series,
-                                X_test: pd.DataFrame = None,
+                                X_test: Optional[pd.DataFrame] = None,
                                 n_splits = 5,
                                 save_models = True,
                                 xgb_parameters = None,
                                 save_predictions_path = None,
-                                train_on_GPU = False):
+                                train_on_GPU = False,
+                                APPLY_WEIGHT = False):
     """
     Run K-Fold Cross-Validation on XGB classifier model.
 
@@ -104,6 +117,8 @@ def run_xgb_classifier_kfold_cv(X_train: pd.DataFrame, y_train: pd.Series,
     xgb_parameters (dict): Optimized hyperparameters for the model.
     n_splits (int): Number of folds for cross-validation.
     save_predictions_path (str): Path to save predictions during training.
+    train_on_GPU (bool): Whether to train on GPU.
+    APPLY_WEIGHT (bool): Whether to apply class weights.
 
     Returns:
     dict: Contains average AUC, models, and predictions.
@@ -143,6 +158,20 @@ def run_xgb_classifier_kfold_cv(X_train: pd.DataFrame, y_train: pd.Series,
                            xgb_parameters,
                            n_splits=n_splits,
                            save_models=save_models,
-                           save_predictions_path=save_predictions_path)
+                           save_predictions_path=save_predictions_path,
+                           APPLY_WEIGHT=APPLY_WEIGHT)
 
     return results
+# --------------------------------------------
+#                   Example
+# --------------------------------------------
+results = run_xgb_classifier_kfold_cv(
+    X_train,
+    y_train,
+    X_test,
+    n_splits = 5,
+    save_models = True,
+    xgb_parameters = None,
+    save_predictions_path = root/'xgb_v00',
+    train_on_GPU = False,
+    APPLY_WEIGHT = True)

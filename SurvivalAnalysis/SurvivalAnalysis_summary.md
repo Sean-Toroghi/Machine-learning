@@ -94,11 +94,17 @@ Employ heaviside function $E g(t)$ will be $E$ for $t \leq t_0$, and _0_ for all
 __Ancillary variables__ is another type of variable for which  its value changes primarily because of “external” characteristics of the environ ment that may affect  several individuals simultaneously. An example of this type of variables is air polution.
 
 __General formula for extended Cox PH model__
-The formula for the extended Cox-PH model consists of two terms, one associated with time-dependendt variables and the other time-independent variables: 
-$$Extended\ Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i) + \sum (\gama_j Z_j)}$$
+The formula for the extended Cox-PH model consists of two terms, one associated with time-dependent variables and the other time-independent variables: 
+$$Extended\ Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i) + \sum (\gamma_j Z_j)}$$
+
+Here the $X_i$ variables are time independent and $Z_j$ are time dependent.
+
+Extended Cox-PH model formula could be written as log-time dependent variables as in the following: $Extended\ Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i) + \sum (\gamma_j Z_j (t - L_j))}$.
+
+In any-case, the proportinal hazard (PH) assumption no longer holds for the extended Cox model. 
 
 
-
+# Parametric survival analysis
 
 
 

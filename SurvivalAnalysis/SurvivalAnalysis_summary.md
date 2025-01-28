@@ -18,7 +18,7 @@ To categorize DL models, three metrics could be use:
 
 __Cox-based approach__
 
-This approach employs DL to model Cox regression, parameterizing the log-risk function (hazart rate) by a NN and minimize the Cox-loss (neg. log of the partial likelihood of the Cox model).
+This approach employs DL to model Cox regression, parameterizing the log-risk function (hazard rate) by a NN and minimize the Cox-loss (neg. log of the partial likelihood of the Cox model).
 
 Examples:
 - DeepSurv by Katzman (2018)
@@ -27,9 +27,9 @@ Examples:
 
 __Discrete-time approach__
 
-this approach considers the time to be discrete and in most cases employs classification techniques with binary event indicater for each descret timestamp. The standard loss function for this approach is negative log-likelihood and it is typical for the descrete hazard to be parameterized by the NN. 
+this approach considers the time to be discrete and in most cases employs classification techniques with binary event indicater for each descret timestamp. The standard loss function for this approach is negative log-likelihood and it is typical for the discrete hazard to be parameterized by the NN. 
 
-This appraoch is much more heterogeneous in terms of loss function and architecture, compare wit hCox-based approach.
+This approach is much more heterogeneous in terms of loss function and architecture, compare wit hCox-based approach.
 
 Examples:
 - DeepHit by Lee et al. (2018)
@@ -44,9 +44,42 @@ __Parametric approach__
 __PEM‑based approach__
 
 # Cox PH model
-The Cox PH model provides expression for hazard at point of time _t_ with a gicen specification of a set of explanatory variables. 
+The Cox PH model provides expression for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of independent variables $\beta_i X_i$ power of 
 
 # Evaluate proportional hazard
 
 Among different methods for evaluating proportional hazard (PH), three famous ones are: 1. graphical,2. goodness-of-fit, and 3. time-dependent variables.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

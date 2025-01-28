@@ -48,14 +48,37 @@ The Cox PH model provides expression for hazard at point of time _t_ with a give
 
 $$Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
 
-
+Cox PH model assumes the hazard ratio that compares any two specifications of predictors is constant over time. 
 A Cox model with time-dependent X's is called the __extended Cox model__. 
 
-# Evaluate proportional hazard
+# Evaluate proportional hazard (PH assumption in Cox-PH model)
 
-Among different methods for evaluating proportional hazard (PH), three famous ones are: 1. graphical,2. goodness-of-fit, and 3. time-dependent variables.
+Among different methods for evaluating proportional hazard (PH), three famous ones are: 1. graphical,2. goodness-of-fit, and 3. time-dependent variables. 
+- __Graphical techniques__: in short, the graphical method compares two graphs over time for two groups and if they are independent over time, they should show such a behavior on the plotted graph. Some of the graphical techniques are:
+  - Schoenfeld Residuals Plot: The residuals should be independent of time if the PH assumption holds. A plot of Schoenfeld residuals against time should show no pattern or trend.
+  - Log(-Log(Survival)) Plot: plotting the log(-log(survival)) against log(time), if the PH assumption is valid, the plot should show parallel lines for different levels of the predictor.
+  - Kaplan-Meier Curves:for categorical predictors, Kaplan-Meier curves can be used. If the PH assumption holds, the survival curves for different groups should be roughly parallel.
+  - Time-Dependent Covariates: Including time-dependent covariates in the model can help test the PH assumption. If the coefficients of these covariates are significant, it indicates a violation of the PH assumption.
+  - Observed w/ predictor: comparing observed vs predictor survival curve.
+- __Goodness-of-fit__: for a large sample of Z or chi-square statistics, based on p-values derived from standard normal statistics for each variable, if it is not significant, it indicates the PH assumption is satisfied. One downside of the GOF method could be it is too global and may not detect a specific violation of PH assumption.
+- __time-dependent variable__: generating a new feature by multiplying time by a time-independent variable, creates a time-dependent feature. Now if the coefficient of this new feature be significant, the PH assumption is violated for the original feature. 
+ 
 
+## Stratified Cox model
+The Stratified Cox model, is a modification to Cox model that uses stratification to control predictors that do not satisfy PH assumption. Stratification could be applied to one or more variables. A stratified method could be with no-interaction, or run with interaction.  The stratified Cox model assumes that there is no interaction between the stratification variable and other covariates. This means that the effect of the stratification variable is not modified by the other covariates
 
+__Single-variable stratification__
+
+In this method, if a variable is time-dependent, it is stratified in the model, while the other time-independent variables are included.
+  
+__General form (k-variable stratification)__
+
+Given a dataset with _k_ variables not satisfying the PH assumption and _p_ variables that satisfy the PH assumption, we perform the stratification as following:
+- Forming categories of time-dependent variables.
+- Forming combinations of the categories driven in the previous step.
+- Each combination is a strata.
+
+## Extention of Cox model (time-dependent variables)
 
 
 

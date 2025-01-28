@@ -95,7 +95,7 @@ __Ancillary variables__ is another type of variable for which  its value changes
 
 __General formula for extended Cox PH model__
 The formula for the extended Cox-PH model consists of two terms, one associated with time-dependendt variables and the other time-independent variables: 
-$$Extended Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
+$$Extended\ Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i) + \sum (\gama_j Z_j)}$$
 
 
 

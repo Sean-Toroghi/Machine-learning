@@ -80,7 +80,14 @@ Given a dataset with _k_ variables not satisfying the PH assumption and _p_ vari
 
 ## Extention of Cox model (time-dependent variables)
 
+__Time-dependent vs time-independent variables__
+- time-dependent: variales that their values change over time, such as age
+- time-independent: variables that their values does not change over time, such as race. However, a time-independent variable could be convereted into time-dependnet variable. One method is to multiply it by a time variable of time, such as _(t-1)_ or _g(t)_ (a function of time). One example of time function is _heaviside_ function defined as following:
 
+$g(t) = \begin{cases}
+    -1 & t > t_0
+    -0 & t \leq t_0
+\end{cases}$
 
 
 

@@ -81,15 +81,21 @@ Given a dataset with _k_ variables not satisfying the PH assumption and _p_ vari
 ## Extention of Cox model (time-dependent variables)
 
 __Time-dependent vs time-independent variables__
-- time-dependent: variales that their values change over time, such as age
-- time-independent: variables that their values does not change over time, such as race. However, a time-independent variable could be convereted into time-dependnet variable. One method is to multiply it by a time variable of time, such as _(t-1)_ or _g(t)_ (a function of time). One example of time function is _heaviside_ function defined as following:
+- time-dependent: variables that their values change over time, such as age. _Internal_ variables are also time-dependent, such as exposure.
+- time-independent: variables that their values do not change over time, such as race. However, a time-independent variable could be converted into a time-dependent variable. One method is to multiply it by a time variable of time, such as _(t-1)_ or _g(t)_ (a function of time). One example of a time function is _heaviside_ function, defined as the following:
 
 $$g(t) = \begin{cases}
-1 & t > t_0 \\
-0 & t \leq t_0
+1 & t \leq t_0 \\
+0 & t < t_0
 \end{cases}
 $$
+Employ heaviside function $E g(t)$ will be $E$ for $t \leq t_0$, and _0_ for all other cases.
 
+__Ancillary variables__ is another type of variable for which  its value changes primarily because of “external” characteristics of the environ ment that may affect  several individuals simultaneously. An example of this type of variables is air polution.
+
+__General formula for extended Cox PH model__
+The formula for the extended Cox-PH model consists of two terms, one associated with time-dependendt variables and the other time-independent variables: 
+$$Extended Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
 
 
 

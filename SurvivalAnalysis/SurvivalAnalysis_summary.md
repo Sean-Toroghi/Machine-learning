@@ -43,4 +43,10 @@ __Parametric approach__
 
 __PEM‑based approach__
 
+# Cox PH model
+The Cox PH model provides expression for hazard at point of time _t_ with a gicen specification of a set of explanatory variables. 
+
+# Evaluate proportional hazard
+
+Among different methods for evaluating proportional hazard (PH), three famous ones are: 1. graphical,2. goodness-of-fit, and 3. time-dependent variables.
 

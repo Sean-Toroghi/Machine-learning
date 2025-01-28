@@ -44,7 +44,12 @@ __Parametric approach__
 __PEM‑based approach__
 
 # Cox PH model
-The Cox PH model provides expression for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of independent variables $\beta_i X_i$ power of 
+The Cox PH model provides expression for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$. the baseline hazard is a function of _t_, while does not involve X's. The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent. 
+
+$$Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
+
+
+A Cox model with time-dependent X's is called the __extended Cox model__. 
 
 # Evaluate proportional hazard
 

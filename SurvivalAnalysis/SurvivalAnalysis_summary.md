@@ -15,7 +15,7 @@ Sure! Here's the provided BibTeX entry converted to Chicago format:
 ---
 ---
 
-<a id = 'km'> # Kaplan-Meier Survival Curve</a>
+# <a id = 'km'>Kaplan-Meier Survival Curve</a>
 
 The Kaplan-Meier Survival Curve is a non-parametric method for estimating survival function. It also provides a visual graph (curve) representing the probability of survival over time. 
 

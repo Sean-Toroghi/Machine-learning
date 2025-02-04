@@ -91,11 +91,12 @@ plt.show()
 ---
 
 <a id = 'coxph'># Cox PH model</a>
-The Cox PH model provides expression for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$. the baseline hazard is a function of _t_, while does not involve X's. The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent. 
+
+The Cox PH model provides expressions for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$. the baseline hazard is a function of _t_, while does not involve X's. The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent. 
 
 $$Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
 
-Cox PH model assumes the hazard ratio that compares any two specifications of predictors is constant over time. 
+The Cox PH model assumes the hazard ratio that compares any two specifications of predictors is constant over time. 
 A Cox model with time-dependent X's is called the __extended Cox model__. 
 
 # Evaluate proportional hazard (PH assumption in Cox-PH model)
@@ -112,7 +113,7 @@ Among different methods for evaluating proportional hazard (PH), three famous on
  
 
 ## Stratified Cox model
-The Stratified Cox model, is a modification to Cox model that uses stratification to control predictors that do not satisfy PH assumption. Stratification could be applied to one or more variables. A stratified method could be with no-interaction, or run with interaction.  The stratified Cox model assumes that there is no interaction between the stratification variable and other covariates. This means that the effect of the stratification variable is not modified by the other covariates
+The Stratified Cox model, is a modification to Cox model that uses stratification to control predictors that do not satisfy PH assumption. Stratification could be applied to one or more variables. A stratified method could be with no-interaction, or run with interaction.  The stratified Cox model assumes that there is no interaction between the stratification variable and other covariates. This means that the effect of the stratification variable is not modified by the other covariates.
 
 __Single-variable stratification__
 
@@ -120,7 +121,7 @@ In this method, if a variable is time-dependent, it is stratified in the model, 
   
 __General form (k-variable stratification)__
 
-Given a dataset with _k_ variables not satisfying the PH assumption and _p_ variables that satisfy the PH assumption, we perform the stratification as following:
+Given a dataset with _k_ variables not satisfying the PH assumption and _p_ variables that satisfy the PH assumption, we perform the stratification as follows:
 - Forming categories of time-dependent variables.
 - Forming combinations of the categories driven in the previous step.
 - Each combination is a strata.
@@ -148,7 +149,7 @@ Here the $X_i$ variables are time independent and $Z_j$ are time dependent.
 
 Extended Cox-PH model formula could be written as log-time dependent variables as in the following: $Extended\ Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i) + \sum (\gamma_j Z_j (t - L_j))}$.
 
-In any-case, the proportinal hazard (PH) assumption no longer holds for the extended Cox model. 
+In any-case, the proportional hazard (PH) assumption no longer holds for the extended Cox model. 
 
 
 # Parametric survival analysis

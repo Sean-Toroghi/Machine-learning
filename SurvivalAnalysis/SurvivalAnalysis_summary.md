@@ -1,6 +1,10 @@
+__Table of contents__
+- [Kaplan-Meier Survival Curves](#km)
+- [Log-Rank Test](#logrank)
+- [Cox PH model](#coxph)
+- 
 
-
-References  
+__References__
 - [link 1: Deep Learning for Survival Analysis](https://humboldt-wi.github.io/blog/research/information_systems_1920/group2_survivalanalysis/)
 - [link 2](https://github.com/robi56/Survival-Analysis-using-Deep-Learning)
 - Wiegrebe, Simon, Philipp Kopper, Raphael Sonabend, Bernd Bischl, and Andreas Bender. "Deep Learning for Survival Analysis: A Review." *Artificial Intelligence Review* 57, no. 3 (February 2024): 157-173. [link](https://doi.org/10.1007/s10462-023-10681-3).
@@ -8,42 +12,85 @@ References
 Sure! Here's the provided BibTeX entry converted to Chicago format:
 
 
+---
+---
+
+<a id = 'km'> # Kaplan-Meier Survival Curve</a>
+The Kaplan-Meier Survival Curve is a non-parametric method for estimating survival function. It also provides a visual graph (curve) representing the probability of survival over time. 
+
+Some of the key components of a KM approach are:
+- Survival function: the Kaplan-Meier estimator calculates the survival function. It is the probability that an individual survives from the time of origin (e.g., diagnosis) to a specified time.
+- Censored Data: this method accounts for censored data (it incorporates information from individuals whose event status is unknown at the end of the study).
+- Step Function: the survival curve is a step function that changes only at the time of each event (e.g., death).
+- Survival curve: a visual representation of the probability of survival over time.
+
+__Kaplan-Meier Estimator Formula__: 
+
+The Kaplan-Meier survival estimate at time $\( t \) : \[ \hat{S}(t) = \prod_{t_i \leq t} \left(1 - \frac{d_i}{n_i}\right) \]$
+
+where:
+- $\( t_i \)$ = Time at which the event occurred.
+- $\( d_i \)$ = Number of events (e.g., deaths) at time $\( t_i \)$.
+- $\( n_i \)$ = Number of individuals at risk just before time $\( t_i \)$.
+
+Step to plot KM curve
+1. collect survival times and event indicators.
+2. employ the KM estimator to calculate the survival probabilities.
+3. plot the estimated survival probabilities against time.
+ 
+__Surivival curve__
+- Survival Probability: The y-axis represents the estimated survival probability at each time point.
+- Steps: The steps in the curve correspond to the times when events occurred. The curve drops at each event, reflecting the decrease in survival probability.
+- Censoring is often indicated by tick marks on the curve.
+
+__Pros and Cons__
+
+- (+) KM curves effectively handle censored data.
+- (+) The step function provides an easy-to-understand visualization of survival probabilities over time.
+- (+) it does not assume a specific underlying distribution for survival times (non-parametric).
+- (-) KM curves do not directly incorporate covariates. For that, models like the Cox proportional hazards model are used.
+- (-) For comparing survival curves between groups, statistical tests like the log-rank test are used.
+
+__Example (lifelines package)__
+
+```python
+import pandas as pd
+from lifelines import KaplanMeierFitter
+import matplotlib.pyplot as plt
+
+# Data-sample
+data = {
+    'time': [5, 10, 15, 20, 25, 30],  # Survival times
+    'status': [1, 0, 1, 0, 1, 1]  # Event indicators (1 = event, 0 = censored)
+}
+df = pd.DataFrame(data)
+
+# Create Kaplan-Meier Fitter and fit the data
+kmf = KaplanMeierFitter()
+kmf.fit(df['time'], event_observed=df['status'])
+
+
+# Plotting the survival curve
+kmf.plot_survival_function()
+plt.xlabel('Time')
+plt.ylabel('Survival Probability')
+plt.title('Kaplan-Meier Survival Curve')
+plt.show()
+```
+
+
+
+
 
 ---
-# Deep learning approach
-To categorize DL models, three metrics could be use: 
-1. model class, based on which type of statistical survival technique is used to form the DL model.
-2. loss function, and combination of loss-functions.
-3. parameterization, that defines which part of a model is parametrized by a NN method. 
+<a id = 'logrank'> # Log-Rank Test</a>
 
-__Cox-based approach__
 
-This approach employs DL to model Cox regression, parameterizing the log-risk function (hazard rate) by a NN and minimize the Cox-loss (neg. log of the partial likelihood of the Cox model).
 
-Examples:
-- DeepSurv by Katzman (2018)
--  Cox-Time by Kvamme et al. (2019) - extension of DeepSurv
--  NN-DeepSurv b yTong and Zhao (2022) - extension of DeepSurv
 
-__Discrete-time approach__
+---
 
-this approach considers the time to be discrete and in most cases employs classification techniques with binary event indicater for each descret timestamp. The standard loss function for this approach is negative log-likelihood and it is typical for the discrete hazard to be parameterized by the NN. 
-
-This approach is much more heterogeneous in terms of loss function and architecture, compare wit hCox-based approach.
-
-Examples:
-- DeepHit by Lee et al. (2018)
-- Dynamic-DeepHit by Lee et al. (2019)
--  TransformerJM  by Lin and Luo (2022)
--  Nnet-survival  by Gensheimer and Narasimhan (2019)
--  Tho2022  by Thorsen-Meyer (2022)
--  DRSA by Ren (2019)
-
-__Parametric approach__
-
-__PEM‑based approach__
-
-# Cox PH model
+<a id = 'coxph'># Cox PH model</a>
 The Cox PH model provides expression for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$. the baseline hazard is a function of _t_, while does not involve X's. The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent. 
 
 $$Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
@@ -87,8 +134,8 @@ __Time-dependent vs time-independent variables__
 $$g(t) = \begin{cases}
 1 & t \leq t_0 \\
 0 & t < t_0
-\end{cases}
-$$
+\end{cases}$$
+
 Employ heaviside function $E g(t)$ will be $E$ for $t \leq t_0$, and _0_ for all other cases.
 
 __Ancillary variables__ is another type of variable for which  its value changes primarily because of “external” characteristics of the environ ment that may affect  several individuals simultaneously. An example of this type of variables is air polution.
@@ -124,6 +171,40 @@ In any-case, the proportinal hazard (PH) assumption no longer holds for the exte
 
 
 
+---
+---
+# Deep learning approach
+To categorize DL models, three metrics could be use: 
+1. model class, based on which type of statistical survival technique is used to form the DL model.
+2. loss function, and combination of loss-functions.
+3. parameterization, that defines which part of a model is parametrized by a NN method. 
+
+__Cox-based approach__
+
+This approach employs DL to model Cox regression, parameterizing the log-risk function (hazard rate) by a NN and minimize the Cox-loss (neg. log of the partial likelihood of the Cox model).
+
+Examples:
+- DeepSurv by Katzman (2018)
+-  Cox-Time by Kvamme et al. (2019) - extension of DeepSurv
+-  NN-DeepSurv b yTong and Zhao (2022) - extension of DeepSurv
+
+__Discrete-time approach__
+
+this approach considers the time to be discrete and in most cases employs classification techniques with binary event indicater for each descret timestamp. The standard loss function for this approach is negative log-likelihood and it is typical for the discrete hazard to be parameterized by the NN. 
+
+This approach is much more heterogeneous in terms of loss function and architecture, compare wit hCox-based approach.
+
+Examples:
+- DeepHit by Lee et al. (2018)
+- Dynamic-DeepHit by Lee et al. (2019)
+-  TransformerJM  by Lin and Luo (2022)
+-  Nnet-survival  by Gensheimer and Narasimhan (2019)
+-  Tho2022  by Thorsen-Meyer (2022)
+-  DRSA by Ren (2019)
+
+__Parametric approach__
+
+__PEM‑based approach__
 
 
 

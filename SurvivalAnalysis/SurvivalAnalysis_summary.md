@@ -84,14 +84,14 @@ plt.show()
 
 
 ---
-<a id = 'logrank'> # Log-Rank Test</a>
+# <a id = 'logrank'>Log-Rank Test</a>
 
 
 
 
 ---
 
-<a id = 'coxph'># Cox PH model</a>
+# <a id = 'coxph'>Cox PH model</a>
 
 The Cox PH model provides expressions for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$. the baseline hazard is a function of _t_, while does not involve X's. The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent. 
 

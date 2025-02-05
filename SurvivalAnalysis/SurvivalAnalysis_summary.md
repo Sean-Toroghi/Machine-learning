@@ -140,16 +140,60 @@ print(f'Test Statistic: {results.test_statistic}')
 
 ---
 
-# <a id = 'coxph'> [Cox PH model](#up) </a>
+# <a id = 'coxph'> [Cox proportional hazard (PH) model](#up) </a>
 
-The Cox PH model provides expressions for hazard at point of time _t_ with a given specification of a set of explanatory variables. According to the Cox model, hazard at time _t_ is a function of two parameters: baseline hazard, and the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$. the baseline hazard is a function of _t_, while does not involve X's. The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent. 
+Cox PH model is used to assess the effect of covariates on hazard function.  It is a statistical model that provides an expression for hazard at a point in time (_t_), with a given specification defined as a set of explanatory variables. According to the Cox PH model, hazard at time _t_ is a function of two parameters: 
+1. baseline __hazard function__ represents the instantaneous risk of the event occurring at time _t_, given that the individual has survived up to time _t_. It is a function of _t_, while it does not involve X's.
+2. the exponential _e_ to the linear form of the sum of independent variables $\beta_i X_i$.  The exponential part is a function of X's, but does not involve _t_. Here X's are time-independent.  The model estimates regression coefficients that quantify the effect of each covariate on the hazard rate.
+
+ 
+
 
 $$Cox-PH: h(t, X) = h_0(t) e^{\sum (\beta_i X_i)}$$
 
-The Cox PH model assumes the hazard ratio that compares any two specifications of predictors is constant over time. 
-A Cox model with time-dependent X's is called the __extended Cox model__. 
+**Proportional Hazards Assumption**
 
-# Evaluate proportional hazard (PH assumption in Cox-PH model)
+The Cox model assumes that the hazard ratios between groups are constant over time. This means that the effect of covariates on the hazard rate is multiplicative and does not change over time. A Cox model with time-dependent X's is called the __extended Cox model__. 
+
+
+
+__Steps to run a Cox Model__
+
+1. **Data Preparation**: Collect survival times, event indicators, and covariates.
+2. **Fit the Model**:   fit the Cox model and estimate the regression coefficients.
+3. **Check Assumptions**: Assess the proportional hazards assumption (e.g. diagnostic plots and tests).
+4. **Interpret Results**: Interpret the regression coefficients and their statistical significance.
+
+
+__Example__
+```python
+import pandas as pd
+from lifelines import CoxPHFitter
+
+# data
+data = {
+    'time': [5, 6, 6, 6, 7, 10, 13, 16, 20, 25],
+    'event': [1, 1, 0, 1, 1, 1, 1, 1, 0, 1],
+    'age': [50, 60, 45, 70, 55, 65, 40, 75, 60, 80],
+    'treatment': [1, 1, 0, 0, 1, 1, 0, 0, 1, 1]
+}
+df = pd.DataFrame(data)
+
+# Fit the Cox Model
+# Create a CoxPHFitter object
+cph = CoxPHFitter()
+# Fit the model
+cph.fit(df, duration_col='time', event_col='event')
+# Print the summary of the model
+cph.print_summary()
+
+#>>> a p-value < 0.05 indicates the covariate is significant.
+#>>> 'exp(coef)' represents the hazard ratio. For example, the value 1.03 indicates each additional amount(number) of that covariates increases the hazard by 3%
+
+```
+
+
+## Evaluate proportional hazard (PH assumption in Cox-PH model)
 
 Among different methods for evaluating proportional hazard (PH), three famous ones are: 1. graphical,2. goodness-of-fit, and 3. time-dependent variables. 
 - __Graphical techniques__: in short, the graphical method compares two graphs over time for two groups and if they are independent over time, they should show such a behavior on the plotted graph. Some of the graphical techniques are:
@@ -159,7 +203,7 @@ Among different methods for evaluating proportional hazard (PH), three famous on
   - Time-Dependent Covariates: Including time-dependent covariates in the model can help test the PH assumption. If the coefficients of these covariates are significant, it indicates a violation of the PH assumption.
   - Observed w/ predictor: comparing observed vs predictor survival curve.
 - __Goodness-of-fit__: for a large sample of Z or chi-square statistics, based on p-values derived from standard normal statistics for each variable, if it is not significant, it indicates the PH assumption is satisfied. One downside of the GOF method could be it is too global and may not detect a specific violation of PH assumption.
-- __time-dependent variable__: generating a new feature by multiplying time by a time-independent variable, creates a time-dependent feature. Now if the coefficient of this new feature be significant, the PH assumption is violated for the original feature. 
+- __time-dependent variable__: generating a new feature by multiplying time by a time-independent variable, creates a time-dependent feature. Now if the coefficient of this new feature is significant, the PH assumption is violated for the original feature. 
  
 
 ## Stratified Cox model

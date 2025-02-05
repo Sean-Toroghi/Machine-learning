@@ -88,7 +88,54 @@ plt.show()
 ---
 # <a id = 'logrank'> [Log-Rank Test](#up) </a>
 
+The log-rank test is a hypothesis test and is used to compare the survival distribution of two or more groups. It examines if there is a significant difference between the survival curves. 
+- null-hyp.: there is no difference between the survival distribution
+- alt-hyp.: there is a difference between the survival curve
+- A low p-value (e.g., < 0.05) suggests a significant difference in survival distributions between the groups.
+- log-rank test for large groups: it is approximately a chi-square test with _G-1_ degree of freedom (_G_ is number of groups).
 
+__Example__
+```python
+import pandas as pd
+from lifelines import KaplanMeierFitter
+from lifelines.statistics import logrank_test
+import matplotlib.pyplot as plt
+
+# dataset
+data = {
+    'time': [5, 6, 6, 6, 7, 10, 13, 16, 20, 25, 5, 6, 6, 8, 10, 12, 14, 18, 22, 30],
+    'event': [1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1],
+    'group': ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B']
+}
+df = pd.DataFrame(data)
+
+# Fit Kaplan-Meier survival curves for each group
+kmf_A = KaplanMeierFitter()
+kmf_B = KaplanMeierFitter()
+# Group A
+kmf_A.fit(durations=df[df['group'] == 'A']['time'], event_observed=df[df['group'] == 'A']['event'], label='Group A')
+# Group B
+kmf_B.fit(durations=df[df['group'] == 'B']['time'], event_observed=df[df['group'] == 'B']['event'], label='Group B')
+
+# Plot the survival curves
+ax = kmf_A.plot_survival_function()
+kmf_B.plot_survival_function(ax=ax)
+plt.title('Kaplan-Meier Survival Curves')
+plt.xlabel('Time')
+plt.ylabel('Survival Probability')
+plt.show()
+
+# Perform Log-Rank Test
+# Perform log-rank test
+results = logrank_test(
+    df[df['group'] == 'A']['time'], df[df['group'] == 'B']['time'],
+    event_observed_A=df[df['group'] == 'A']['event'], event_observed_B=df[df['group'] == 'B']['event']
+)
+
+# Print results
+print(f'Log-Rank Test p-value: {results.p_value}')
+print(f'Test Statistic: {results.test_statistic}')
+```
 
 
 ---

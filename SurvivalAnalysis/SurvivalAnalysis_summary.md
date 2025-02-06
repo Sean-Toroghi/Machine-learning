@@ -251,8 +251,9 @@ In any-case, the proportional hazard (PH) assumption no longer holds for the ext
 # <a id = 'parametric'> [Parametric survival model](#up) </a>
 The parametric survival model is another survival method that is used to predict survival probabilities, hazard rates, and other quantities of interest. Unlike a non-parametric (KM model) or a semi-parametric (Cox PH model) method, the parametric could yield a more accurate estimation or prediction. This is due to the fact that the parametric approach assumes that survival time follows a specific probability distribution, such as exponential, Weibull, log-normal, or gamma distribution. This helps the model to perform better.
 
+## Parametric model based on distribution type of survival time
 
-A parametric model consists of two functions:
+A parametric model consists of two functions: $f(t) = S(t) \times h(t)$
 - survival function $\( S(t) \)$, which represents the probability that an individual survives from the time origin to at least time $\( t \)$.
 - hazard function $\( h(t) \)$, which represents the instantaneous risk of the event occurring at time $\( t \)$, given that the individual has survived up to time $\( t \)$.
 
@@ -305,7 +306,7 @@ wf.print_summary()
 ```
 
 Output
-```cmd
+```
 WeibullFitter
 ==================================================================================
                 coef    exp(coef)  se(coef)       z        p     -log2(p)
@@ -320,7 +321,11 @@ Interprete the results
 - `exp(coef)` column shows the exponentiated coefficients, which can be interpreted as hazard ratios.
 - `p` column indicates the statistical significance of each parameter. Parameters with low p-values (e.g., < 0.05) are considered statistically significant.
 
+## Accelerated failure time assumption (AFT)
 
+
+
+---
 
 
 

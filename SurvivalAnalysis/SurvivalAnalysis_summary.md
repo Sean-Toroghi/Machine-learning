@@ -251,102 +251,61 @@ In any-case, the proportional hazard (PH) assumption no longer holds for the ext
 # <a id = 'km'> [Parametric survival model](#up) </a>
 The parametric survival model is another survival method that is used to predict survival probabilities, hazard rates, and other quantities of interest. Unlike a non-parametric (KM model) or a semi-parametric (Cox PH model) method, the parametric could yield a more accurate estimation or prediction. This is due to the fact that the parametric approach assumes that survival time follows a specific probability distribution, such as exponential, Weibull, log-normal, or gamma distribution. This helps the model to perform better.
 
-Formula of some of the common survival models, based on the distribution type:
-- Exponential: a model based on exponential distribution assumes survival time has a constant hazard rate over time.
-
- $$S(t) = \exp(-\lambda t) \] \[ h(t) = \lambda \]$$
-   where $\( \lambda \)$ is the rate parameter.
--    
 
 A parametric model consists of two functions:
 - survival function $\( S(t) \)$, which represents the probability that an individual survives from the time origin to at least time $\( t \)$.
 - hazard function $\( h(t) \)$, which represents the instantaneous risk of the event occurring at time $\( t \)$, given that the individual has survived up to time $\( t \)$.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
- 
-
- 
   
+Formula of some of the survival and hazard functions, based on the distribution of survival time:
+- Exponential distribution: a model based on exponential distribution assumes survival time has a constant hazard rate over time.
 
-2. **Weibull Distribution**: A flexible model that can handle increasing or decreasing hazard rates. The survival function and hazard function are given by:
-   \[
-   S(t) = \exp(-\lambda t^\gamma)
-   \]
-   \[
-   h(t) = \lambda \gamma t^{\gamma-1}
-   \]
-   where \( \lambda \) and \( \gamma \) are shape and scale parameters.
+  $$S(t) = \exp(-\lambda t)$$
+  
+  $$h(t) = \lambda$$
+  
+  where $\( \lambda \)$ is the rate parameter.
+ 
+ - Weibull distribution: more flexible distribution that could handle increasing or decreasing hazard rate.
+  
+   $$S(t) = \exp(-\lambda t^\gamma)$$
+ 
+   $$h(t) = \lambda \gamma t^{\gamma-1}$$
+ 
+   where $\lambda$ and $\gamma$ are shape and scale parameters.
+   
+- Log-Normal Distribution assumes the logarithm of the survival time follows a normal distribution. The survival function does not have a closed-form expression and is often evaluated numerically.
+- Gamma Distribution is a flexible model that can handle various hazard shapes. The survival function and hazard function are more complex and often require numerical methods for evaluation.
 
-3. **Log-Normal Distribution**: Assumes the logarithm of the survival time follows a normal distribution. The survival function does not have a closed-form expression and is often evaluated numerically.
 
-4. **Gamma Distribution**: Another flexible model that can handle various hazard shapes. The survival function and hazard function are more complex and often require numerical methods for evaluation.
+__Steps__
+1. Select an appropriate probability distribution based on the characteristics of the data and the underlying process.
+2. Employ maximum likelihood estimation (MLE) or Bayesian methods to estimate the parameters of the chosen distribution.
+3. Evaluate the goodness of fit using diagnostic plots and statistical tests.
+4. Use the fitted model to predict survival probabilities, hazard rates, and other quantities of interest.
 
-### Steps to Fit Parametric Survival Models
 
-1. **Choose a Distribution**: Select an appropriate probability distribution based on the characteristics of the data and the underlying process.
-2. **Estimate Parameters**: Use maximum likelihood estimation (MLE) or Bayesian methods to estimate the parameters of the chosen distribution.
-3. **Evaluate Model Fit**: Assess the goodness of fit using diagnostic plots and statistical tests.
-4. **Make Predictions**: Use the fitted model to predict survival probabilities, hazard rates, and other quantities of interest.
 
-### Example in Python
+__Example__
+```python
+import pandas as pd
+from lifelines import WeibullFitter
 
-Here’s an example of how to fit a Weibull parametric survival model using the `lifelines` library in Python:
+# data
+data = {
+    'time': [5, 6, 6, 6, 7, 10, 13, 16, 20, 25],
+    'event': [1, 1, 0, 1, 1, 1, 1, 1, 0, 1]
+}
+df = pd.DataFrame(data)
 
-1. **Install `lifelines`**:
-   ```sh
-   pip install lifelines
-   ```
-
-2. **Import Necessary Libraries**:
-   ```python
-   import pandas as pd
-   from lifelines import WeibullFitter
-   ```
-
-3. **Prepare the Data**:
-   ```python
-   # Example data
-   data = {
-       'time': [5, 6, 6, 6, 7, 10, 13, 16, 20, 25],
-       'event': [1, 1, 0, 1, 1, 1, 1, 1, 0, 1]
-   }
-
-   df = pd.DataFrame(data)
-   ```
-
-4. **Fit the Weibull Model**:
-   ```python
-   # Create a WeibullFitter object
-   wf = WeibullFitter()
-
-   # Fit the model
-   wf.fit(df['time'], event_observed=df['event'])
-
-   # Print the summary of the model
-   wf.print_summary()
-   ```
-
-### Example Output
-
+# Create/fit a WeibullFitter object and print the results
+wf = WeibullFitter()
+wf.fit(df['time'], event_observed=df['event'])
+wf.print_summary() 
 ```
-<lifelines.WeibullFitter: fitted with 10 total observations, 2 right-censored observations>
-<lifelines.WeibullFitter: fitted with 10 total observations, 2 right-censored observations>
-<lifelines.WeibullFitter: fitted with 10 total observations, 2 right-censored observations>
+
+Output
+```cmd
 WeibullFitter
 ==================================================================================
                 coef    exp(coef)  se(coef)       z        p     -log2(p)
@@ -356,18 +315,23 @@ rho            0.7423     2.1010     0.1312    5.656    <0.0001     12.8783
 ----------------------------------------------------------------------------------
 ```
 
-### Interpretation
+Interprete the results
+- `coef` column shows the estimated parameters for the Weibull distribution.
+- `exp(coef)` column shows the exponentiated coefficients, which can be interpreted as hazard ratios.
+- `p` column indicates the statistical significance of each parameter. Parameters with low p-values (e.g., < 0.05) are considered statistically significant.
 
-- **Coefficients**: The `coef` column shows the estimated parameters for the Weibull distribution.
-- **Hazard Ratios**: The `exp(coef)` column shows the exponentiated coefficients, which can be interpreted as hazard ratios.
-- **Significance**: The `p` column indicates the statistical significance of each parameter. Parameters with low p-values (e.g., < 0.05) are considered statistically significant.
 
-### Conclusion
 
-Parametric survival models provide a powerful framework for analyzing survival data when the underlying distribution is known or can be well approximated. By assuming a specific distribution for survival times, these models can yield more precise estimates and predictions compared to non-parametric and semi-parametric methods.
 
-Does this help clarify parametric survival models for you? If you have any further questions or need more details, feel free to ask! 😊
 
+
+
+
+
+
+
+
+  
 
 
 

@@ -248,7 +248,7 @@ In any-case, the proportional hazard (PH) assumption no longer holds for the ext
 
 ---
 
-# <a id = 'km'> [Parametric survival model](#up) </a>
+# <a id = 'parametric'> [Parametric survival model](#up) </a>
 The parametric survival model is another survival method that is used to predict survival probabilities, hazard rates, and other quantities of interest. Unlike a non-parametric (KM model) or a semi-parametric (Cox PH model) method, the parametric could yield a more accurate estimation or prediction. This is due to the fact that the parametric approach assumes that survival time follows a specific probability distribution, such as exponential, Weibull, log-normal, or gamma distribution. This helps the model to perform better.
 
 

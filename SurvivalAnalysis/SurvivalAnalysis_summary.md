@@ -451,10 +451,33 @@ Interprete the results
 
 # <a id = 'competingrisk'> [Competing risk survival analysis](#up)</a>
 
-Standard survival analysis methods such as the Kaplan-Meier estimator and Cox proportional hazards model, assume that there is only one type of event that can occur. In case there are competing events, these methods can produce biased estimates of the probabilities of each event.
+Standard survival analysis methods such as the Kaplan-Meier estimator and Cox proportional hazards model, assume that there is only one type of event that can occur. In case there are competing events, these methods can produce biased estimates of the probabilities of each event. 
 
-The competing risk approach deals with survival data in which each subject can experience only one of several different types of events over follow-up. Such a case is in contrast with a case in which subjects could experience more than one event (recurrent event survival analysis). In short, competing risk is a statistical method used to analyze time-to-event data when there is more than one possible outcome, and these outcomes are mutually exclusive (when one event occurs, it precludes the occurrence of any other event).
+The competing risk deals with survival data in which each subject can experience only one of several different types of events over follow-up. Such a case is in contrast with a case in which subjects could experience more than one event (recurrent event survival analysis). In short, competing risk is a statistical method used to analyze time-to-event data when there is more than one possible outcome, and these outcomes are mutually exclusive (when one event occurs, it precludes the occurrence of any other event).
 
+
+## Methods
+__Conventional - separate models for different event types__
+
+The typical (“cause-specific”) approach for analyzing competing risk data is to perform a survival analysis for each  event type separately, where the other (competing) event types are treated as censored categories. The draw-back is that the conventional models have the assumption that the competing risks are independent.
+
+__Cumulative incidence curve__
+
+Methods for analyzing competing risk survival data range from the Cox model and the parametric survival model, to models that use the cumulative incidence (rather than survival).  “cumulative incidence curve (CIC),” is the primary alternative summary curve to the KM-based survival curve. It estimates the “marginal probability” of an event (both terms are defined in this chapter). 
+
+__Other methods__
+- An alternative approach to competing risk is the __“conditional probability curve (CPC),”__ which provides a risk probability conditional on an individual not experiencing any of the other competing risks by time _t_.
+- An equivalent approach to the cause-specific method for analyzing competing risks is called the __Lunn–McNeil (LM) approach__. The LM approach allows only one model to be fit rather than separate models for each event type  and, moreover, allows flexibility to perform statistical inferences about simpler versions of the LM model.
+
+
+
+
+
+__Cumulative incident approach__
+- Cause-specific hazard functions: each event has its own hazard rate.
+- Cumulative incident function: the probability of experiencing a specific event by a certain time, acknowledging that other events might occur first.
+
+x
 __Packages__
 - `lifelines`
 - `sklearn`
@@ -462,7 +485,7 @@ __Packages__
  - `crr`: regression
  - `cif`: estimating cumulative incidence functions
 
-__Example - competing risk analysis__
+__Example 1 - competing risk analysis__
 
 
 
@@ -488,6 +511,9 @@ print(results)
 
 
   
+
+
+
 
 
 

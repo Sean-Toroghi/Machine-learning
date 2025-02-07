@@ -5,7 +5,7 @@ __Table of contents__
 - [Log-Rank Test](#logrank) 
 - [Cox PH model](#coxph)
 - [General Stratified Cox (SC) Model](#strcox)
-- [Extention of Cox PH model](#coxextent)
+- [Extention of Cox PH model](#coxextend)
 - [Parametric survival model](#parametric)
 
 __References__

@@ -442,14 +442,45 @@ Interprete the results
 ## Accelerated failure time assumption (AFT)
 
 
+---
+
+# <a id = 'recurrent'> [Recurrent event survival analysis](#up)</a>
+
 
 ---
 
 # <a id = 'competingrisk'> [Competing risk survival analysis](#up)</a>
 
-survival data in which each subject can experience only one of several different types of events over follow-up
+Standard survival analysis methods such as the Kaplan-Meier estimator and Cox proportional hazards model, assume that there is only one type of event that can occur. In case there are competing events, these methods can produce biased estimates of the probabilities of each event.
+
+The competing risk approach deals with survival data in which each subject can experience only one of several different types of events over follow-up. Such a case is in contrast with a case in which subjects could experience more than one event (recurrent event survival analysis). In short, competing risk is a statistical method used to analyze time-to-event data when there is more than one possible outcome, and these outcomes are mutually exclusive (when one event occurs, it precludes the occurrence of any other event).
+
+__Packages__
+- `lifelines`
+- `sklearn`
+- `cmrsk`
+ - `crr`: regression
+ - `cif`: estimating cumulative incidence functions
+
+__Example - competing risk analysis__
 
 
+
+```python
+import pandas as pd
+from cmprsk import crr
+
+# data
+data = pd.DataFrame({
+    'time': [10, 12, 15, 18, 20, 22, 25, 28, 30, 35],
+    'event': [1, 0, 1, 2, 0, 1, 0, 2, 1, 0],
+    'group': [0, 0, 1, 0, 1, 1, 0, 1, 0, 1]
+})
+
+# Fit the competing risk regression model
+results = crr(data['time'], data['event'], data['group'])
+print(results)
+```
 
 
 
@@ -483,7 +514,7 @@ survival data in which each subject can experience only one of several different
 ---
 ---
 
-# <a id = 'competingrisk'> [Deep learning approach for survival analysis](#up)</a>
+# <a id = 'dl'> [Deep learning approach for survival analysis](#up)</a>
 
 To categorize DL models, three metrics could be use: 
 1. model class, based on which type of statistical survival technique is used to form the DL model.

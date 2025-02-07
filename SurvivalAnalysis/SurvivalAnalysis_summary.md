@@ -5,6 +5,7 @@ __Table of contents__
 - [Log-Rank Test](#logrank) 
 - [Cox PH model](#coxph)
 - [General Stratified Cox (SC) Model](#strcox)
+- [Extention of Cox PH model](#coxextent)
 - [Parametric survival model](#parametric)
 
 __References__
@@ -339,8 +340,12 @@ cph_with_interaction.print_summary()
 ```
 
 
+## The Stratified Cox Likelihood
+The likelihood function for the Stratified Cox Model is an extension of the standard Cox likelihood, but with one key difference: it sums over the baseline hazards for different strata.
 
+---
 
+# <a id = 'coxextend'> [Extension of the Cox Proportional Hazards Model for Time Dependent Variables](#up) </a>
 
 
 

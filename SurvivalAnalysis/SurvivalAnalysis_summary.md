@@ -292,7 +292,15 @@ cph.plot()
 
 ```
 
+## No-Interaction Assumption 
 
+The Cox PH model assumes the effect of each covariate on the hazard is constant over time, and that the effects of the covariates do not interact with each other. The no-interaction assumption says the effect of a covariate on the hazard is not influenced by other covariates. In other words, the hazard ratio for a particular covariate is assumed to be constant and independent of the values of other covariates.
+
+__Test the No-Interaction Assumption__
+- method 1 - inclusion in model: to test an interaction, we can add the interaction term to the Cox PH model, and check the results. If the p-value shows significance for that covariate, it means the no-interaction assumption is violated.
+- method 2 - likelihood ratio test:
+ - Null Model: A model without the interaction term.
+ - Alternative Model: A model that includes the interaction term
 
 ---
 

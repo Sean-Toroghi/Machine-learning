@@ -298,9 +298,59 @@ The Cox PH model assumes the effect of each covariate on the hazard is constant 
 
 __Test the No-Interaction Assumption__
 - method 1 - inclusion in model: to test an interaction, we can add the interaction term to the Cox PH model, and check the results. If the p-value shows significance for that covariate, it means the no-interaction assumption is violated.
-- method 2 - likelihood ratio test:
- - Null Model: A model without the interaction term.
- - Alternative Model: A model that includes the interaction term
+- method 2 - likelihood ratio test. If the likelihood ratio test indicates that the interaction term significantly improves the model, it suggests that the No-Interaction Assumption does not hold, and interactions should be included.
+  - Null Model: A model without the interaction term.
+  - Alternative Model: A model that includes the interaction term.
+- method 3 - statistical test: using `CoxPHFitter` class to fit a model and add interaction terms to test for significant interactions.
+
+__Example__
+
+```python
+import pandas as pd
+import numpy as np
+from lifelines import CoxPHFitter
+from lifelines.datasets import load_rossi
+
+# Load a sample dataset
+data = load_rossi()
+
+# Let's consider two covariates: 'age' and 'fin'
+# First, fit the Cox model without interaction terms
+cph_no_interaction = CoxPHFitter()
+cph_no_interaction.fit(data, duration_col='week', event_col='arrest')
+
+# Now, create a new feature for the interaction between 'age' and 'fin'
+data['age_fin_interaction'] = data['age'] * data['fin']
+
+# Fit the Cox model with the interaction term
+cph_with_interaction = CoxPHFitter()
+cph_with_interaction.fit(data, duration_col='week', event_col='arrest')
+
+# Compare the models
+print("Model without interaction:")
+cph_no_interaction.print_summary()
+
+print("\nModel with interaction:")
+cph_with_interaction.print_summary()
+
+# Conduct Likelihood Ratio Test
+# We can check if the interaction term significantly improves the model by comparing AIC values or using a formal likelihood ratio test.
+# If the interaction term is significant, the model with interaction will be preferred.
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 

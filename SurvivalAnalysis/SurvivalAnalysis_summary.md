@@ -262,6 +262,38 @@ Where
 - $S$ represents the stratum (subgroup) to which the observation belongs,
 - $h_{0S}(t)$ is the baseline hazard for stratum $S$.
 
+
+
+__Example__
+```python
+
+import pandas as pd
+import numpy as np
+from lifelines import CoxPHFitter
+from lifelines.datasets import load_rossi
+
+# Load the Rossi dataset (a common dataset for survival analysis)
+data = load_rossi()
+data['race'] = data['race'].astype('category')
+
+# Instantiate the Cox Proportional Hazards model
+cph = CoxPHFitter()
+
+# Fit the model with stratification by 'race'
+# duration_col: time until the event or censoring occurs
+# event_col: the event of interest column
+cph.fit(data, duration_col='week', event_col='arrest', strata=['race'])
+
+# Display the summary of the model
+cph.print_summary()
+
+# Check the baseline survival function for different strata
+cph.plot()
+
+```
+
+
+
 ---
 
 # <a id = 'parametric'> [Parametric survival model](#up) </a>

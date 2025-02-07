@@ -2,7 +2,7 @@
 
 __Table of contents__
 - [Kaplan-Meier Survival Curves](#km)
-- [Log-Rank Test](#logrank)
+- [Log-Rank Test](#logrank) 
 - [Cox PH model](#coxph)
 - [General Stratified Cox (SC) Model](#strcox)
 - [Parametric survival model](#parametric)

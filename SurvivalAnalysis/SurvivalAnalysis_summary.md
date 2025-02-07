@@ -457,9 +457,9 @@ The competing risk deals with survival data in which each subject can experience
 
 
 ## Methods
-__Conventional - separate models for different event types__
+__Conventional (most often Cox PH model) - separate models for different event types__
 
-The typical (“cause-specific”) approach for analyzing competing risk data is to perform a survival analysis for each  event type separately, where the other (competing) event types are treated as censored categories. The draw-back is that the conventional models have the assumption that the competing risks are independent.
+The typical (“cause-specific”) approach for analyzing competing risk data is to perform a survival analysis for each  event type separately, where the other (competing) event types are treated as censored categories. The draw-back is that the conventional models have the assumption that the competing risks are independent. Each model returns a hazard ratio (or other measures of association) for the effect of predictors on the cause-specific hazard for that particular event, given the subject has not experienced other - competing - events. 
 
 __Cumulative incidence curve__
 

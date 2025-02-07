@@ -4,6 +4,7 @@ __Table of contents__
 - [Kaplan-Meier Survival Curves](#km)
 - [Log-Rank Test](#logrank)
 - [Cox PH model](#coxph)
+- [General Stratified Cox (SC) Model](#strcox)
 - [Parametric survival model](#parametric)
 
 __References__
@@ -245,6 +246,21 @@ Extended Cox-PH model formula could be written as log-time dependent variables a
 
 In any-case, the proportional hazard (PH) assumption no longer holds for the extended Cox model. 
 
+---
+# <a id = 'strcox'> [General Stratified Cox (SC) Model](#up) </a>
+
+The general Stratified Cox (SC) model is an extension of the Cox PH model, and is used to explore the relationship between the survival time of and one or more predictor variables. The stratification part of the model handles situations where the proportional hazards assumption might not hold for some subgroups (strata) of the data. 
+
+- Cox PH model assumes the effect of covariates on hazard is multiplicative or constant over time.
+- Stratification is then used in cases in which the baseline hazard function may differ across different strata (subgroups). By using stratification, each subgroup will have its own baseline hazard function, which can improve the model’s fit when proportional hazard assumptions do not hold for all covariates. Each stratum has its own baseline hazard function. As the result, the relationship between covariates and hazard function could be different among different groups.
+
+Original Cox PH model: $$h(t|X) = h_0(t) \exp(\beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p)$$
+
+Stratified Cox PH model: $$h(t|X, S) = h_{0S}(t) \exp(\beta_1 X_1 + \beta_2 X_2 + ... + \beta_p X_p)$$
+
+Where 
+- $S$ represents the stratum (subgroup) to which the observation belongs,
+- $h_{0S}(t)$ is the baseline hazard for stratum $S$.
 
 ---
 

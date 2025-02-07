@@ -7,6 +7,8 @@ __Table of contents__
 - [General Stratified Cox (SC) Model](#strcox)
 - [Extention of Cox PH model](#coxextend)
 - [Parametric survival model](#parametric)
+- [Competing risk survival analysis](#competingrisk)
+- [Deep learning approach for survival analysis](#dl)
 
 __References__
 - [link 1: Deep Learning for Survival Analysis](https://humboldt-wi.github.io/blog/research/information_systems_1920/group2_survivalanalysis/)
@@ -349,7 +351,9 @@ The likelihood function for the Stratified Cox Model is an extension of the stan
 
 Time-dependent variables violate the PH assumption in the Cox-PH model. However, the Cox model can still be used in the form of the extended Cox-PH model. There are several options for modeling a survival analysis, among which are:
 - employ the stratified Cox-PH model approach: using a stratified Cox  (SC) model, which stratifies on the predictor(s)  not satisfying the PH assumption, while  keeping in the model those predictors that  satisfy the PH assumption.
-- employ 
+- employ extended Cox-PH model.
+
+## Extended Cox PH model
 
 
 
@@ -441,7 +445,9 @@ Interprete the results
 
 ---
 
+# <a id = 'competingrisk'> [Competing risk survival analysis](#up)</a>
 
+survival data in which each subject can experience only one of several different types of events over follow-up
 
 
 
@@ -476,7 +482,9 @@ Interprete the results
 
 ---
 ---
-# Deep learning approach
+
+# <a id = 'competingrisk'> [Deep learning approach for survival analysis](#up)</a>
+
 To categorize DL models, three metrics could be use: 
 1. model class, based on which type of statistical survival technique is used to form the DL model.
 2. loss function, and combination of loss-functions.

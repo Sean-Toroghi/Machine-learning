@@ -347,6 +347,9 @@ The likelihood function for the Stratified Cox Model is an extension of the stan
 
 # <a id = 'coxextend'> [Extension of the Cox Proportional Hazards Model for Time Dependent Variables](#up) </a>
 
+Time-dependent variables violate the PH assumption in the Cox-PH model. However, the Cox model can still be used in the form of the extended Cox-PH model. There are several options for modeling a survival analysis, among which are:
+- employ the stratified Cox-PH model approach: using a stratified Cox  (SC) model, which stratifies on the predictor(s)  not satisfying the PH assumption, while  keeping in the model those predictors that  satisfy the PH assumption.
+- employ 
 
 
 

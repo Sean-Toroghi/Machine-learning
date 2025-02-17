@@ -24,7 +24,7 @@ def check_corr(df, return_corr_matrix = False):
   corr_matrix = df.corr().abs()
   upper_tri = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(bool))
   to_drop = [column for column in upper_tri.columns if any(upper_tri[column] > 0.95)]
-  print(f"Checked feature corr in dataset {i} Columns to drop: {to_drop}\n\n")
+  print(f"Columns to drop: {to_drop}\n\n")
   if return_corr_matrix:
     return corr_matrix
   else:

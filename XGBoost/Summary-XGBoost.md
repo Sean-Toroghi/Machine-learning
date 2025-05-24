@@ -1,5 +1,15 @@
 <h1>XGBoost</h1>
 
+
+XGBoost (eXtreme Gradient Boosting) is a highly efficient, scalable, and powerful ensemble machine-learning algorithm based on decision trees, renowned for its exceptional performance in a wide range of predictive modeling tasks. It consistently ranks among the top-performing algorithms in machine-learning competitions and real-world applications due to its speed, accuracy, and ability to handle complex datasets. 
+
+__This repository__ compiles key insights and summaries gathered from authoritative sources, including the official XGBoost website, academic papers, and books on XGBoost (see references below). 
+
+To enhance coding efficiency and promote reusability, I have shared my custom XGBoost code implementations, designed to serve as a flexible framework for various projects. These scripts, written by me, are optimized for modularity, allowing seamless adaptation across different projects hile the core structure stays the same for most of them.
+
+
+---
+
 - [Overview](#overview)
 - [Hyper-parameters](#parm)
 
@@ -9,7 +19,10 @@ References
 - [XG-boost homepage](https://xgboost.readthedocs.io/)
 - [XGBoost: A Scalable Tree Boosting System, 2016](http://goo.gl/aFfSef)
 - [Lsit of usefull resources](https://github.com/dmlc/xgboost/blob/master/demo/README.md)
-- [
+- [Book (2024): XGBoost for Regression Predictive Modeling and Time Series Analysis](https://www.packtpub.com/en-us/product/xgboost-for-regression-predictive-modeling-and-time-series-analysis-9781805129608?srsltid=AfmBOorzLO6L7cP18ACyivTQ11VgwPrTzurLdbQvjoY2QVQeBj3_FeUa)
+- [Book (2020): Hands-On Gradient Boosting with XGBoost and scikit-learn](https://www.packtpub.com/en-cl/product/hands-on-gradient-boosting-with-xgboost-and-scikit-learn-9781839218354)
+
+
 
 # Overview
 eXtreme Gradient Boosting (XGBoost) is an extension of gradient boosted decision trees, with the goal of improving its speed and performance. Gradient boosting cosists of three components: 

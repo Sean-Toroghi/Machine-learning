@@ -18,9 +18,26 @@ Some of the enhancements added to the gradient-boosted trees to create XGBoost a
 - a regularization term to control model complexity
 - eficiency and scalability, achieved through a cache-aware block structure and parallel tree construction
 
+The improvements applied to CART that creates XGBoost are:
+- Novel tree learning algorithm
+- Sparse data handling
+- New algorithm for finding proposed split points
+- Enabled parallel and distributed compute
+- Cache-aware algorithm to prevent memory-related delays 
+
 ## How boosting improves the performance of a classification and regression tree (CART) model 
 
-In boosting, results from multiple iterations are combined to improve the overall classification or prediction. Boosting is an iterative method of combining multiple “weak learners” into a “strong learner.” A weak learner is a model that is just slightly better than guessing
+In boosting, results from multiple iterations are combined to improve the overall classification or prediction. Boosting is an iterative method of combining multiple “weak learners” (a model that is just slightly better than guessing) into a “strong learner.”
+
+## How gradient descent works in XGBoost
+Gradient descent is an algorithm that minimizes a function in an iterative manner. It is used to calculate the weights for the X variables in the loss function, comparing the predicted value to the actual from the training dataset.
+
+ For classification decision trees, Gini impurity is used in the CART algorithm. It reaches zero when all items in a node fall into a single classification.
+
+ 
+
+
+
 ---
 
 # Gradient-boosted trees

@@ -9,16 +9,14 @@ This summary is my takeaways and notes from reference book "XGBoost for Regressi
 
 
 ---
-# [XGBoost: A Scalable Tree Boosting System 2016 (2016) [arxiv](https://arxiv.org/pdf/1603.02754)
+# Paper: "XGBoost: A Scalable Tree Boosting System" 2016 [arxiv](https://arxiv.org/pdf/1603.02754)
 
-XGBoost was developed to address the following shorcommings of existing ensemble tree-boosting algorithms at the time in 2016: ability to handle large-scale data,  flexibility in defining customized optimization objectives and evaluation criteria, and support for parallel processing and distributed computing. 
-
-Some of the enhancements added to the gradient-boosted trees to create XGBoost are:
+XGBoost was developed to address the following shorcommings of existing ensemble tree-boosting algorithms at the time in 2016: ability to handle large-scale data, flexibility in defining customized optimization objectives and evaluation criteria, and support for parallel processing and distributed computing. The XGBoost algorithm could address the shortcomming by adding some enhancements to the gradient-boosted trees:
 - a sparsity-aware algorithm for handling missing values 
 - a regularization term to control model complexity
 - eficiency and scalability, achieved through a cache-aware block structure and parallel tree construction
 
-The improvements applied to CART that creates XGBoost are:
+The list of improvements applied to the CART are:
 - Novel tree learning algorithm
 - Sparse data handling
 - New algorithm for finding proposed split points
@@ -32,10 +30,14 @@ In boosting, results from multiple iterations are combined to improve the overal
 ## How gradient descent works in XGBoost
 Gradient descent is an algorithm that minimizes a function in an iterative manner. It is used to calculate the weights for the X variables in the loss function, comparing the predicted value to the actual from the training dataset.
 
- For classification decision trees, Gini impurity is used in the CART algorithm. It reaches zero when all items in a node fall into a single classification.
+For classification decision trees, Gini impurity is used in the CART algorithm. It reaches zero when all items in a node fall into a single classification.
 
- 
+## Issue of sparse data and how XGBoost addressed it
 
+## Issue of overfititng and how XGBoost addressed it
+The XGBoost algorithm uses _omega_ function to smooth the weights and as the result, avoids overfitting. Omega function acts as a regularization and controls the complexity of the model. Furthermore, XGBoost employs two additional techniques to handle overfitting:
+- __shrinkage__
+- __subsampling__: 
 
 
 ---

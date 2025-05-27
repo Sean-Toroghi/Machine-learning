@@ -5,11 +5,28 @@ References:
 - Paper (2016): XGBoost: A Scalable Tree Boosting System [https://arxiv.org/abs/1603.02754]
 - Website: XGBoost [link](https://xgboost.readthedocs.io/en/stable/index.html)
 
-This summary is my takeaways and notes from reference book "XGBoost for Regression Predictive Modeling and Time Series Analysis" by Partha Pritam Deka and Joyce Weiner that was published in 2024, the XGboost website [link](https://xgboost.readthedocs.io/en/stable/index.html), and the original published paper in 2016 XGBoost: A Scalable Tree Boosting System[arxiv](https://arxiv.org/pdf/1603.02754).
+This summary is my takeaways and notes from reference book "XGBoost for Regression Predictive Modeling and Time Series Analysis" by Partha Pritam Deka and Joyce Weiner that was published in 2024, the XGboost website [link](https://xgboost.readthedocs.io/en/stable/index.html), and the original published paper in 2016 XGBoost: A Scalable Tree Boosting System [arxiv](https://arxiv.org/pdf/1603.02754).
 
 
 ---
 # [XGBoost: A Scalable Tree Boosting System 2016 (2016) [arxiv](https://arxiv.org/pdf/1603.02754)
+
+XGBoost was developed to address the following shorcommings of existing ensemble tree-boosting algorithms at the time in 2016: ability to handle large-scale data,  flexibility in defining customized optimization objectives and evaluation criteria, and support for parallel processing and distributed computing. 
+
+Some of the enhancements added to the gradient-boosted trees to create XGBoost are:
+- a sparsity-aware algorithm for handling missing values 
+- a regularization term to control model complexity
+- eficiency and scalability, achieved through a cache-aware block structure and parallel tree construction
+
+## How boosting improves the performance of a classification and regression tree (CART) model 
+
+In boosting, results from multiple iterations are combined to improve the overall classification or prediction. Boosting is an iterative method of combining multiple “weak learners” into a “strong learner.” A weak learner is a model that is just slightly better than guessing
+---
+
+# Gradient-boosted trees
+
+Gradient-boosted trees are a type of classification and regression tree (CART) model, that learns via building a decision tree. The algorihtm employs the gradient descent algorithm to minimizing a loss function that compares the predicted value versus a target value. 
+
 
 ---
 

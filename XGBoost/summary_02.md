@@ -1,8 +1,15 @@
-# Book (2024): XGBoost for Regression Predictive Modeling and Time Series Analysis - summary and key takeaways
+# XGBoost - summary (v02) and key take aways 
+
+References:
+- Book (2024): XGBoost for Regression Predictive Modeling and Time Series Analysis
+- Paper (2016): XGBoost: A Scalable Tree Boosting System [https://arxiv.org/abs/1603.02754]
+- Website: XGBoost [link](https://xgboost.readthedocs.io/en/stable/index.html)
+
+This summary is my takeaways and notes from reference book "XGBoost for Regression Predictive Modeling and Time Series Analysis" by Partha Pritam Deka and Joyce Weiner that was published in 2024, the XGboost website [link](https://xgboost.readthedocs.io/en/stable/index.html), and the original published paper in 2016 [XGBoost: A Scalable Tree Boosting System ](https://arxiv.org/pdf/1603.02754).
 
 
-This summary is my takeaways and notes from reference book "XGBoost for Regression Predictive Modeling and Time Series Analysis" by Partha Pritam Deka and Joyce Weiner that was published in 2024.
-
+---
+# [XGBoost: A Scalable Tree Boosting System 2016 (2016) [arxiv](https://arxiv.org/pdf/1603.02754)
 
 ---
 

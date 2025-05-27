@@ -1,4 +1,4 @@
-# XGBoost - summary (v02) and key take aways 
+x# XGBoost - summary (v02) and key take aways 
 
 References:
 - Book (2024): XGBoost for Regression Predictive Modeling and Time Series Analysis
@@ -34,18 +34,36 @@ For classification decision trees, Gini impurity is used in the CART algorithm. 
 
 ## Issue of sparse data and how XGBoost addressed it
 
+To address sparse data issue (either caused by missing values, or as the result of encoding such as one-hot-encoding), XGBoost uses sparse-aware spliting technique. This technique provides a default split direction when it faces sparse data, which speeds up processing time.
+
+## Memory issue, and how XGBoost run efficient
+
+The greedy algorithm to find where to split the data requires all data to fit in memory. XGBoost employs approximation to handle issue of memory allocation when it comes to large dataset. This approximation method first propose split candidates are first based on feature distributions (what the histograms of the individual feature columns look like), then the features are mapped into buckets split by those candidates. Finaly the algorithm picks the best split based on aggregated statistics. XGBoost uses two approximation methods:
+1. global: it uses the same split candidates from the initial mapping throughout the steps,
+2. local: refine candidates after each split
+
+
 ## Issue of overfititng and how XGBoost addressed it
 The XGBoost algorithm uses _omega_ function to smooth the weights and as the result, avoids overfitting. Omega function acts as a regularization and controls the complexity of the model. Furthermore, XGBoost employs two additional techniques to handle overfitting:
-- __shrinkage__
-- __subsampling__: 
+- __shrinkage__: scale weights after each step of tree boosting
+- __subsampling__: perform subsampling on both rows and features (similar to random forest)
 
 
 ---
 
-# Gradient-boosted trees
+# tree based and ensemble models
 
-Gradient-boosted trees are a type of classification and regression tree (CART) model, that learns via building a decision tree. The algorihtm employs the gradient descent algorithm to minimizing a loss function that compares the predicted value versus a target value. 
+## Gradient-boosted trees
 
+Gradient-boosted trees are a type of classification and regression tree (CART) model, that learns via building a decision tree. The algorihtm employs the gradient descent algorithm to minimizing a loss function that compares the predicted value versus a target value.
+
+## XGBoost vs Random forest
+
+While in gradient-boosted trees such as XGBoost, the decision trees are built iteratively, random forest algorithm builds multiple decision trees at the same time. Random forest uses a random sampling of the dataset for each tree, and the results of the trees in the forest are aggregated to produce the final result. In contrast, gradient-boosted trees aggregate the results as it goes through the training process.
+
+The following considerations could help in making decision which algorithm to pick:
+- The iterative nature of gradient-boosted trees makes it harder to explain why the model is making a prediction since the results process is an aggregate of multiple iterations. On the other hand, random forest results is easier to interpret.
+- Data structure: with wide data (many feature), random forest algorithm performs better than gradient-boosted trees. Gradient boosting works well for tall data, where there are a lot of rows in the dataset.
 
 ---
 

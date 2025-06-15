@@ -22,9 +22,14 @@ This summary explores machine learning through the unifying framework of the ene
 --- 
 # <a name="energy">The concept of _energy model_ in machine learning</a>
 
-__Energy model__ or _negativ compatibility score_ assigns a score to function $e$ that maps pair of _(oberve, latent)_ variables, parameterised by $\theta$, to a real value: $e: ((X, Z), \theta) \rightarrow \mathbb{R}$
+__Energy model__ or _negativ compatibility score_ assigns a score to function $e$ that maps pair of _(oberve, latent)_ variables, parameterised by $\theta$, to a real value: $e: ((X, Z), \theta) \rightarrow \Re$. We do not observe the latent variable ($Z$) directly. The mean and variance for the eebergy funtion are defined as following:
+- $\mu_e = \mathbb{E} [e(X,Z,\theta)] = \sum p(z)e(x,z,\theta)$
+- $Var(e) = E [(e - \mu_e)^2]$
 
-
+Given the energy function, we can define differnet concepts in machine learning:
+- classification an regression by partitioning data $(x,y)$ (no latent variable $Z$) with given $y in V$ (discrete $V$ results in classification, and continuous $V$ results in regression).
+- clustering, in case of finite set of discrete latent variable $Z$: $\hat{y} = argmin e(x,q,\theta)$
+- representation learning, in the case of finite set of continuous latent variable $Z$
 
 ---
 # Machine learning - foundation

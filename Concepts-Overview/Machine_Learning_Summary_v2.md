@@ -4,7 +4,7 @@ This summary explores machine learning through the unifying framework of the ene
 
 ## <a name="table">Table of contents</a>
 - [The concept of _energy model_ in machine learning](#energy)
-- Machine learning algorithms and concepts - foundation
+- Machine learning - foundation
   - [Classification](#classifiation)
   - [Backpropogation](#back)
   - [Stochastic gradient descent](#sgd)
@@ -20,4 +20,17 @@ This summary explores machine learning through the unifying framework of the ene
  
 
 --- 
-## <a name="energy">The concept of _energy model_ in machine learning</a>
+# <a name="energy">The concept of _energy model_ in machine learning</a>
+
+__Energy model__ or _negativ compatibility score_ assigns a score to function $e$ that maps pair of _(oberve, latent)_ parameterised by $\theta$ variables to a real value.
+
+
+
+---
+# Machine learning - foundation
+
+## <a name="classification">Classification</a>
+
+## <a name="back">Backpropogation</a>
+
+

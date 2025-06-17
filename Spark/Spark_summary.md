@@ -12,7 +12,10 @@ __Machine learning workflow and pipeline__: The _machine learning workflow_ comp
 - deploy model
 - monitor model
 
-__Distributed computing__ is the use of distributed systems, where multiple machines work together as a single unit, to solve a computational problem. A program that runs inside such a system is called a distributed program, and the process of writing such a program is known as distributed programming. Two general categories of distributed computing models are:
+
+
+__Distributed computing__ is the use of distributed systems, where multiple machines work together as a single unit, to solve a computational problem. A program that runs inside such a system is called a distributed program, and the process of writing such a program is known as distributed programming. Two general categories of distributed computing models are: general purpose and dedicated systems. __Goal__ of a distributed system is to find the best way to divide a problem into separate tasks that multiple machines can solve in parallel through message communication. 
+
 - __General-purpose distributed computing models__ allow users to write a custom data processing flow using a defined abstraction. Examples:
   - MapReduce: introduced by Google in 2004
   - Message Passing Interface (MPI) programming model.
@@ -23,5 +26,12 @@ __Distributed computing__ is the use of distributed systems, where multiple mach
 
 __Distributed system architecture__
 
+
+__Dedicated distributed system architecture__
+
+
+
+
+
+
   
-__Goal__: find the best way to divide a problem into separate tasks that multiple machines can solve in parallel through message communication. 

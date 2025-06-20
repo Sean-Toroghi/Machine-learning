@@ -1,5 +1,0 @@
-# Code depository - project crypto
-
-<
-
-

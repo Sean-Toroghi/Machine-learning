@@ -104,7 +104,7 @@ To define a more complex probabilistic model, seveal approaches have been develo
 
 ### Variational inference
 
-Unless we put severe constraints on $P(x|z)$ and $P(z)$, it is hard to compute $P(z|x)$. One approach is to compute an approximate posterior $q$ of $P(z|x)$ in the form of $q(z; \phi(x)))$. To make the proxy a good estimate for the true posterior, we employ KL-divergence: $D_{KL}(q||p) = -E_{z \sim q}[\log (z|x)] - H(q)$
+Unless we put severe constraints on $P(x|z)$ and $P(z)$, it is hard to compute $P(z|x)$. One approach is to compute an approximate posterior $q$ of $P(z|x)$ in the form of $q(z; \phi(x)))$. To make the proxy a good estimate for the true posterior, we employ KL-divergence: $D_{KL}(q||p) = -E_{z \sim q}[\log (z|x)] - H(q)$. Here $H$ is the entropy of $q$ defined as $H(q) = -\int q(z)logq(z)dz$
 
 ### Gaussian mixture models
 

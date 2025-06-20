@@ -1,4 +1,4 @@
-<h1>Machine learning - unconentional approach</h1>
+<h1>Machine learning - better approach</h1>
 
 This summary explores machine learning through the unifying framework of the energy model. This perspective effectively connects diverse machine learning concepts. Unlike conventional approaches that typically begin with supervised learning, introduce various model architectures, and conclude with unsupervised learning, this framework establishes the energy model as a foundational concept for all machine learning methodologies. By adopting this approach, it becomes evident how disparate machine learning paradigms—including supervised learning, unsupervised learning, classification, regression, generative models, probabilistic models, and specialized areas like reinforcement learning—all share the fundamental core of the energy model.
 
@@ -57,5 +57,33 @@ The regularization term depends on the problem in hand.
 ## <a name="classification">Classification</a>
 
 ## <a name="back">Backpropogation</a>
+---
+# Probabilistic machine learning
+
+## <a name="prob">Energy model for probabilistic machine learning models</a>
+
+### Define probabilistic model
+A simple probabilistic approach for machine learning model based on energy model is achieved by transforming the energy model into a probabilistic model as follow:
+- for a classficiation problem, we make it a categorical distribution over $\Theta$ given $X$: $P_\theta (y|x)$
+
+There are two main constrain for a probabilistc model: 
+1. non negativity: $P_\theta \leq 0$
+2. normalization: $\sum P_\theta(y'\x) = 1$
+
+To define a more complex probabilistic model, seveal approaches have been developed over the past years, including:
+- computing joint distribution
+- computing
+
+### Variational inference
+
+### Gaussian mixture models
+
+### Continuous latent variable models
+
+### Importance sampling 
+
+### Vaiational auto-encoder
+
+
 
 

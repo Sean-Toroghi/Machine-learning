@@ -63,7 +63,7 @@ In probabilistic approach for developing a machine learnin model, the output is 
 
 A probabilistic model has two constraints: 
 1. non negativity: $P_\theta \leq 0$
-2. normalization: $\sum P_\theta(y'\x) = 1$
+2. normalization: $\sum P_\theta(y'|x) = 1$
 
 __Example__
 ```python
@@ -103,6 +103,8 @@ To define a more complex probabilistic model, seveal approaches have been develo
 - computing
 
 ### Variational inference
+
+Unless we put severe constraints on $P(x|z)$ and $P(z)$, it is hard to compute $P(z|x)$. One approach is to compute an approximate posterior $q$ of $P(z|x)$ in the form of $q(z; \phi(x)))$. To make the proxy a good estimate for the true posterior, we employ KL-divergence: $D_{KL}(q||p) = -E_{z \sim q}[\log (z|x)] - H(q)$
 
 ### Gaussian mixture models
 

@@ -59,16 +59,44 @@ The regularization term depends on the problem in hand.
 ## <a name="back">Backpropogation</a>
 ---
 # Probabilistic machine learning
+In probabilistic approach for developing a machine learnin model, the output is a distribution over possible outcomes instead of discrete values. One benefit of this approach is it allows to express confidence when generating the output. in Energy-based aproach, the probability of a configuration is defined in terms of an energy function: $P(y \mid x) = \frac{\exp(-E(x, y))}{Z(x)}$, where $Z$ (partition function) ensures the probabilities sum to 1: $Z(x) = \sum_y \exp(-E(x, y))$.
 
-## <a name="prob">Energy model for probabilistic machine learning models</a>
-
-### Define probabilistic model
-A simple probabilistic approach for machine learning model based on energy model is achieved by transforming the energy model into a probabilistic model as follow:
-- for a classficiation problem, we make it a categorical distribution over $\Theta$ given $X$: $P_\theta (y|x)$
-
-There are two main constrain for a probabilistc model: 
+A probabilistic model has two constraints: 
 1. non negativity: $P_\theta \leq 0$
 2. normalization: $\sum P_\theta(y'\x) = 1$
+
+__Example__
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Suppose these are input features (e.g. after passing through a neural net)
+x = np.array([0.3, -1.2])
+
+# Define an energy function for each class y given input x
+def energy(x, y):
+    weights = [
+        np.array([1.0, -1.0]),  # weights for class 0
+        np.array([-0.5, 0.5]),  # class 1
+        np.array([0.2, 0.8])    # class 2
+    ]
+    bias = [0.1, -0.2, 0.3]  # biases for each class
+    return -np.dot(weights[y], x) - bias[y]  # negative sign because lower energy = higher prob
+
+# Compute unnormalized probabilities
+energies = np.array([energy(x, y) for y in range(3)])
+unnormalized_probs = np.exp(-energies)
+
+# Normalize
+probs = unnormalized_probs / np.sum(unnormalized_probs)
+
+# Resulting Categorical distribution
+print("Class probabilities:", probs)
+```
+
+## <a name="prob">Energy model for probabilistic machine learning models</a>
+### Define probabilistic model
+A simple probabilistic approach for machine learning model based on energy model is achieved by transforming the energy model into a probabilistic one. As an example, for a classficiation problem we generate categorical distribution over $\Theta$ given $X$: $P_\theta (y|x)$
 
 To define a more complex probabilistic model, seveal approaches have been developed over the past years, including:
 - computing joint distribution
